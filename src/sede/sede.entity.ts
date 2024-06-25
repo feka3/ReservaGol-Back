@@ -8,12 +8,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { uuid } from 'uuidv4';
 
 @Entity({ name: 'sede' })
 export class Venue {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string 
   @Column()
   name: string;
   @Column()

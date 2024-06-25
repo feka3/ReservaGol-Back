@@ -1,21 +1,19 @@
 import { Venue } from 'src/sede/sede.entity';
 import { Appointment } from 'src/turno/turno.entity';
 import {
-  BeforeInsert,
   Column,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { uuid } from 'uuidv4';
 
 @Entity({
   name: 'canchas',
 })
 export class Court {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string
   @Column()
   price: number;
   @Column()

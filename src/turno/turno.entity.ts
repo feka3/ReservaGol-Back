@@ -8,14 +8,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { uuid } from 'uuidv4';
 
 @Entity({
   name: 'turnos',
 })
 export class Appointment {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string 
   @Column()
   date: Date;
   @ManyToOne(() => Court, (court) => court.appointments)

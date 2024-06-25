@@ -6,7 +6,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { uuid } from 'uuidv4';
 import { Role } from './roles.enum';
 import { Appointment } from 'src/turno/turno.entity';
 
@@ -15,7 +14,7 @@ import { Appointment } from 'src/turno/turno.entity';
 })
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string
   @Column()
   name: string;
   @Column({
