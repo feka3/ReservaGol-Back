@@ -10,13 +10,7 @@ export class SedeRepository {
     private sedeRepository: Repository<Venue>,
   ) { }
 
-  async onModuleInit() {
-    if ((await this.sedeRepository.find()).length === 0) {
-      await this.addSedesDefault();
-    }
-  }
-
-  async getSedes() {
+  async getSedes(): Promise<Venue[]> {
     return await this.sedeRepository.find();
   }
 

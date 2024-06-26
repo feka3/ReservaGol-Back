@@ -12,15 +12,14 @@ import { Venue } from './sede.entity';
 
 @Controller('sede')
 export class SedeController {
-  constructor(private readonly sedeService: SedeService) {}
+  constructor(private readonly sedeService: SedeService) { }
+
   @Get()
   async getSedes() {
     return await this.sedeService.getSedes();
   }
-  @Get('seeder')
-  async addSedesDefoult() {
-    return await this.sedeService.addSedesDefoult();
-  }
+
+
   @Get(':id')
   async getSede(@Param('id', ParseUUIDPipe) id: string) {
     return await this.sedeService.getSedeById(id);
@@ -30,6 +29,7 @@ export class SedeController {
   async createSede(@Body() venue: Venue) {
     return await this.sedeService.createSede(venue);
   }
+
   @Delete(':id')
   async deleteSede(@Param('id', ParseUUIDPipe) id: string) {
     await this.sedeService.deleteSedeByid(id);
