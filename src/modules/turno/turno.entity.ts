@@ -1,5 +1,5 @@
-import { Court } from 'src/cancha/cancha.entity';
-import { User } from 'src/user/user.entity';
+import { Court } from 'src/modules/cancha/cancha.entity';
+import { User } from 'src/modules/user/user.entity';
 import {
   Column,
   Entity,
@@ -13,12 +13,12 @@ import {
 })
 export class Appointment {
   @PrimaryGeneratedColumn('uuid')
-  id: string 
+  id: string
   @Column()
   date: Date;
 
   @ManyToOne(() => Court, (court) => court.appointments)
-  @JoinColumn({name: "court_id"})
+  @JoinColumn({ name: "court_id" })
   court = Court;
 
   @ManyToOne(() => User, (user) => user.appointments)

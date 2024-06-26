@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Venue } from './sede.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as data from '../precarga/sedes.json';
+import * as data from '../../common/precarga/sedes.json';
 @Injectable()
 export class SedeRepository {
   constructor(
     @InjectRepository(Venue)
     private sedeRepository: Repository<Venue>,
-  ) {}
+  ) { }
   async getSedes() {
     return await this.sedeRepository.find();
   }
