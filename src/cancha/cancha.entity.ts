@@ -1,21 +1,20 @@
 import { Venue } from 'src/sede/sede.entity';
 import { Appointment } from 'src/turno/turno.entity';
 import {
-  BeforeInsert,
   Column,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  JoinColumn
 } from 'typeorm';
-import { uuid } from 'uuidv4';
 
 @Entity({
   name: 'canchas',
 })
 export class Court {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string
   @Column()
   price: number;
   @Column()
@@ -31,8 +30,12 @@ export class Court {
     type: 'varchar',
   })
   imgUrl: string;
+
   @ManyToOne(() => Venue, (venue) => venue.courts)
+  @JoinColumn({ name: 'venue_id' })
   venue: Venue;
+
   @OneToMany(() => Appointment, (appointment) => appointment.court)
+  @JoinColumn({name: "appointment_id"})
   appointments: Appointment[];
 }

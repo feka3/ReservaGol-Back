@@ -3,23 +3,24 @@ import { User } from 'src/user/user.entity';
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  JoinColumn
 } from 'typeorm';
-import { uuid } from 'uuidv4';
 
 @Entity({
   name: 'turnos',
 })
 export class Appointment {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string 
   @Column()
   date: Date;
+
   @ManyToOne(() => Court, (court) => court.appointments)
+  @JoinColumn({name: "court_id"})
   court = Court;
+
   @ManyToOne(() => User, (user) => user.appointments)
   user = User;
 }

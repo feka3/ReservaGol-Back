@@ -1,19 +1,18 @@
 import { Court } from 'src/cancha/cancha.entity';
 import { User } from 'src/user/user.entity';
 import {
-  BeforeInsert,
   Column,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  JoinColumn
 } from 'typeorm';
-import { uuid } from 'uuidv4';
 
-@Entity({ name: 'sede' })
+@Entity({ name: 'sedes' })
 export class Venue {
   @PrimaryGeneratedColumn('uuid')
-  id: string = uuid();
+  id: string 
   @Column()
   name: string;
   @Column()
@@ -26,7 +25,9 @@ export class Venue {
   imgUrl: string;
 
   @ManyToOne(() => User, (user) => user.venues)
+  @JoinColumn({ name: 'user_id' })
   user: User;
+
   @OneToMany(() => Court, (court) => court.venue)
   courts: Court[];
 }
