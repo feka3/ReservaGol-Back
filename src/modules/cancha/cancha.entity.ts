@@ -1,4 +1,4 @@
-import { Venue } from "../sede/sede.entity";
+import { Venue } from '../sede/sede.entity';
 import { Appointment } from 'src/modules/turno/turno.entity';
 import {
   Column,
@@ -24,7 +24,7 @@ export class Court {
   @Column()
   player: number;
   @Column()
-  time: Date;
+  time: string;
   @Column()
   techado: boolean;
   @Column({
@@ -37,7 +37,7 @@ export class Court {
   @JoinColumn({ name: 'venue_id' })
   venue: Venue;
 
-  @OneToMany(() => Appointment, (appointment) => appointment.court)
-  @JoinColumn({ name: 'appointment_id' })
-  appointments: Appointment[];
+  // @OneToMany(() => Appointment, (appointment) => appointment.court)
+  // @JoinColumn({ name: 'appointment_id' })
+  // appointments: Appointment[];
 }

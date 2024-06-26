@@ -9,8 +9,12 @@ export class canchaRepository {
     @InjectRepository(Court)
     private canchaRepository: Repository<Court>,
   ) {}
-  async createCancha(cancha: Court) {
-    await this.canchaRepository.save(cancha);
+  async createCancha(court: Court) {
+    const courtdb = this.canchaRepository.create({
+      ...court,
+      venue: court.venue,
+    });
+    await this.canchaRepository.save(courtdb);
     return 'Cancha created';
   }
   async getCanchas() {
