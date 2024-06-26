@@ -8,4 +8,10 @@ export class CanchaService {
   async getCanchaByid(id) {
     return await this.canchaRepository.getCanchaById(id);
   }
+  async getCanchas() {
+    return await this.canchaRepository.getCanchas();
+  }
+  async createCancha(court) {
+    return await this.canchaRepository.createCancha(court);
+  }
 }

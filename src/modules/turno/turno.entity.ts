@@ -5,7 +5,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  JoinColumn
+  JoinColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 
@@ -14,13 +14,13 @@ import { User } from '../user/user.entity';
 })
 export class Appointment {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
   @Column()
   date: Date;
 
-  @ManyToOne(() => Court, (court) => court.appointments)
-  @JoinColumn({ name: "court_id" })
-  court = Court;
+  // @ManyToOne(() => Court, (court) => court.appointments)
+  // @JoinColumn({ name: "court_id" })
+  // court = Court;
 
   @ManyToOne(() => User, (user) => user.appointments)
   user = User;
