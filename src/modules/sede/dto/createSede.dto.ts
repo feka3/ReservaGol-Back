@@ -16,5 +16,8 @@ export class CreateSedeDto {
 
     @IsNotEmpty()
     @IsString()
+    @Matches(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|bmp))$/i, {
+        message: 'imgUrl must be a valid image URL (http/https and png, jpg, jpeg, gif, webp, bmp)',
+    })
     imgUrl: string;
 }
