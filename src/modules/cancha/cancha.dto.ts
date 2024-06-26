@@ -80,5 +80,5 @@ export class courtDto {
     description: 'ID de la sede',
     example: ' "id": "4985cfcb-a320-41e5-8f40-d6c283f289be"',
   })
-  venueId: string;
+  venue: string;
 }
