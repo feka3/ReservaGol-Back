@@ -6,14 +6,16 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  JoinColumn
+  JoinColumn,
 } from 'typeorm';
 
 @Entity({ name: 'sedes' })
 export class Venue {
   @PrimaryGeneratedColumn('uuid')
-  id: string 
-  @Column()
+  id: string;
+  @Column({
+    unique: true,
+  })
   name: string;
   @Column()
   location: string;
