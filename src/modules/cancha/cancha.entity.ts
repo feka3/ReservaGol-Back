@@ -6,7 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  JoinColumn
+  JoinColumn,
 } from 'typeorm';
 
 @Entity({
@@ -14,7 +14,7 @@ import {
 })
 export class Court {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
   @Column()
   price: number;
   @Column()
@@ -25,6 +25,8 @@ export class Court {
   player: number;
   @Column()
   time: Date;
+  @Column()
+  techado: boolean;
   @Column({
     default: 'https://ejemplo.com/imagen-por-defecto.jpg',
     type: 'varchar',
@@ -36,6 +38,6 @@ export class Court {
   venue: Venue;
 
   @OneToMany(() => Appointment, (appointment) => appointment.court)
-  @JoinColumn({ name: "appointment_id" })
+  @JoinColumn({ name: 'appointment_id' })
   appointments: Appointment[];
 }
