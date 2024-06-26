@@ -1,4 +1,4 @@
-import { Venue } from '../sede/sede.entity';
+import { Venue } from "../sede/sede.entity";
 import { Appointment } from 'src/modules/turno/turno.entity';
 import {
   Column,

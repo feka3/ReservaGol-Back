@@ -1,5 +1,5 @@
 import { Court } from 'src/modules/cancha/cancha.entity';
-import { User } from 'src/modules/user/user.entity';
+
 import {
   Column,
   Entity,
@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
 } from 'typeorm';
+import { User } from '../user/user.entity';
 
 @Entity({
   name: 'turnos',

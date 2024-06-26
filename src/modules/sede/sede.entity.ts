@@ -1,5 +1,6 @@
 import { Court } from 'src/modules/cancha/cancha.entity';
-import { User } from 'src/modules/user/user.entity';
+import { User } from '../user/user.entity';
+
 import {
   Column,
   Entity,

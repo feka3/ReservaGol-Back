@@ -10,6 +10,7 @@ import typeOrmConfig from './config/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SeederModule } from './common/precarga/seerder.module';
+import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
@@ -19,7 +20,12 @@ import { SeederModule } from './common/precarga/seerder.module';
       inject: [ConfigService],
       useFactory: (ConfigService: ConfigService) => ConfigService.get("typeorm")
     }),
-    UserModule, SedeModule, CanchaModule, TurnoModule, AuthModule, SeederModule],
+    UserModule, SedeModule, CanchaModule, TurnoModule, AuthModule, SeederModule,
+    JwtModule.register({
+      global: true,
+      signOptions: { expiresIn: '1h' },
+      secret: process.env.JWT_SECRET
+    })],
   controllers: [AppController],
   providers: [AppService],
 })

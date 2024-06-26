@@ -14,31 +14,44 @@ import { Venue } from '../sede/sede.entity';
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
+
   @Column()
   name: string;
+
   @Column({
     unique: true,
     type: 'varchar',
     length: 50,
   })
   email: string;
+
   @Column()
   password: string;
+
   @Column()
   birthdate: Date;
+
   @Column()
   dni: number;
+
   @Column()
-  phone: number;
+  phone: string;
+
+  @Column({length: 50})
+    city: string
+
   @Column()
   address: string;
+
   @Column({
     default: 'https://ejemplo.com/imagen-por-defecto.jpg',
   })
   imgUrl: string;
 
-  @Column()
+
+  @Column({default: 'user'})
   rol: Role;
+
   @OneToMany(() => Venue, (venue) => venue.user)
   venues: Venue[];
 
