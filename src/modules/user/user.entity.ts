@@ -1,4 +1,3 @@
-import { Venue } from 'src/sede/sede.entity';
 import {
   Column,
   Entity,
@@ -8,6 +7,7 @@ import {
 } from 'typeorm';
 import { Role } from './roles.enum';
 import { Appointment } from 'src/modules/turno/turno.entity';
+import { Venue } from '../sede/sede.entity';
 
 @Entity({
   name: 'usuarios',
