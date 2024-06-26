@@ -21,7 +21,10 @@ export class canchaRepository {
     return await this.canchaRepository.find();
   }
   async getCanchaById(id) {
-    return await this.canchaRepository.findOne({ where: { id: id } });
+    return await this.canchaRepository.findOne({
+      where: { id: id },
+      relations: ['venue'],
+    });
   }
   async updateCancha(id, cancha: Court) {
     await this.canchaRepository.update(id, cancha);
