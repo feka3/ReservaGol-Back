@@ -9,15 +9,22 @@ export class canchaRepository {
     @InjectRepository(Court)
     private canchaRepository: Repository<Court>,
   ) {}
-  async createCancha(cancha: Court) {
-    await this.canchaRepository.save(cancha);
+  async createCancha(court: Court) {
+    const courtdb = this.canchaRepository.create({
+      ...court,
+      venue: court.venue,
+    });
+    await this.canchaRepository.save(courtdb);
     return 'Cancha created';
   }
   async getCanchas() {
     return await this.canchaRepository.find();
   }
   async getCanchaById(id) {
-    return await this.canchaRepository.findOne({ where: { id: id } });
+    return await this.canchaRepository.findOne({
+      where: { id: id },
+      relations: ['venue'],
+    });
   }
   async updateCancha(id, cancha: Court) {
     await this.canchaRepository.update(id, cancha);
