@@ -6,9 +6,11 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  UploadedFile,
 } from '@nestjs/common';
 import { SedeService } from './sede.service';
 import { Venue } from './sede.entity';
+import { CreateSedeDto } from './dto/createSede.dto';
 
 @Controller('sede')
 export class SedeController {
@@ -25,8 +27,11 @@ export class SedeController {
     return await this.sedeService.getSedeById(id);
   }
 
-  @Post('create')
-  async createSede(@Body() venue: Venue) {
+  @Post()
+  async createSede(
+    @Body() venue: CreateSedeDto,
+  ) {
+
     return await this.sedeService.createSede(venue);
   }
 

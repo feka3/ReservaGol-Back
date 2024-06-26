@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SedeRepository } from './sede.repository';
 import { Venue } from './sede.entity';
+import { CreateSedeDto } from './dto/createSede.dto';
 
 @Injectable()
 export class SedeService {
@@ -14,7 +15,7 @@ export class SedeService {
     return await this.sedeRepository.getSedeById(id);
   }
 
-  async createSede(venue: Venue) {
+  async createSede(venue: CreateSedeDto) {
     return await this.sedeRepository.createSede(venue);
   }
 
