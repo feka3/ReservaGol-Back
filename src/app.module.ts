@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import typeOrmConfig from './config/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SeederModule } from './common/precarga/seerder.module';
 
 
 @Module({
@@ -18,7 +19,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       inject: [ConfigService],
       useFactory: (ConfigService: ConfigService) => ConfigService.get("typeorm")
     }),
-    UserModule, SedeModule, CanchaModule, TurnoModule, AuthModule],
+    UserModule, SedeModule, CanchaModule, TurnoModule, AuthModule, SeederModule],
   controllers: [AppController],
   providers: [AppService],
 })

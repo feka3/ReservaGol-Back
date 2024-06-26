@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, MinLength, MaxLength, Matches, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateSedeDto {
 

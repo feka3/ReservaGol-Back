@@ -5,11 +5,9 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
-  Post,
-  UploadedFile,
+  Post
 } from '@nestjs/common';
 import { SedeService } from './sede.service';
-import { Venue } from './sede.entity';
 import { CreateSedeDto } from './dto/createSede.dto';
 
 @Controller('sede')
