@@ -42,6 +42,7 @@ export class User {
   rol: Role;
   @OneToMany(() => Venue, (venue) => venue.user)
   venues: Venue[];
+  
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[];
 }

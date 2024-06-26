@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  JoinColumn
 } from 'typeorm';
 
 @Entity({
@@ -29,8 +30,12 @@ export class Court {
     type: 'varchar',
   })
   imgUrl: string;
+
   @ManyToOne(() => Venue, (venue) => venue.courts)
+  @JoinColumn({ name: 'venue_id' })
   venue: Venue;
+
   @OneToMany(() => Appointment, (appointment) => appointment.court)
+  @JoinColumn({name: "appointment_id"})
   appointments: Appointment[];
 }
