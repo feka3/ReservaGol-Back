@@ -1,5 +1,5 @@
 import { Venue } from 'src/sede/sede.entity';
-import { Appointment } from 'src/turno/turno.entity';
+import { Appointment } from 'src/modules/turno/turno.entity';
 import {
   Column,
   Entity,
@@ -36,6 +36,6 @@ export class Court {
   venue: Venue;
 
   @OneToMany(() => Appointment, (appointment) => appointment.court)
-  @JoinColumn({name: "appointment_id"})
+  @JoinColumn({ name: "appointment_id" })
   appointments: Appointment[];
 }
