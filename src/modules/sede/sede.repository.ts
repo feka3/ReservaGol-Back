@@ -9,9 +9,21 @@ export class SedeRepository {
     @InjectRepository(Venue)
     private sedeRepository: Repository<Venue>,
   ) { }
+
+  async onModuleInit() {
+    if ((await this.sedeRepository.find()).length === 0) {
+      await this.addSedesDefault();
+    }
+  }
+
   async getSedes() {
     return await this.sedeRepository.find();
   }
+
+  async getSedeById(id) {
+    return await this.sedeRepository.findOne({ where: { id: id } });
+  }
+
   async createSede(venue: Venue) {
     await this.sedeRepository.save(venue);
     return 'Sede created';
@@ -20,25 +32,17 @@ export class SedeRepository {
     await this.sedeRepository.delete(id);
     return 'Sede deleted';
   }
-  async getSedeById(id) {
-    return await this.sedeRepository.findOne({ where: { id: id } });
-  }
-  async addSedesDefoult() {
-    data?.map(async (element) => {
-      const venue = new Venue();
-      venue.name = element.name;
-      venue.location = element.location;
-      venue.description = element.description;
-      venue.imgUrl = element.imgUrl;
 
+  async addSedesDefault() {
+    for (const element of data) {
       await this.sedeRepository
         .createQueryBuilder()
         .insert()
         .into(Venue)
-        .values(venue)
+        .values(element)
         .orUpdate(['description', 'location', 'imgUrl'], ['name'])
         .execute();
-    });
-    return 'sedes cargadas';
+    }
+    return 'Precarga de sedes realizada con exito.';
   }
 }
