@@ -1,4 +1,3 @@
-import { Venue } from 'src/sede/sede.entity';
 import {
   Column,
   Entity,
@@ -7,7 +6,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from './roles.enum';
-import { Appointment } from 'src/turno/turno.entity';
+import { Appointment } from 'src/modules/turno/turno.entity';
+import { Venue } from '../sede/sede.entity';
 
 @Entity({
   name: 'usuarios',
@@ -42,7 +42,7 @@ export class User {
   rol: Role;
   @OneToMany(() => Venue, (venue) => venue.user)
   venues: Venue[];
-  
+
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[];
 }
