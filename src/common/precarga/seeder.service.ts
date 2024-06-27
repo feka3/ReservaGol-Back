@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { SedeRepository } from 'src/modules/sede/sede.repository';
-import * as data from '../../common/precarga/sedes.json';
+import * as data from '../../common/precarga/data.json';
 
 
 @Injectable()
