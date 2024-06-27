@@ -14,7 +14,7 @@ export class SedeService {
     return await this.sedeRepository.getSedeById(id);
   }
 
-  async createSede(sede: CreateSedeDto) {
+  async createSede(sede: CreateSedeDto & { imgUrl: string }) {
     return await this.sedeRepository.createSede(sede);
   }
 

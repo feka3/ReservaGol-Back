@@ -5,16 +5,23 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
-  Post
+  Post,
+  UploadedFile,
+  UseInterceptors
 } from '@nestjs/common';
 import { SedeService } from './sede.service';
 import { CreateSedeDto } from './dto/createSede.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Sede')
 @Controller('sede')
 export class SedeController {
-  constructor(private readonly sedeService: SedeService) { }
+  constructor(
+    private readonly sedeService: SedeService,
+    private readonly cloudinaryService: CloudinaryService
+  ) { }
 
   @ApiOperation({ summary: 'Get all sedes', description: 'Get all sedes' })
   @Get()
@@ -30,11 +37,16 @@ export class SedeController {
 
   @ApiOperation({ summary: 'Create sede', description: 'Create sede' })
   @Post()
+  @UseInterceptors(FileInterceptor('file'))
   async createSede(
-    @Body() sede: CreateSedeDto,
+    @Body() sede: any,
+    @UploadedFile() file: Express.Multer.File
   ) {
+    if (!file) throw new Error('No se ha subido ningún archivo');
 
-    return await this.sedeService.createSede(sede);
+    const uploadResult = await this.cloudinaryService.uploadImage(file);
+    const imgUrl = uploadResult.secure_url;
+    return await this.sedeService.createSede({ ...sede, imgUrl });
   }
 
   @ApiOperation({ summary: 'Delete sede by id', description: 'Delete sede by id' })
