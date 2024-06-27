@@ -8,10 +8,12 @@ import {
   Matches,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class canchaDto {
   @IsNotEmpty()
   @IsNumber()
+  @Type(() => Number)
   @ApiProperty({
     description: 'Precio por turno de la cancha',
     example: '20000',
@@ -20,6 +22,7 @@ export class canchaDto {
 
   @IsNotEmpty()
   @IsNumber()
+  @Type(() => Number)
   @IsIn([1, 2, 3], {
     message:
       'El deporte debe ser una de estas opciones: 1 (Futbol), 2 (Tennis), 3 (Paddel)',
@@ -39,6 +42,7 @@ export class canchaDto {
 
   @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   @ApiProperty({
     description: 'Cantidad de jugadores',
     example: '10',
@@ -57,6 +61,7 @@ export class canchaDto {
 
   @IsNotEmpty()
   @IsBoolean()
+  @Type(() => Boolean)
   @ApiProperty({
     description: 'Si la cancha esta techada o no',
     example: 'true',
@@ -69,7 +74,7 @@ export class canchaDto {
     type: 'string',
     format: 'binary',
   })
-  imgUrl?: any;
+  imgUrl: any;
 
   @IsNotEmpty()
   @IsUUID()

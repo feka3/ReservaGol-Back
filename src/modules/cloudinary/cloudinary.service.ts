@@ -4,17 +4,37 @@ import { Readable } from 'stream';
 
 @Injectable()
 export class CloudinaryService {
-    constructor(@Inject('CLOUDINARY') private readonly cloudinaryConfig) { }
+  constructor(@Inject('CLOUDINARY') private readonly cloudinaryConfig) {}
 
-    async uploadImage(file: Express.Multer.File): Promise<UploadApiResponse> {
-        return new Promise((resolve, reject) => {
-            const upload = cloudinary.uploader.upload_stream({ folder: 'sedes' }, (error, result) => {
-                if (error) return reject(error);
-                resolve(result);
-            });
+  async uploadImage(file: Express.Multer.File): Promise<UploadApiResponse> {
+    return new Promise((resolve, reject) => {
+      const upload = cloudinary.uploader.upload_stream(
+        { folder: 'sedes' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
 
-            const stream = Readable.from(file.buffer);
-            stream.pipe(upload);
-        });
-    }
+      const stream = Readable.from(file.buffer);
+      stream.pipe(upload);
+    });
+  }
+
+  async uploadImageCancha(
+    file: Express.Multer.File,
+  ): Promise<UploadApiResponse> {
+    return new Promise((resolve, reject) => {
+      const upload = cloudinary.uploader.upload_stream(
+        { folder: 'canchas' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
+
+      const stream = Readable.from(file.buffer);
+      stream.pipe(upload);
+    });
+  }
 }
