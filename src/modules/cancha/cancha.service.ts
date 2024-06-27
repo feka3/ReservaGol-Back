@@ -14,4 +14,10 @@ export class CanchaService {
   async createCancha(cancha, imgUrl) {
     return await this.canchaRepository.createCancha(cancha, imgUrl);
   }
+  async updateCancha(id, cancha) {
+    return await this.canchaRepository.updateCancha(id, cancha);
+  }
+  async deleteCancha(id) {
+    return await this.canchaRepository.deleteCancha(id);
+  }
 }

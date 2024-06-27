@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cancha } from './cancha.entity';
@@ -14,7 +19,7 @@ export class canchaRepository {
   ) {}
   async createCancha(cancha, imgUrl) {
     const sede = await this.sedeRepository.findOne({
-      where: { id: cancha.sedeId },
+      where: { name: cancha.sedeName },
     });
     if (!sede) {
       throw new NotFoundException('Sede not found');
@@ -39,8 +44,21 @@ export class canchaRepository {
     });
     return cancha;
   }
-  async updateCancha(id, cancha: Cancha) {
-    await this.canchaRepository.update(id, cancha);
+  // async updateCancha(id, cancha) {
+  //   const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
+  //   if (!canchaDb) {
+  //     throw new HttpException('Cancha not found', HttpStatus.NOT_FOUND);
+  //   }
+  //   await this.canchaRepository.update(id, cancha);
+  //   return 'Cancha updated';
+  // }
+  async updateCancha(id, cancha) {
+    const canchaDb = await this.canchaRepository.findOne({ where: { id } });
+    if (!canchaDb) {
+      throw new HttpException('Cancha not found', HttpStatus.NOT_FOUND);
+    }
+    Object.assign(canchaDb, cancha);
+    await this.canchaRepository.save(canchaDb);
     return 'Cancha updated';
   }
   async deleteCancha(id) {
