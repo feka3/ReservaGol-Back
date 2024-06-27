@@ -4,7 +4,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
-  Post
+  Post,
 } from '@nestjs/common';
 
 import { CanchaService } from './cancha.service';
@@ -15,7 +15,7 @@ import { canchaDto } from './cancha.dto';
 @ApiTags('Cancha')
 @Controller('cancha')
 export class CanchaController {
-  constructor(private readonly canchaService: CanchaService) { }
+  constructor(private readonly canchaService: CanchaService) {}
 
   @Get(':id')
   async getCanchaByid(@Param('id', ParseUUIDPipe) id: UUID) {

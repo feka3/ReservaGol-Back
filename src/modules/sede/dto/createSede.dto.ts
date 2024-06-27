@@ -15,6 +15,5 @@ export class CreateSedeDto {
     description: string;
 
     @IsOptional()
-    @IsString()
     imgUrl: string;
 }

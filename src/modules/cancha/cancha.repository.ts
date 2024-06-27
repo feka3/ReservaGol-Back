@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cancha } from './cancha.entity';
@@ -10,12 +10,16 @@ export class canchaRepository {
     @InjectRepository(Cancha)
     private canchaRepository: Repository<Cancha>,
     @InjectRepository(Sede)
-    private venueRepository: Repository<Sede>,
-  ) { }
+    private sedeRepository: Repository<Sede>,
+  ) {}
   async createCancha(cancha) {
-    const sede = await this.venueRepository.findOne({
-      where: { id: cancha.venueId },
+    const sede = await this.sedeRepository.findOne({
+      where: { id: cancha.sedeId },
     });
+    if (!sede) {
+      throw new NotFoundException('Sede not found');
+    }
+
     const canchadb = this.canchaRepository.create({
       ...cancha,
       sede: sede,
