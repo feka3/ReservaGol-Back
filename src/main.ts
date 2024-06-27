@@ -13,9 +13,8 @@ async function bootstrap() {
     }),
   );
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('')
-    .setDescription('')
-    //.setContact("")
+    .setTitle('Reserva Gol')
+    .setDescription('Esta es una api para el backend de PF - Reserva Gol')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

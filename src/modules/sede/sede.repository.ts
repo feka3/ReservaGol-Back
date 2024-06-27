@@ -1,35 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { Venue } from './sede.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UUID } from 'crypto';
 import { CreateSedeDto } from './dto/createSede.dto';
+import { Sede } from './sede.entity';
+
 @Injectable()
 export class SedeRepository {
   constructor(
-    @InjectRepository(Venue)
-    private sedeRepository: Repository<Venue>,
+    @InjectRepository(Sede)
+    private sedeRepository: Repository<Sede>,
   ) { }
 
-  async getSedes(): Promise<Venue[]> {
-    return await this.sedeRepository.find();
+  async getSedes(): Promise<Sede[]> {
+    return await this.sedeRepository.find({
+      relations: ['canchas']
+    });
   }
 
-  async getSedeById(id: UUID): Promise<Venue> {
+  async getSedeById(id: string): Promise<Sede> {
     const sede = await this.sedeRepository.findOne({ where: { id }, relations: ['canchas'] });
     if (!sede) {
-      throw new Error('Sede not found');
+      throw new NotFoundException('Sede not found');
     }
     return sede;
   }
 
-  async createSede(venue: CreateSedeDto): Promise<Venue> {
-    const newSede = this.sedeRepository.create(venue);
+  async createSede(sede: CreateSedeDto): Promise<Sede> {
+    const newSede = this.sedeRepository.create(sede);
     await this.sedeRepository.save(newSede);
     return newSede;
   }
-  async deleteSedeByid(id) {
-    await this.sedeRepository.delete(id);
-    return 'Sede deleted';
+  async deleteSedeByid(id: string) {
+    if (await this.sedeRepository.findOneBy({ id })) {
+      await this.sedeRepository.delete(id);
+      return `Sede with id ${id} deleted successfully`;
+    } else {
+      throw new NotFoundException(`Sede with ${id} not found`);
+    }
   }
 }

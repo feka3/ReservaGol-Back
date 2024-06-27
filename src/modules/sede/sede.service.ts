@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { SedeRepository } from './sede.repository';
-import { Venue } from './sede.entity';
 import { CreateSedeDto } from './dto/createSede.dto';
 
 @Injectable()
@@ -11,15 +10,15 @@ export class SedeService {
     return await this.sedeRepository.getSedes();
   }
 
-  async getSedeById(id) {
+  async getSedeById(id: string) {
     return await this.sedeRepository.getSedeById(id);
   }
 
-  async createSede(venue: CreateSedeDto) {
-    return await this.sedeRepository.createSede(venue);
+  async createSede(sede: CreateSedeDto) {
+    return await this.sedeRepository.createSede(sede);
   }
 
-  async deleteSedeByid(id) {
+  async deleteSedeByid(id: string) {
     return await this.sedeRepository.deleteSedeByid(id);
   }
 }

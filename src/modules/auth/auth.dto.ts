@@ -46,14 +46,14 @@ export class UserDto {
     @IsNotEmpty()
     @IsString()
     @Length(5, 20)
-    city?: string;
+    city: string;
 
     @IsNotEmpty()
     @IsString()
     @Length(3, 50)
     address: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsUrl()
     imgUrl: string
 
