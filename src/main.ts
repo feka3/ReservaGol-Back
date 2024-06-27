@@ -14,7 +14,7 @@ async function bootstrap() {
   );
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Reserva Gol')
-    .setDescription('Esta es una api para el backend de PF - Reserva Gol')
+    .setDescription('Esta es la API construida con NestJS para el Proyecto Final de Henry.')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
