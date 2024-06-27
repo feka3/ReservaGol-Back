@@ -12,14 +12,16 @@ export class canchaRepository {
     @InjectRepository(Sede)
     private sedeRepository: Repository<Sede>,
   ) {}
-  async createCancha(cancha) {
+  async createCancha(cancha, imgUrl) {
     const sede = await this.sedeRepository.findOne({
       where: { id: cancha.sedeId },
     });
     if (!sede) {
       throw new NotFoundException('Sede not found');
     }
-
+    if (imgUrl != null) {
+      cancha.imgUrl = imgUrl;
+    }
     const canchadb = this.canchaRepository.create({
       ...cancha,
       sede: sede,
