@@ -1,19 +1,15 @@
 import {
   IsBoolean,
-  IsDate,
   IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsUUID,
   Matches,
-  isUUID,
 } from 'class-validator';
-import { Venue } from '../sede/sede.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { UUID } from 'crypto';
 
-export class courtDto {
+export class canchaDto {
   @IsNotEmpty()
   @IsNumber()
   @ApiProperty({
@@ -81,5 +77,5 @@ export class courtDto {
     description: 'ID de la sede',
     example: ' "id": "4985cfcb-a320-41e5-8f40-d6c283f289be"',
   })
-  venueId: string;
+  sedeId: string;
 }

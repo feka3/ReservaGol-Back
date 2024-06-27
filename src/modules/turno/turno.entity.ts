@@ -1,5 +1,3 @@
-import { Court } from 'src/modules/cancha/cancha.entity';
-
 import {
   Column,
   Entity,

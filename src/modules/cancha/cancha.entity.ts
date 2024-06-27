@@ -1,10 +1,8 @@
-import { Venue } from "../sede/sede.entity";
-import { Appointment } from 'src/modules/turno/turno.entity';
+import { Sede } from "../sede/sede.entity";
 import {
   Column,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   JoinColumn,
 } from 'typeorm';
@@ -12,7 +10,7 @@ import {
 @Entity({
   name: 'canchas',
 })
-export class Court {
+export class Cancha {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column()
@@ -33,9 +31,9 @@ export class Court {
   })
   imgUrl: string;
 
-  @ManyToOne(() => Venue, (venue) => venue.courts)
-  @JoinColumn({ name: 'venue_id' })
-  venue: Venue;
+  @ManyToOne(() => Sede, (sede) => sede.canchas)
+  @JoinColumn({ name: 'sede_id' })
+  sede: Sede;
 
   // @OneToMany(() => Appointment, (appointment) => appointment.court)
   // @JoinColumn({ name: 'appointment_id' })

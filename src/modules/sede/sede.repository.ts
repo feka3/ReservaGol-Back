@@ -1,32 +1,32 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Venue } from './sede.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSedeDto } from './dto/createSede.dto';
+import { Sede } from './sede.entity';
 
 @Injectable()
 export class SedeRepository {
   constructor(
-    @InjectRepository(Venue)
-    private sedeRepository: Repository<Venue>,
+    @InjectRepository(Sede)
+    private sedeRepository: Repository<Sede>,
   ) { }
 
-  async getSedes(): Promise<Venue[]> {
+  async getSedes(): Promise<Sede[]> {
     return await this.sedeRepository.find({
-      relations: ['courts']
+      relations: ['canchas']
     });
   }
 
-  async getSedeById(id: string): Promise<Venue> {
-    const sede = await this.sedeRepository.findOne({ where: { id }, relations: ['courts'] });
+  async getSedeById(id: string): Promise<Sede> {
+    const sede = await this.sedeRepository.findOne({ where: { id }, relations: ['canchas'] });
     if (!sede) {
       throw new NotFoundException('Sede not found');
     }
     return sede;
   }
 
-  async createSede(venue: CreateSedeDto): Promise<Venue> {
-    const newSede = this.sedeRepository.create(venue);
+  async createSede(sede: CreateSedeDto): Promise<Sede> {
+    const newSede = this.sedeRepository.create(sede);
     await this.sedeRepository.save(newSede);
     return newSede;
   }

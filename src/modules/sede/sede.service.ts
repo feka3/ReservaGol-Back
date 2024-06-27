@@ -14,8 +14,8 @@ export class SedeService {
     return await this.sedeRepository.getSedeById(id);
   }
 
-  async createSede(venue: CreateSedeDto) {
-    return await this.sedeRepository.createSede(venue);
+  async createSede(sede: CreateSedeDto) {
+    return await this.sedeRepository.createSede(sede);
   }
 
   async deleteSedeByid(id: string) {
