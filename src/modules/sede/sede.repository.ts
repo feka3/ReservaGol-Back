@@ -25,11 +25,11 @@ export class SedeRepository {
     return sede;
   }
 
-  async createSede(sede: CreateSedeDto): Promise<Sede> {
+  async createSede(sede: CreateSedeDto & { imgUrl: string }) {
     const newSede = this.sedeRepository.create(sede);
-    await this.sedeRepository.save(newSede);
-    return newSede;
+    return await this.sedeRepository.save(newSede);
   }
+
   async deleteSedeByid(id: string) {
     if (await this.sedeRepository.findOneBy({ id })) {
       await this.sedeRepository.delete(id);
