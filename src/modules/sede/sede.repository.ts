@@ -12,11 +12,13 @@ export class SedeRepository {
   ) { }
 
   async getSedes(): Promise<Venue[]> {
-    return await this.sedeRepository.find();
+    return await this.sedeRepository.find({
+      relations: ['courts']
+    });
   }
 
   async getSedeById(id: string): Promise<Venue> {
-    const sede = await this.sedeRepository.findOne({ where: { id } });
+    const sede = await this.sedeRepository.findOne({ where: { id }, relations: ['courts'] });
     if (!sede) {
       throw new NotFoundException('Sede not found');
     }
