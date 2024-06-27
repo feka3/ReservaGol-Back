@@ -28,8 +28,12 @@ export class SedeRepository {
     await this.sedeRepository.save(newSede);
     return newSede;
   }
-  async deleteSedeByid(id) {
-    await this.sedeRepository.delete(id);
-    return 'Sede deleted';
+  async deleteSedeByid(id: string) {
+    if (await this.sedeRepository.findOneBy({ id })) {
+      await this.sedeRepository.delete(id);
+      return `Sede with id ${id} deleted successfully`;
+    } else {
+      throw new NotFoundException(`Sede with ${id} not found`);
+    }
   }
 }

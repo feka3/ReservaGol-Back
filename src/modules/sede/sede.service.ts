@@ -18,7 +18,7 @@ export class SedeService {
     return await this.sedeRepository.createSede(venue);
   }
 
-  async deleteSedeByid(id) {
+  async deleteSedeByid(id: string) {
     return await this.sedeRepository.deleteSedeByid(id);
   }
 }
