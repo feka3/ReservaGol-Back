@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 import { Role } from './roles.enum';
 import { Appointment } from 'src/modules/turno/turno.entity';
-import { Venue } from '../sede/sede.entity';
+import { Sede } from '../sede/sede.entity';
 
 @Entity({
   name: 'usuarios',
@@ -37,8 +37,8 @@ export class User {
   @Column()
   phone: string;
 
-  @Column({length: 50})
-    city: string
+  @Column({ length: 50 })
+  city: string
 
   @Column()
   address: string;
@@ -49,11 +49,11 @@ export class User {
   imgUrl: string;
 
 
-  @Column({default: 'user'})
+  @Column({ default: 'user' })
   rol: Role;
 
-  @OneToMany(() => Venue, (venue) => venue.user)
-  venues: Venue[];
+  @OneToMany(() => Sede, (sede) => sede.user)
+  sedes: Sede[];
 
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[];

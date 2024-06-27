@@ -3,25 +3,22 @@ import {
   Controller,
   Get,
   Param,
-  Post,
-  UploadedFile,
-  UseInterceptors,
+  ParseUUIDPipe,
+  Post
 } from '@nestjs/common';
+
 import { CanchaService } from './cancha.service';
 import { UUID } from 'crypto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
-import { Court } from './cancha.entity';
-import { courtDto } from './cancha.dto';
-import { Express } from 'express';
-import { Multer } from 'multer';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { canchaDto } from './cancha.dto';
 
+@ApiTags('Cancha')
 @Controller('cancha')
 export class CanchaController {
-  constructor(private readonly canchaService: CanchaService) {}
+  constructor(private readonly canchaService: CanchaService) { }
 
   @Get(':id')
-  async getCanchaByid(@Param('id') id: UUID) {
+  async getCanchaByid(@Param('id', ParseUUIDPipe) id: UUID) {
     return this.canchaService.getCanchaByid(id);
   }
   @Get()
@@ -31,10 +28,10 @@ export class CanchaController {
 
   @Post()
   @ApiBody({
-    description: 'Create a court',
+    description: 'Create a cancha',
   })
-  async createCancha(@Body() court: courtDto) {
-    console.log(court);
-    return this.canchaService.createCancha(court);
+  async createCancha(@Body() cancha: canchaDto) {
+    console.log(cancha);
+    return this.canchaService.createCancha(cancha);
   }
 }

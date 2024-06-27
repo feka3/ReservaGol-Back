@@ -1,28 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { Court } from './cancha.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Venue } from '../sede/sede.entity';
+import { Cancha } from './cancha.entity';
+import { Sede } from '../sede/sede.entity';
 
 @Injectable()
 export class canchaRepository {
   constructor(
-    @InjectRepository(Court)
-    private canchaRepository: Repository<Court>,
-    @InjectRepository(Venue)
-    private venueRepository: Repository<Venue>,
-  ) {}
-  async createCancha(court) {
-    const venue = await this.venueRepository.findOne({
-      where: { id: court.venueId },
+    @InjectRepository(Cancha)
+    private canchaRepository: Repository<Cancha>,
+    @InjectRepository(Sede)
+    private venueRepository: Repository<Sede>,
+  ) { }
+  async createCancha(cancha) {
+    const sede = await this.venueRepository.findOne({
+      where: { id: cancha.venueId },
     });
-    console.log(venue);
-    console.log(court);
-    const courtdb = this.canchaRepository.create({
-      ...court,
-      venue: venue,
+    const canchadb = this.canchaRepository.create({
+      ...cancha,
+      sede: sede,
     });
-    await this.canchaRepository.save(courtdb);
+    await this.canchaRepository.save(canchadb);
     return 'Cancha created';
   }
   async getCanchas() {
@@ -31,11 +29,11 @@ export class canchaRepository {
   async getCanchaById(id) {
     const cancha = await this.canchaRepository.findOne({
       where: { id: id },
-      relations: ['venue'],
+      relations: ['sede'],
     });
     return cancha;
   }
-  async updateCancha(id, cancha: Court) {
+  async updateCancha(id, cancha: Cancha) {
     await this.canchaRepository.update(id, cancha);
     return 'Cancha updated';
   }
