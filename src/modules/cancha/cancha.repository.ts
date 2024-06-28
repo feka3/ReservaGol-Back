@@ -47,7 +47,12 @@ export class canchaRepository {
     return cancha;
   }
   async getCanchaDeporte(deporte: number) {
-    return await this.canchaRepository.find({ where: { sport: deporte } });
+    return await this.canchaRepository
+      .createQueryBuilder('cancha')
+      .leftJoinAndSelect('cancha.sede', 'sede')
+      .select(['cancha', 'sede.location'])
+      .where('cancha.sport = :deporte', { deporte })
+      .getMany();
   }
   async updateCancha(id: UUID, cancha: updatecanchaDto) {
     const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
