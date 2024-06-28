@@ -18,10 +18,7 @@ import {
 import { PasswordConfirmation } from 'src/decorator/confirmacionPassword';
 import { IsArgentinePhoneNumber } from 'src/decorator/validatePhone';
 
-export class UserDto {
-  @IsOptional()
-  id?: number;
-
+export class CancheroDto {
   @IsNotEmpty()
   @IsString()
   @Length(3, 80)
@@ -52,7 +49,7 @@ export class UserDto {
   @IsDateString()
   birthdate: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumberString()
   @MinLength(7)
   @MaxLength(8)
@@ -62,12 +59,12 @@ export class UserDto {
   @Validate(IsArgentinePhoneNumber)
   phone: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @Length(5, 20)
   city: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @Length(3, 50)
   address: string;
@@ -78,4 +75,36 @@ export class UserDto {
 
   @IsOptional()
   rol: string;
+}
+
+export class UserDto {
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 80)
+  @Matches(/^[a-zA-Z ]+$/)
+  name: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Length(8, 15)
+  @Matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+    {
+      message:
+        'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y uno de los siguientes caracteres especiales: !@#$%^&*',
+    },
+  )
+  password: string;
+
+  @IsNotEmpty()
+  @Validate(PasswordConfirmation, ['password'])
+  confirmPassword: string;
+
+  @IsNotEmpty()
+  @Validate(IsArgentinePhoneNumber)
+  phone: string;
 }
