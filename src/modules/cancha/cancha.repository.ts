@@ -8,6 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cancha } from './cancha.entity';
 import { Sede } from '../sede/sede.entity';
+import { UUID } from 'crypto';
+import { updatecanchaDto } from './cancha.dto';
 
 @Injectable()
 export class canchaRepository {
@@ -44,23 +46,17 @@ export class canchaRepository {
     });
     return cancha;
   }
-  // async updateCancha(id, cancha) {
-  //   const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
-  //   if (!canchaDb) {
-  //     throw new HttpException('Cancha not found', HttpStatus.NOT_FOUND);
-  //   }
-  //   await this.canchaRepository.update(id, cancha);
-  //   return 'Cancha updated';
-  // }
-  async updateCancha(id, cancha) {
-    const canchaDb = await this.canchaRepository.findOne({ where: { id } });
+  async updateCancha(id: UUID, cancha: updatecanchaDto) {
+    const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
     if (!canchaDb) {
       throw new HttpException('Cancha not found', HttpStatus.NOT_FOUND);
     }
-    Object.assign(canchaDb, cancha);
-    await this.canchaRepository.save(canchaDb);
+    console.log('ID:', id);
+    console.log('Datos recibidos para actualizar:', cancha);
+    await this.canchaRepository.update(id, cancha);
     return 'Cancha updated';
   }
+
   async deleteCancha(id) {
     await this.canchaRepository.delete(id);
     return 'Cancha deleted';
