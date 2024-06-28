@@ -46,7 +46,7 @@ export class User {
   * @example 01/01/1999
   */
   @Column()
-  birthdate: Date;
+  birthdate: string;
 
   /** 
   * @example 12345678

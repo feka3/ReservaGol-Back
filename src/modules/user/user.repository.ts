@@ -10,7 +10,7 @@ export class UserRepository {
     private readonly UserRepository: Repository<User>,
   ) {}
 
-  async postUser(user: User) {
+  async postUser(user: Partial<User>) {
     const newUser = await this.UserRepository.save(user);
     const dbUser = await this.UserRepository.findOneBy({ id: user.id });
 
