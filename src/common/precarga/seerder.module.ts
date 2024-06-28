@@ -5,9 +5,11 @@ import { SeederService } from './seeder.service';
 import { Sede } from 'src/modules/sede/sede.entity';
 import { canchaRepository } from 'src/modules/cancha/cancha.repository';
 import { Cancha } from 'src/modules/cancha/cancha.entity';
+import { User } from 'src/modules/user/user.entity';
+import { UserRepository } from 'src/modules/user/user.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Sede, Cancha])],
-  providers: [SedeRepository, canchaRepository, SeederService],
+  imports: [TypeOrmModule.forFeature([Sede, Cancha, User])],
+  providers: [SedeRepository, canchaRepository, UserRepository, SeederService],
 })
 export class SeederModule { }
