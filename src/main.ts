@@ -12,9 +12,17 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Reserva Gol')
-    .setDescription('Esta es la API construida con NestJS para el Proyecto Final de Henry.')
+    .setDescription(
+      'Esta es la API construida con NestJS para el Proyecto Final de Henry.',
+    )
     .setVersion('1.0')
     .addBearerAuth()
     .build();
