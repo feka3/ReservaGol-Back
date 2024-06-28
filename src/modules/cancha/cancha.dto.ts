@@ -13,6 +13,13 @@ import { Type } from 'class-transformer';
 
 export class canchaDto {
   @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    description: 'Nombre de la cancha',
+    example: 'Cancha 1',
+  })
+  name: string;
+  @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @ApiProperty({
@@ -86,6 +93,13 @@ export class canchaDto {
   sedeName: string;
 }
 export class updatecanchaDto {
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Nombre de la cancha',
+    example: 'cancha 1',
+  })
+  name: string;
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
