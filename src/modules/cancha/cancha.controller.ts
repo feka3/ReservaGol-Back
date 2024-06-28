@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Post,
   Put,
@@ -41,6 +42,11 @@ export class CanchaController {
   @Get()
   async getCanchas() {
     return this.canchaService.getCanchas();
+  }
+
+  @Get('deporte/:deporte')
+  async getCanchaDeporte(@Param('deporte', ParseIntPipe) deporte: number) {
+    return this.canchaService.getCanchaDeporte(deporte);
   }
 
   @ApiOperation({

@@ -14,6 +14,8 @@ export class Cancha {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column()
+  name: string;
+  @Column()
   price: number;
   @Column()
   sport: number;

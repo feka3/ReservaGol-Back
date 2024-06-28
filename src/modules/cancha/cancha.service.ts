@@ -11,6 +11,10 @@ export class CanchaService {
   async getCanchas() {
     return await this.canchaRepository.getCanchas();
   }
+  async getCanchaDeporte(cancha) {
+    return await this.canchaRepository.getCanchaDeporte(cancha);
+  }
+
   async createCancha(cancha, imgUrl) {
     return await this.canchaRepository.createCancha(cancha, imgUrl);
   }

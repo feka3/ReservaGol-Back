@@ -46,6 +46,9 @@ export class canchaRepository {
     });
     return cancha;
   }
+  async getCanchaDeporte(deporte: number) {
+    return await this.canchaRepository.find({ where: { sport: deporte } });
+  }
   async updateCancha(id: UUID, cancha: updatecanchaDto) {
     const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
     if (!canchaDb) {
