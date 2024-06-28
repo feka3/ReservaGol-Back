@@ -1,13 +1,11 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   HttpCode,
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CancheroDto, UserDto } from './auth.dto';
-import { LoginDto } from './loginDto';
+import { CancheroDto, LoginDto, UserDto } from './auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')
