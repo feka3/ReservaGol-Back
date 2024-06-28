@@ -22,13 +22,13 @@ export class User {
 
   /** 
   * @example TestUser
-  */  
+  */
   @Column()
   name: string;
 
   /** 
   * @example testuser@example.com
-  */  
+  */
   @Column({
     unique: true,
     type: 'varchar',
@@ -45,14 +45,14 @@ export class User {
   /** 
   * @example 01/01/1999
   */
-  @Column()
-  birthdate: string;
+  // @Column()
+  // birthdate: string;
 
   /** 
   * @example 12345678
   */
-  @Column()
-  dni: number;
+  // @Column()
+  // dni: number;
 
   /** 
   * @example +5491112345678
@@ -63,19 +63,19 @@ export class User {
   /** 
   * @example Ejemplo
   */
-  @Column({ length: 50 })
-  city: string
+  // @Column({ length: 50 })
+  // city: string
 
   /** 
   * @example CalleEjemplo
   */
-  @Column()
-  address: string;
+  // @Column()
+  // address: string;
 
-    /** 
-    *  Por defecto se asigna imagen descriptiva "sin foto disponible" 
-    * @example "https://test.com/test.png"
-    */  
+  /** 
+  *  Por defecto se asigna imagen descriptiva "sin foto disponible" 
+  * @example "https://test.com/test.png"
+  */
   @Column({
     default: 'https://ejemplo.com/imagen-por-defecto.jpg',
   })
