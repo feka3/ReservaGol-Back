@@ -9,6 +9,7 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 
 import { CanchaService } from './cancha.service';
@@ -72,7 +73,7 @@ export class CanchaController {
     @Body() cancha: updatecanchaDto,
     @Param('id', ParseUUIDPipe) id: UUID,
   ) {
-    return this.canchaService.updateCancha(cancha, id);
+    return this.canchaService.updateCancha(id, cancha);
   }
   @ApiOperation({
     summary: 'Delete a cancha',

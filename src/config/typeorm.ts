@@ -16,7 +16,7 @@ const config = {
   logging: true,
   dropSchema: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
- // migrations: ['dist/migrations/*.js'],
+  // migrations: ['dist/migrations/*.js'],
 };
 export default registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);
