@@ -1,0 +1,15 @@
+[
+    {
+        "user": {
+          "name": "TestUser",
+          "email": "testuser@example.com",
+          "password": "aaBBcc123!",
+          "birthdate": "1999-01-01",
+          "dni": 12345678,
+          "phone": "+5491112345678",
+          "city": "Ejemplo",
+          "address": "CalleEjemplo",
+          "imgUrl": "https://ejemplo.com/imagen-por-defecto.jpg"
+        }
+      }
+]
