@@ -7,7 +7,7 @@
     "canchas": [
       {
         "price": 100,
-        "sport": "fútbol",
+        "sport": "1",
         "type": "cesped",
         "player": 11,
         "time": "90min",
@@ -16,7 +16,7 @@
       },
       {
         "price": 80,
-        "sport": "tenis",
+        "sport": "2",
         "type": "arcilla",
         "player": 2,
         "time": "60min",
@@ -33,8 +33,8 @@
     "canchas": [
       {
         "price": 120,
-        "sport": "fútbol",
-        "type": "sintético",
+        "sport": "1",
+        "type": "sintetico",
         "player": 5,
         "time": "90min",
         "techado": true,
@@ -42,8 +42,8 @@
       },
       {
         "price": 90,
-        "sport": "básquet",
-        "type": "parqué",
+        "sport": "1",
+        "type": "parquet",
         "player": 10,
         "time": "60min",
         "techado": false,
@@ -59,7 +59,7 @@
     "canchas": [
       {
         "price": 110,
-        "sport": "fútbol",
+        "sport": "1",
         "type": "cesped",
         "player": 11,
         "time": "90min",
@@ -68,7 +68,7 @@
       },
       {
         "price": 85,
-        "sport": "tenis",
+        "sport": "2",
         "type": "dura",
         "player": 2,
         "time": "60min",
@@ -85,8 +85,8 @@
     "canchas": [
       {
         "price": 130,
-        "sport": "fútbol",
-        "type": "sintético",
+        "sport": "1",
+        "type": "sintetico",
         "player": 7,
         "time": "90min",
         "techado": true,
@@ -94,7 +94,7 @@
       },
       {
         "price": 95,
-        "sport": "padel",
+        "sport": "3",
         "type": "dura",
         "player": 4,
         "time": "60min",
@@ -111,7 +111,7 @@
     "canchas": [
       {
         "price": 115,
-        "sport": "fútbol",
+        "sport": "1",
         "type": "cesped",
         "player": 11,
         "time": "90min",
@@ -120,7 +120,7 @@
       },
       {
         "price": 85,
-        "sport": "voley",
+        "sport": "1",
         "type": "arena",
         "player": 6,
         "time": "60min",
