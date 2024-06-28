@@ -1,7 +1,9 @@
 import {
+  IsDate,
   IsDateString,
   IsEmail,
   IsEmpty,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsNumberString,
@@ -17,6 +19,7 @@ import {
 } from 'class-validator';
 import { PasswordConfirmation } from 'src/decorator/confirmacionPassword';
 import { IsArgentinePhoneNumber } from 'src/decorator/validatePhone';
+import { Role } from '../user/roles.enum';
 
 export class CancheroDto {
   @IsNotEmpty()
@@ -46,7 +49,7 @@ export class CancheroDto {
   confirmPassword: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsString()
   birthdate: string;
 
   @IsNotEmpty()
@@ -74,7 +77,8 @@ export class CancheroDto {
   imgUrl: string;
 
   @IsOptional()
-  rol: string;
+  @IsEnum(Role)
+  rol: Role = Role.User;
 }
 
 export class UserDto {
