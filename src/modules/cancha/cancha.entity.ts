@@ -1,4 +1,4 @@
-import { Sede } from "../sede/sede.entity";
+import { Sede } from '../sede/sede.entity';
 import {
   Column,
   Entity,
@@ -16,7 +16,7 @@ export class Cancha {
   @Column()
   price: number;
   @Column()
-  sport: string;
+  sport: number;
   @Column()
   type: string;
   @Column()
