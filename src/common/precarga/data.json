@@ -1,33 +1,132 @@
 [
-    {
-      "name": "Sede Central",
-      "location": "Calle Principal 123, Ciudad Capital",
-      "description": "La sede central de la empresa, ubicada en el corazón de la ciudad.",
-      "imgUrl": "https://ejemplo.com/imagen-sede-central.jpg"
-    },
-    {
-      "name": "Sede Norte",
-      "location": "Avenida Norte 456, Ciudad Norte",
-      "description": "Sede ubicada en el norte de la ciudad, cerca de importantes áreas comerciales.",
-      "imgUrl": "https://ejemplo.com/imagen-sede-norte.jpg"
-    },
-    {
-      "name": "Sede Sur",
-      "location": "Boulevard Sur 789, Ciudad Sur",
-      "description": "Nuestra sede en el sur, con modernas instalaciones y fácil acceso.",
-      "imgUrl": "https://ejemplo.com/imagen-sede-sur.jpg"
-    },
-    {
-      "name": "Sede Este",
-      "location": "Calle Este 101, Ciudad Este",
-      "description": "Sede estratégica en el este de la ciudad, ideal para reuniones de negocios.",
-      "imgUrl": "https://ejemplo.com/imagen-sede-este.jpg"
-    },
-    {
-      "name": "Sede Oeste",
-      "location": "Avenida Oeste 202, Ciudad Oeste",
-      "description": "Ubicada en el oeste, esta sede ofrece amplios espacios para eventos corporativos.",
-      "imgUrl": "https://ejemplo.com/imagen-sede-oeste.jpg"
-    }
-  ]
-  
+  {
+    "name": "Sede Central",
+    "location": "Calle Principal 123, Ciudad Capital",
+    "description": "La sede central de la empresa, ubicada en el corazón de la ciudad.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-central.jpg",
+    "canchas": [
+      {
+        "price": 100,
+        "sport": "fútbol",
+        "type": "cesped",
+        "player": 11,
+        "time": "90min",
+        "techado": true,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-central-1.jpg"
+      },
+      {
+        "price": 80,
+        "sport": "tenis",
+        "type": "arcilla",
+        "player": 2,
+        "time": "60min",
+        "techado": false,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-central-2.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Sede Norte",
+    "location": "Avenida Norte 456, Ciudad Norte",
+    "description": "Sede ubicada en el norte de la ciudad, cerca de importantes áreas comerciales.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-norte.jpg",
+    "canchas": [
+      {
+        "price": 120,
+        "sport": "fútbol",
+        "type": "sintético",
+        "player": 5,
+        "time": "90min",
+        "techado": true,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-norte-1.jpg"
+      },
+      {
+        "price": 90,
+        "sport": "básquet",
+        "type": "parqué",
+        "player": 10,
+        "time": "60min",
+        "techado": false,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-norte-2.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Sede Sur",
+    "location": "Boulevard Sur 789, Ciudad Sur",
+    "description": "Nuestra sede en el sur, con modernas instalaciones y fácil acceso.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-sur.jpg",
+    "canchas": [
+      {
+        "price": 110,
+        "sport": "fútbol",
+        "type": "cesped",
+        "player": 11,
+        "time": "90min",
+        "techado": true,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-sur-1.jpg"
+      },
+      {
+        "price": 85,
+        "sport": "tenis",
+        "type": "dura",
+        "player": 2,
+        "time": "60min",
+        "techado": false,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-sur-2.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Sede Este",
+    "location": "Calle Este 101, Ciudad Este",
+    "description": "Sede estratégica en el este de la ciudad, ideal para reuniones de negocios.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-este.jpg",
+    "canchas": [
+      {
+        "price": 130,
+        "sport": "fútbol",
+        "type": "sintético",
+        "player": 7,
+        "time": "90min",
+        "techado": true,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-este-1.jpg"
+      },
+      {
+        "price": 95,
+        "sport": "padel",
+        "type": "dura",
+        "player": 4,
+        "time": "60min",
+        "techado": false,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-este-2.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Sede Oeste",
+    "location": "Avenida Oeste 202, Ciudad Oeste",
+    "description": "Ubicada en el oeste, esta sede ofrece amplios espacios para eventos corporativos.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-oeste.jpg",
+    "canchas": [
+      {
+        "price": 115,
+        "sport": "fútbol",
+        "type": "cesped",
+        "player": 11,
+        "time": "90min",
+        "techado": true,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-oeste-1.jpg"
+      },
+      {
+        "price": 85,
+        "sport": "voley",
+        "type": "arena",
+        "player": 6,
+        "time": "60min",
+        "techado": false,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-oeste-2.jpg"
+      }
+    ]
+  }
+]
