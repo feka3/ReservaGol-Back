@@ -27,7 +27,7 @@ export class AuthController {
     return this.serviceAuth.signup(user);
   }
   @Post('signupAdmin')
-  async signupCanchero(@Body() canchero: any) {
+  async signupCanchero(@Body() canchero: CancheroDto) {
     console.log(`debug de canchero ${canchero}`);
     return this.serviceAuth.signupCanchero(canchero);
   }
