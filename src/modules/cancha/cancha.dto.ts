@@ -140,7 +140,7 @@ export class updatecanchaDto {
 
   @IsOptional()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-    message: 'El formato deberia de ser: "HH:MM"',
+    message: 'El formato deberia de ser "HH:MM"',
   })
   @ApiProperty({
     description: 'Horario de apertura',
@@ -149,7 +149,7 @@ export class updatecanchaDto {
   timeopen: string;
   @IsOptional()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-    message: 'El formato deberia de ser: "HH:MM"',
+    message: 'El formato deberia de ser "HH:MM"',
   })
   @ApiProperty({
     description: 'Horario de apertura',
