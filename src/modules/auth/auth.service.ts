@@ -17,24 +17,26 @@ export class AuthService {
   async singIn(email, password) {
     if (!email || !password) return 'datos incompletos';
 
-    const userEmail = await this.usersRepo.getUserEmail(email);
-    if (!userEmail) {
+    const userDb = await this.usersRepo.getUserEmail(email);
+    console.log(userDb);
+    if (!userDb) {
       throw new BadRequestException('credenciales incorrectas');
     }
 
-    const user = await bcrypt.compare(password, userEmail.password);
+    const user = await bcrypt.compare(password, userDb.password);
     if (!user) {
       throw new BadRequestException('credenciales incorrectas');
     }
 
     const userPayload = {
-      id: userEmail.id,
-      email: userEmail.email,
-      rol: userEmail.rol,
+      id: userDb.id,
+      email: userDb.email,
+      rol: userDb.rol,
     };
+    delete userDb.password;
 
     const token = this.jwtservice.sign(userPayload);
-    return { success: 'usuario logueado', token };
+    return { success: 'usuario logueado', token, userDb };
   }
 
   async signup(user) {
