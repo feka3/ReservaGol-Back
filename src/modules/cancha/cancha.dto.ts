@@ -103,6 +103,7 @@ export class canchaDto {
   })
   sedeName: string;
 }
+
 export class updatecanchaDto {
   @IsOptional()
   @IsString()
