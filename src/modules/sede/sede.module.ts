@@ -7,6 +7,7 @@ import { Sede } from './sede.entity';
 import { Cancha } from '../cancha/cancha.entity';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { CloudinaryModule } from '../cloudinary/cloudinary.module';
+import { User } from '../user/user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Sede, Cancha]), CloudinaryModule],

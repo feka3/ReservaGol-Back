@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -7,24 +7,38 @@ import { Repository } from 'typeorm';
 export class UserRepository {
   constructor(
     @InjectRepository(User)
-    private readonly UserRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
   ) {}
 
+  async getUserById(userId: string): Promise<User> {
+    
+    const user = await this.userRepository.findOne({
+      where: { id : userId },
+      relations: ['sedes'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+    return user;
+  }
+
+
   async postUser(user: Partial<User>) {
-    const newUser = await this.UserRepository.save(user);
-    const dbUser = await this.UserRepository.findOneBy({ id: user.id });
+    const newUser = await this.userRepository.save(user);
+    const dbUser = await this.userRepository.findOneBy({ id: user.id });
 
     const { password, ...noPassword } = dbUser;
 
     return noPassword;
   }
   async signupCanchero(canchero) {
-    const newCanchero = await this.UserRepository.create(canchero);
-    await this.UserRepository.save(newCanchero);
+    const newCanchero = await this.userRepository.create(canchero);
+    await this.userRepository.save(newCanchero);
     return 'user canchero already';
   }
 
   async getUserEmail(email: string) {
-    return await this.UserRepository.findOneBy({ email: email });
+    return await this.userRepository.findOneBy({ email: email });
   }
 }
