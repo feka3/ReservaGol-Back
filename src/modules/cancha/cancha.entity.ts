@@ -24,7 +24,9 @@ export class Cancha {
   @Column()
   player: number;
   @Column()
-  time: string;
+  timeopen: string;
+  @Column()
+  timeclose: string;
   @Column()
   techado: boolean;
   @Column({
