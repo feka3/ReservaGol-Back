@@ -19,6 +19,7 @@ export class canchaDto {
     example: 'Cancha 1',
   })
   name: string;
+
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
@@ -41,6 +42,33 @@ export class canchaDto {
   })
   sport: number;
 
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'Que tipo de cancha es',
+    example: 'sintetico, pasto, etc ...',
+  })
+  type: string;
+
+  @IsNotEmpty()
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'El formato deberia de ser: "HH:MM"',
+  })
+  @ApiProperty({
+    description: 'Horario de apertura',
+    example: '09:00',
+  })
+  timeopen: string;
+
+  @IsNotEmpty()
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'El formato deberia de ser: "HH:MM"',
+  })
+  @ApiProperty({
+    description: 'Horario de cierre',
+    example: '23:00',
+  })
+  timeclose: string;
+
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
@@ -49,16 +77,6 @@ export class canchaDto {
     example: '10',
   })
   player: number;
-
-  @IsNotEmpty()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d) a ([01]\d|2[0-3]):([0-5]\d)$/, {
-    message: 'El formato deberia de ser: "HH:MM a HH:MM"',
-  })
-  @ApiProperty({
-    description: 'Rango horario de apertura de local',
-    example: '09:00 a 23:00',
-  })
-  time: string;
 
   @IsNotEmpty()
   @IsBoolean()
@@ -133,7 +151,7 @@ export class updatecanchaDto {
 
   @IsOptional()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-    message: 'El formato deberia de ser "HH:MM"',
+    message: 'El formato deberia de ser: "HH:MM"',
   })
   @ApiProperty({
     description: 'Horario de apertura',
@@ -142,11 +160,11 @@ export class updatecanchaDto {
   timeopen: string;
   @IsOptional()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-    message: 'El formato deberia de ser "HH:MM"',
+    message: 'El formato deberia de ser: "HH:MM"',
   })
   @ApiProperty({
-    description: 'Horario de apertura',
-    example: '09:00',
+    description: 'Horario de cierre',
+    example: '23:00',
   })
   timeclose: string;
 
