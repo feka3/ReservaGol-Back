@@ -9,16 +9,19 @@ export class SedeRepository {
   constructor(
     @InjectRepository(Sede)
     private sedeRepository: Repository<Sede>,
-  ) { }
+  ) {}
 
   async getSedes(): Promise<Sede[]> {
     return await this.sedeRepository.find({
-      relations: ['canchas']
+      relations: ['canchas'],
     });
   }
 
   async getSedeById(id: string): Promise<Sede> {
-    const sede = await this.sedeRepository.findOne({ where: { id }, relations: ['canchas'] });
+    const sede = await this.sedeRepository.findOne({
+      where: { id },
+      relations: ['canchas'],
+    });
     if (!sede) {
       throw new NotFoundException('Sede not found');
     }
