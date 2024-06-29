@@ -22,19 +22,30 @@ export class canchaRepository {
   async createCancha(cancha, imgUrl) {
     const sede = await this.sedeRepository.findOne({
       where: { name: cancha.sedeName },
+      relations: ['canchas'],
     });
     if (!sede) {
-      throw new NotFoundException('Sede not found');
+      throw new NotFoundException('Sede no encontrada');
     }
+    const canchas = sede.canchas;
+    canchas.map((c) => {
+      if (c.name === cancha.name && sede.name === cancha.sedeName) {
+        throw new HttpException(
+          'Cancha ya existente en esta sede',
+          HttpStatus.CONFLICT,
+        );
+      }
+    });
     if (imgUrl != null) {
       cancha.imgUrl = imgUrl;
     }
+
     const canchadb = this.canchaRepository.create({
       ...cancha,
       sede: sede,
     });
     await this.canchaRepository.save(canchadb);
-    return 'Cancha created';
+    return 'Cancha creada';
   }
   async getCanchas() {
     return await this.canchaRepository.find();
@@ -57,16 +68,14 @@ export class canchaRepository {
   async updateCancha(id: UUID, cancha: updatecanchaDto) {
     const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
     if (!canchaDb) {
-      throw new HttpException('Cancha not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Cancha no encontrada', HttpStatus.NOT_FOUND);
     }
-    console.log('ID:', id);
-    console.log('Datos recibidos para actualizar:', cancha);
     await this.canchaRepository.update(id, cancha);
-    return 'Cancha updated';
+    return 'Cancha actualizada';
   }
 
   async deleteCancha(id) {
     await this.canchaRepository.delete(id);
-    return 'Cancha deleted';
+    return 'Cancha eliminada';
   }
 }
