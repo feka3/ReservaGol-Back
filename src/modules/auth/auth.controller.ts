@@ -1,9 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CancheroDto, LoginDto, UserDto } from './auth.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -13,14 +8,14 @@ import { ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly serviceAuth: AuthService) {}
 
-  @Post('singin')
+  @Post('signin')
   async singIn(@Body() credential: LoginDto) {
     const { email, password } = credential;
     return this.serviceAuth.singIn(email, password);
   }
 
   @HttpCode(201)
-  @Post('singup')
+  @Post('signup')
   async signup(@Body() user: UserDto) {
     return this.serviceAuth.signup(user);
   }
