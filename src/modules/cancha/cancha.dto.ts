@@ -41,13 +41,6 @@ export class canchaDto {
   })
   sport: number;
 
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'Que tipo de cancha es',
-    example: 'sintetico, pasto, etc ...',
-  })
-  type: string;
-
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
