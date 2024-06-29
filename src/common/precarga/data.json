@@ -14,7 +14,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": true,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-central-1.jpg"
+        "imgUrl": "https://i2.wp.com/lacalleclub.com/wp-content/uploads/2018/11/alquiler-cancha-futbol-la-calle-proximamente-2.jpg?fit=1500%2C750&ssl=1"
       },
       {
         "name": "cancha 2",
@@ -25,7 +25,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": false,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-central-2.jpg"
+        "imgUrl": "https://lh3.googleusercontent.com/proxy/AnWX2OUHMvKndIRT3Ql87gxB6X3Lkk2kSs6cyIBRKDY1f8nK3lko4R7wOEj1oGkO0DxYXUU2GeQnGOU8zv_04Sfbqfk7gZfQttUPmvsy6b1dhglkDK7_Sy3amrFH9sjqJyJYmUXS2KoiJ-caNWHBR2-n"
       }
     ]
   },
@@ -44,7 +44,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": true,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-norte-1.jpg"
+        "imgUrl": "https://www.hoysejuega.com/uploads/Modules/ImagenesComplejos/800_600_show-gol-mendoza-canchas-de-futbol.jpg"
       },
       {
         "name": "cancha 3",
@@ -74,7 +74,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": true,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-sur-1.jpg"
+        "imgUrl": "https://lh3.googleusercontent.com/proxy/-4Fw-8YbRSGoeZqKDGUv5Wl7_Nl4I6FErKLIjt27bSffNvh1olV96RrU1PYp2peCBrdWoVolevvv5LAib0ISFKn-pUorxrHCNfNwf9o"
       },
       {
         "name": "cancha fondo",
@@ -85,7 +85,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": false,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-sur-2.jpg"
+        "imgUrl": "https://integralspor.com/assets/filemanager/25d2f90ac5e67564a386540fc4070c6e.jpg"
       }
     ]
   },
@@ -104,7 +104,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": true,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-este-1.jpg"
+        "imgUrl": "https://www.hoysejuega.com/uploads/Modules/ImagenesComplejos/800_600_show-gol-mendoza-canchas-de-futbol.jpg"
       },
       {
         "name": "cancha chica",
@@ -115,7 +115,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": false,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-este-2.jpg"
+        "imgUrl": "https://padelcoronado.com/wp-content/uploads/2023/12/medidas-pistas-padel.jpg.webp"
       }
     ]
   },
@@ -134,7 +134,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": true,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-oeste-1.jpg"
+        "imgUrl": "https://pbs.twimg.com/media/FS5jhYyWIAEaa3U.jpg"
       },
       {
         "name": "cancha playa",
@@ -145,7 +145,7 @@
         "timeopen": "09:00",
         "timeclose": "23:00",
         "techado": false,
-        "imgUrl": "https://ejemplo.com/imagen-cancha-oeste-2.jpg"
+        "imgUrl": "https://media.lacapital.com.ar/p/d6cdd71f294630b48aa7438915de8917/adjuntos/203/imagenes/100/430/0100430649/642x0/smart/imagepng.png"
       }
     ]
   }
