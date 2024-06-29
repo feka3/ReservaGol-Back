@@ -9,10 +9,11 @@ import { AuthService } from 'src/modules/auth/auth.service';
 
 @Injectable()
 export class SeederService implements OnModuleInit {
+  private testUser: any
+
   constructor(
     private readonly sedeRepository: SedeRepository,
     private readonly canchaRepository: canchaRepository,
-    private readonly userRepository: UserRepository,
     private readonly serviceAuth: AuthService) { }
 
   async onModuleInit() {
@@ -30,11 +31,12 @@ export class SeederService implements OnModuleInit {
   }
 
   async seedUsers() {
+    const users = [];
     for (const element of dataUsers) {
-      if (element.user) {
-        await this.serviceAuth.signup(element.user)
-      }
+      this.testUser = await this.serviceAuth.signup(element.user)
     }
+
+    users.push(this.testUser)
   }
 
   async seedSedes() {
@@ -44,7 +46,8 @@ export class SeederService implements OnModuleInit {
         name: element.name,
         location: element.location,
         description: element.description,
-        imgUrl: element.imgUrl
+        imgUrl: element.imgUrl,
+        user: this.testUser.id
       });
       sedes.push(sede);
     }
