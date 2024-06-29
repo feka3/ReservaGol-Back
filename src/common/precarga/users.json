@@ -3,13 +3,8 @@
         "user": {
           "name": "TestUser",
           "email": "testuser@example.com",
-          "password": "$2y$10$TA84jZkhSvMhiRio9rR/WeQSm84SbRvingpDVDxTIAbGfUgEIhZoy",
-          "confirmPassword": "$2y$10$TA84jZkhSvMhiRio9rR/WeQSm84SbRvingpDVDxTIAbGfUgEIhZoy",
-          "birthdate": "1999-01-01",
-          "dni": 12345678,
+          "password": "aaBBcc123!",
           "phone": "+5491112345678",
-          "city": "Ejemplo",
-          "address": "CalleEjemplo",
           "imgUrl": "https://ejemplo.com/imagen-por-defecto.jpg"
         }
       }
