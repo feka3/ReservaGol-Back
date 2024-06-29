@@ -139,14 +139,23 @@ export class updatecanchaDto {
   player: number;
 
   @IsOptional()
-  @Matches(/^([01]\d|2[0-3]):([0-5]\d) a ([01]\d|2[0-3]):([0-5]\d)$/, {
-    message: 'El formato deberia de ser: "HH:MM a HH:MM"',
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'El formato deberia de ser: "HH:MM"',
   })
   @ApiProperty({
-    description: 'Rango horario de apertura de local',
-    example: '09:00 a 23:00',
+    description: 'Horario de apertura',
+    example: '09:00',
   })
-  time: string;
+  timeopen: string;
+  @IsOptional()
+  @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: 'El formato deberia de ser: "HH:MM"',
+  })
+  @ApiProperty({
+    description: 'Horario de apertura',
+    example: '09:00',
+  })
+  timeclose: string;
 
   @IsOptional()
   @IsBoolean()
