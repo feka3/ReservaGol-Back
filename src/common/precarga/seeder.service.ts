@@ -4,14 +4,17 @@ import * as data from '../../common/precarga/data.json';
 import * as dataUsers from '../../common/precarga/users.json';
 import { canchaRepository } from 'src/modules/cancha/cancha.repository';
 import { UserRepository } from 'src/modules/user/user.repository';
+import { AuthService } from 'src/modules/auth/auth.service';
 
 
 @Injectable()
 export class SeederService implements OnModuleInit {
+  private testUser: any
+
   constructor(
     private readonly sedeRepository: SedeRepository,
     private readonly canchaRepository: canchaRepository,
-    private readonly userRepository: UserRepository) { }
+    private readonly serviceAuth: AuthService) { }
 
   async onModuleInit() {
     await this.seedData();
@@ -28,21 +31,12 @@ export class SeederService implements OnModuleInit {
   }
 
   async seedUsers() {
+    const users = [];
     for (const element of dataUsers) {
-      if (element.user) {
-        await this.userRepository.postUser({
-          name: element.user.name,
-          email: element.user.email,
-          password: element.user.password,
-          // birthdate: element.user.birthdate,
-          // dni: element.user.dni,
-          phone: element.user.phone,
-          // city: element.user.city,
-          // address: element.user.address,
-          imgUrl: element.user.imgUrl
-        })
-      }
+      this.testUser = await this.serviceAuth.signup(element.user)
     }
+
+    users.push(this.testUser)
   }
 
   async seedSedes() {
@@ -52,7 +46,8 @@ export class SeederService implements OnModuleInit {
         name: element.name,
         location: element.location,
         description: element.description,
-        imgUrl: element.imgUrl
+        imgUrl: element.imgUrl,
+        user: this.testUser.id
       });
       sedes.push(sede);
     }

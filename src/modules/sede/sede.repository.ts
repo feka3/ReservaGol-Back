@@ -28,7 +28,7 @@ export class SedeRepository {
     return sede;
   }
 
-  async createSede(sede: CreateSedeDto & { imgUrl: string }) {
+  async createSede(sede: Partial<Sede> & { imgUrl: string }) {
     const newSede = this.sedeRepository.create(sede);
     return await this.sedeRepository.save(newSede);
   }
