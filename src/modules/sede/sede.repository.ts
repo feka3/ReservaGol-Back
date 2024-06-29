@@ -1,14 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateSedeDto } from './dto/createSede.dto';
 import { Sede } from './sede.entity';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class SedeRepository {
   constructor(
-    @InjectRepository(Sede)
-    private sedeRepository: Repository<Sede>,
+    @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
   ) {}
 
   async getSedes(): Promise<Sede[]> {
@@ -23,11 +22,12 @@ export class SedeRepository {
       relations: ['canchas'],
     });
     if (!sede) {
-      throw new NotFoundException('Sede not found');
+      throw new NotFoundException('Sede no encontrada');
     }
     return sede;
   }
 
+  
   async createSede(sede: Partial<Sede> & { imgUrl: string }) {
     const newSede = this.sedeRepository.create(sede);
     return await this.sedeRepository.save(newSede);
@@ -36,7 +36,7 @@ export class SedeRepository {
   async deleteSedeByid(id: string) {
     if (await this.sedeRepository.findOneBy({ id })) {
       await this.sedeRepository.delete(id);
-      return `Sede with id ${id} deleted successfully`;
+      return `La sede con id: ${id} ha sido eliminada correctamente`;
     } else {
       throw new NotFoundException(`Sede with ${id} not found`);
     }
