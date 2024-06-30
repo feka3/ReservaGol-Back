@@ -41,6 +41,11 @@ export class UserRepository {
     }
 
     async getUserEmail(email: string) {
-        return await this.userRepository.findOneBy({ email: email });
+        return await this.userRepository.findOne(
+            {
+                where: { email: email },
+                relations: ['sedes'],
+            }
+        );
     }
 }
