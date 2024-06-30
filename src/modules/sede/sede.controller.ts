@@ -39,9 +39,14 @@ export class SedeController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async createSede(
-    @Body() sede: any,
+    @Body() sedeConUser: { data: any; userDB: any },
     @UploadedFile() file: Express.Multer.File,
   ) {
+    const { data, userDB } = sedeConUser;
+
+    const user = userDB.userDb;
+    const sede: CreateSedeDto = data;
+    sede.user = user.id;
     if (!file) {
       return this.sedeService.createSede(sede);
     }
