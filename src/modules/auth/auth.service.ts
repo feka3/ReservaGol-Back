@@ -1,11 +1,12 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from '../user/user.repository';
 import { JwtService } from '@nestjs/jwt';
+import { CancheroDto, UserDto } from './auth.dto';
+import { UserController } from '../user/user.controller';
 
 @Injectable()
 export class AuthService {
@@ -15,17 +16,17 @@ export class AuthService {
   ) { }
 
   async singIn(email, password) {
-    if (!email || !password) return 'datos incompletos';
+    if (!email || !password) return 'Datos incompletos';
 
     const userDb = await this.usersRepo.getUserEmail(email);
     console.log(userDb);
     if (!userDb) {
-      throw new BadRequestException('credenciales incorrectas');
+      throw new BadRequestException('Credenciales incorrectas');
     }
 
     const user = await bcrypt.compare(password, userDb.password);
     if (!user) {
-      throw new BadRequestException('credenciales incorrectas');
+      throw new BadRequestException('Credenciales incorrectas');
     }
 
     const userPayload = {
@@ -36,14 +37,14 @@ export class AuthService {
     delete userDb.password;
 
     const token = this.jwtservice.sign(userPayload);
-    return { success: 'usuario logueado', token, userDb  };
+    return { success: 'Usuario logueado', token, userDb  };
   }
 
-  async signup(user) {
+  async signup(user:UserDto) {
     const userEmail = await this.usersRepo.getUserEmail(user.email);
 
     if (userEmail) {
-      throw new BadRequestException(`el usuario ya existe ${user.email}`);
+      throw new BadRequestException(`El usuario ya existe ${user.email}`);
     }
 
     const passwordHash = await bcrypt.hash(user.password, 10);
@@ -53,7 +54,8 @@ export class AuthService {
 
     return await this.usersRepo.postUser({ ...user, password: passwordHash });
   }
-  async signupCanchero(canchero) {
+
+  async signupCanchero(canchero:CancheroDto) {
     return await this.usersRepo.signupCanchero(canchero);
   }
 }

@@ -2,8 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Sede } from './sede.entity';
-import { User } from '../user/user.entity';
-import { CreateSedeDto } from './dto/createSede.dto';
 
 @Injectable()
 export class SedeRepository {
@@ -39,7 +37,7 @@ export class SedeRepository {
       await this.sedeRepository.delete(id);
       return `La sede con id: ${id} ha sido eliminada correctamente`;
     } else {
-      throw new NotFoundException(`Sede with ${id} not found`);
+      throw new NotFoundException(`La sede con id: ${id} ha sido encontrada`);
     }
   }
 }
