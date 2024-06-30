@@ -36,5 +36,6 @@ export class Sede {
   user: User;
 
   @OneToMany(() => Cancha, (cancha) => cancha.sede)
+  @JoinColumn({ name: 'canchas_id' })
   canchas: Cancha[];
 }
