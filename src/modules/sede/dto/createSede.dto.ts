@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import { UUID } from 'crypto';
 
 export class CreateSedeDto {
 
@@ -13,6 +14,10 @@ export class CreateSedeDto {
     @IsNotEmpty()
     @IsString()
     description: string;
+
+    @IsNotEmpty()
+    @IsUUID()
+    user: UUID
 
     @IsOptional()
     imgUrl: string;

@@ -12,7 +12,7 @@ export class AuthService {
   constructor(
     private readonly usersRepo: UserRepository,
     private readonly jwtservice: JwtService,
-  ) {}
+  ) { }
 
   async singIn(email, password) {
     if (!email || !password) return 'datos incompletos';
@@ -36,7 +36,7 @@ export class AuthService {
     delete userDb.password;
 
     const token = this.jwtservice.sign(userPayload);
-    return { success: 'usuario logueado', token, userDb };
+    return { success: 'usuario logueado', token, userDb  };
   }
 
   async signup(user) {

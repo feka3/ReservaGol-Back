@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Sede } from './sede.entity';
 import { User } from '../user/user.entity';
+import { CreateSedeDto } from './dto/createSede.dto';
 
 @Injectable()
 export class SedeRepository {
@@ -28,7 +29,7 @@ export class SedeRepository {
   }
 
   
-  async createSede(sede: Partial<Sede> & { imgUrl: string }) {
+  async createSede(sede:any & { imgUrl: string }) {
     const newSede = this.sedeRepository.create(sede);
     return await this.sedeRepository.save(newSede);
   }
