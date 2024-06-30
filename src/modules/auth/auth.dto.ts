@@ -1,3 +1,4 @@
+import { OmitType } from "@nestjs/swagger";
 import { IsDateString, IsEmail, IsEmpty, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString, IsUrl, Length, Matches, Max, MaxLength, MinLength, Validate } from "class-validator";
 import { PasswordConfirmation } from "src/decorator/confirmacionPassword";
 import { IsArgentinePhoneNumber } from "src/decorator/validatePhone";
@@ -60,3 +61,4 @@ export class UserDto {
     @IsEmpty()
     rol: string;
 }
+

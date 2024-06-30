@@ -25,4 +25,12 @@ export class AuthController {
         return this.serviceAuth.signup(user)
 
     }
+
+    /* @HttpCode(201)
+    @Post('singup')
+    async registerCanchero(@Body() user: UserDto) {
+
+        return this.serviceAuth.registerCanchero(user)
+
+    } */
 }
