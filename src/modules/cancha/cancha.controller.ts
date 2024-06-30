@@ -15,7 +15,7 @@ import {
 import { CanchaService } from './cancha.service';
 import { UUID } from 'crypto';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { canchaDto, updatecanchaDto } from './cancha.dto';
+import { canchaDto, updateCanchaDto } from './cancha.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -75,7 +75,7 @@ export class CanchaController {
   })
   @Put(':id')
   async updateCancha(
-    @Body() cancha: updatecanchaDto,
+    @Body() cancha: updateCanchaDto,
     @Param('id', ParseUUIDPipe) id: UUID,
   ) {
     return this.canchaService.updateCancha(id, cancha);

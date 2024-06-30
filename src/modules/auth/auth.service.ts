@@ -40,7 +40,7 @@ export class AuthService {
     return { success: 'Usuario logueado', token, userDb  };
   }
 
-  async signup(user:UserDto) {
+  async signup(user) {
     const userEmail = await this.usersRepo.getUserEmail(user.email);
 
     if (userEmail) {
