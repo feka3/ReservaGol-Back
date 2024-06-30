@@ -58,6 +58,6 @@ export class SedeController {
   @Delete(':id')
   async deleteSede(@Param('id', ParseUUIDPipe) id: string) {
     await this.sedeService.deleteSedeByid(id);
-    return `Sede with id ${id} was deleted successfully`;
+    return `La sede con id: ${id} ha sido eliminada correctamente`;
   }
 }

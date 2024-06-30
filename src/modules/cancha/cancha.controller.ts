@@ -10,7 +10,6 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
-  UsePipes,
 } from '@nestjs/common';
 
 import { CanchaService } from './cancha.service';
