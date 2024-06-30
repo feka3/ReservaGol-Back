@@ -7,7 +7,7 @@ import { Sede } from './sede.entity';
 export class SedeRepository {
   constructor(
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
-  ) {}
+  ) { }
 
   async getSedes(): Promise<Sede[]> {
     return await this.sedeRepository.find({
@@ -26,8 +26,12 @@ export class SedeRepository {
     return sede;
   }
 
-  
-  async createSede(sede:any & { imgUrl: string }) {
+
+  async createSede(sede: any & { imgUrl: string }) {
+    const sedeExist = await this.sedeRepository.findOneBy({ name: sede.name });
+    if (sedeExist) {
+      throw new NotFoundException(`La sede ${sede.name} ya existe`);
+    }
     const newSede = this.sedeRepository.create(sede);
     return await this.sedeRepository.save(newSede);
   }
