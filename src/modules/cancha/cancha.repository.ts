@@ -1,8 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cancha } from './cancha.entity';
 import { Sede } from '../sede/sede.entity';
+import { UUID } from 'crypto';
+import { updatecanchaDto } from './cancha.dto';
 
 @Injectable()
 export class canchaRepository {
@@ -12,12 +19,25 @@ export class canchaRepository {
     @InjectRepository(Sede)
     private sedeRepository: Repository<Sede>,
   ) {}
-  async createCancha(cancha) {
+  async createCancha(cancha, imgUrl) {
     const sede = await this.sedeRepository.findOne({
-      where: { id: cancha.sedeId },
+      where: { name: cancha.sedeName },
+      relations: ['canchas'],
     });
     if (!sede) {
-      throw new NotFoundException('Sede not found');
+      throw new NotFoundException('Sede no encontrada');
+    }
+    const canchas = sede.canchas;
+    canchas.map((c) => {
+      if (c.name === cancha.name && sede.name === cancha.sedeName) {
+        throw new HttpException(
+          'Cancha ya existente en esta sede',
+          HttpStatus.CONFLICT,
+        );
+      }
+    });
+    if (imgUrl != null) {
+      cancha.imgUrl = imgUrl;
     }
 
     const canchadb = this.canchaRepository.create({
@@ -25,7 +45,7 @@ export class canchaRepository {
       sede: sede,
     });
     await this.canchaRepository.save(canchadb);
-    return 'Cancha created';
+    return 'Cancha creada';
   }
   async getCanchas() {
     return await this.canchaRepository.find();
@@ -37,12 +57,25 @@ export class canchaRepository {
     });
     return cancha;
   }
-  async updateCancha(id, cancha: Cancha) {
-    await this.canchaRepository.update(id, cancha);
-    return 'Cancha updated';
+  async getCanchaDeporte(deporte: number) {
+    return await this.canchaRepository
+      .createQueryBuilder('cancha')
+      .leftJoinAndSelect('cancha.sede', 'sede')
+      .select(['cancha', 'sede.location'])
+      .where('cancha.sport = :deporte', { deporte })
+      .getMany();
   }
+  async updateCancha(id: UUID, cancha: updatecanchaDto) {
+    const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
+    if (!canchaDb) {
+      throw new HttpException('Cancha no encontrada', HttpStatus.NOT_FOUND);
+    }
+    await this.canchaRepository.update(id, cancha);
+    return 'Cancha actualizada';
+  }
+
   async deleteCancha(id) {
     await this.canchaRepository.delete(id);
-    return 'Cancha deleted';
+    return 'Cancha eliminada';
   }
 }

@@ -1,36 +1,46 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "./user.entity";
-import { Repository } from "typeorm";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserRepository {
     constructor(
         @InjectRepository(User)
-        private readonly UserRepository: Repository<User>) { }
+        private readonly userRepository: Repository<User>,
+    ) { }
 
 
-       /*  async getJugadorId(id: string) {
-            const userId = await this.UserRepository.findOneBy({id})
+    async getUserById(userId: string): Promise<User> {
 
-            if (!userId) return `El usuario con el  id ${id} no existe`;
-            const { password, ...noPassword } = userId
-            return noPassword;
-        } */
 
-        async postUser(user: User) {
-            const newUser = await this.UserRepository.save(user)
-            const dbUser = await this.UserRepository.findOneBy({ id: user.id })
-    
-            const { password, ...noPassword } = dbUser
-    
-    
-            return noPassword
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['sedes'],
+        });
+
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
         }
-
-
-        async getUserEmail(email: string) {
-            return await this.UserRepository.findOneBy({ email: email });
-    
-        }
+        return user;
     }
+
+
+    async postUser(user: Partial<User>) {
+        const newUser = await this.userRepository.save(user);
+        const dbUser = await this.userRepository.findOneBy({ id: user.id });
+
+        const { password, ...noPassword } = dbUser;
+
+        return noPassword;
+    }
+    async signupCanchero(canchero) {
+        const newCanchero = await this.userRepository.create(canchero);
+        await this.userRepository.save(newCanchero);
+        return 'user canchero already';
+    }
+
+    async getUserEmail(email: string) {
+        return await this.userRepository.findOneBy({ email: email });
+    }
+}

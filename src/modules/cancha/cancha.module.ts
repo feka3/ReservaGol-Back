@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { canchaRepository } from './cancha.repository';
 import { Cancha } from './cancha.entity';
 import { Sede } from '../sede/sede.entity';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cancha, Sede])],
+  imports: [TypeOrmModule.forFeature([Cancha, Sede]), CloudinaryModule],
   controllers: [CanchaController],
   providers: [CanchaService, canchaRepository],
 })
-export class CanchaModule { }
+export class CanchaModule {}

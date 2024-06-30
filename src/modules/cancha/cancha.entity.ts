@@ -1,4 +1,4 @@
-import { Sede } from "../sede/sede.entity";
+import { Sede } from '../sede/sede.entity';
 import {
   Column,
   Entity,
@@ -14,15 +14,19 @@ export class Cancha {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column()
+  name: string;
+  @Column()
   price: number;
   @Column()
-  sport: string;
+  sport: number;
   @Column()
   type: string;
   @Column()
   player: number;
   @Column()
-  time: string;
+  timeopen: string;
+  @Column()
+  timeclose: string;
   @Column()
   techado: boolean;
   @Column({

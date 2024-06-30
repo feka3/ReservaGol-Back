@@ -3,7 +3,7 @@ import { canchaRepository } from './cancha.repository';
 
 @Injectable()
 export class CanchaService {
-  constructor(private readonly canchaRepository: canchaRepository) { }
+  constructor(private readonly canchaRepository: canchaRepository) {}
 
   async getCanchaByid(id) {
     return await this.canchaRepository.getCanchaById(id);
@@ -11,7 +11,17 @@ export class CanchaService {
   async getCanchas() {
     return await this.canchaRepository.getCanchas();
   }
-  async createCancha(cancha) {
-    return await this.canchaRepository.createCancha(cancha);
+  async getCanchaDeporte(cancha) {
+    return await this.canchaRepository.getCanchaDeporte(cancha);
+  }
+
+  async createCancha(cancha, imgUrl) {
+    return await this.canchaRepository.createCancha(cancha, imgUrl);
+  }
+  async updateCancha(id, cancha) {
+    return await this.canchaRepository.updateCancha(id, cancha);
+  }
+  async deleteCancha(id) {
+    return await this.canchaRepository.deleteCancha(id);
   }
 }

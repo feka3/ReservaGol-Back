@@ -1,0 +1,153 @@
+[
+  {
+    "name": "Sede Central",
+    "location": "Calle Principal 123, Ciudad Capital",
+    "description": "La sede central de la empresa, ubicada en el corazón de la ciudad.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-central.jpg",
+    "canchas": [
+      {
+        "name": "cancha 1",
+        "price": 100,
+        "sport": "1",
+        "type": "cesped",
+        "player": 11,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": true,
+        "imgUrl": "https://i2.wp.com/lacalleclub.com/wp-content/uploads/2018/11/alquiler-cancha-futbol-la-calle-proximamente-2.jpg?fit=1500%2C750&ssl=1"
+      },
+      {
+        "name": "cancha 2",
+        "price": 80,
+        "sport": "2",
+        "type": "arcilla",
+        "player": 2,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": false,
+        "imgUrl": "https://lh3.googleusercontent.com/proxy/AnWX2OUHMvKndIRT3Ql87gxB6X3Lkk2kSs6cyIBRKDY1f8nK3lko4R7wOEj1oGkO0DxYXUU2GeQnGOU8zv_04Sfbqfk7gZfQttUPmvsy6b1dhglkDK7_Sy3amrFH9sjqJyJYmUXS2KoiJ-caNWHBR2-n"
+      }
+    ]
+  },
+  {
+    "name": "Sede Norte",
+    "location": "Avenida Norte 456, Ciudad Norte",
+    "description": "Sede ubicada en el norte de la ciudad, cerca de importantes áreas comerciales.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-norte.jpg",
+    "canchas": [
+      {
+        "name": "cancha 1",
+        "price": 120,
+        "sport": "1",
+        "type": "sintetico",
+        "player": 5,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": true,
+        "imgUrl": "https://www.hoysejuega.com/uploads/Modules/ImagenesComplejos/800_600_show-gol-mendoza-canchas-de-futbol.jpg"
+      },
+      {
+        "name": "cancha 3",
+        "price": 90,
+        "sport": "1",
+        "type": "parquet",
+        "player": 10,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": false,
+        "imgUrl": "https://ejemplo.com/imagen-cancha-norte-2.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Sede Sur",
+    "location": "Boulevard Sur 789, Ciudad Sur",
+    "description": "Nuestra sede en el sur, con modernas instalaciones y fácil acceso.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-sur.jpg",
+    "canchas": [
+      {
+        "name": "cancha medio",
+        "price": 110,
+        "sport": "1",
+        "type": "cesped",
+        "player": 11,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": true,
+        "imgUrl": "https://lh3.googleusercontent.com/proxy/-4Fw-8YbRSGoeZqKDGUv5Wl7_Nl4I6FErKLIjt27bSffNvh1olV96RrU1PYp2peCBrdWoVolevvv5LAib0ISFKn-pUorxrHCNfNwf9o"
+      },
+      {
+        "name": "cancha fondo",
+        "price": 85,
+        "sport": "2",
+        "type": "dura",
+        "player": 2,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": false,
+        "imgUrl": "https://integralspor.com/assets/filemanager/25d2f90ac5e67564a386540fc4070c6e.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Sede Este",
+    "location": "Calle Este 101, Ciudad Este",
+    "description": "Sede estratégica en el este de la ciudad, ideal para reuniones de negocios.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-este.jpg",
+    "canchas": [
+      {
+        "name": "cancha grande",
+        "price": 130,
+        "sport": "1",
+        "type": "sintetico",
+        "player": 7,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": true,
+        "imgUrl": "https://www.hoysejuega.com/uploads/Modules/ImagenesComplejos/800_600_show-gol-mendoza-canchas-de-futbol.jpg"
+      },
+      {
+        "name": "cancha chica",
+        "price": 95,
+        "sport": "3",
+        "type": "dura",
+        "player": 4,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": false,
+        "imgUrl": "https://padelcoronado.com/wp-content/uploads/2023/12/medidas-pistas-padel.jpg.webp"
+      }
+    ]
+  },
+  {
+    "name": "Sede Oeste",
+    "location": "Avenida Oeste 202, Ciudad Oeste",
+    "description": "Ubicada en el oeste, esta sede ofrece amplios espacios para eventos corporativos.",
+    "imgUrl": "https://ejemplo.com/imagen-sede-oeste.jpg",
+    "canchas": [
+      {
+        "name": "cancha premium",
+        "price": 115,
+        "sport": "1",
+        "type": "cesped",
+        "player": 11,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": true,
+        "imgUrl": "https://pbs.twimg.com/media/FS5jhYyWIAEaa3U.jpg"
+      },
+      {
+        "name": "cancha playa",
+        "price": 85,
+        "sport": "1",
+        "type": "arena",
+        "player": 6,
+        "timeopen": "09:00",
+        "timeclose": "23:00",
+        "techado": false,
+        "imgUrl": "https://media.lacapital.com.ar/p/d6cdd71f294630b48aa7438915de8917/adjuntos/203/imagenes/100/430/0100430649/642x0/smart/imagepng.png"
+      }
+    ]
+  }
+
+]

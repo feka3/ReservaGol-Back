@@ -3,9 +3,11 @@ import { UserRepository } from "./user.repository";
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly userRepo: UserRepository) { }
 
-    /* async getJugadorId(id) {
-        return this.userRepo.getJugadorId(id)
-    } */
+    constructor(private readonly userRepository: UserRepository) { }
+
+    async getUserById(id: string) {
+        return await this.userRepository.getUserById(id);
+      }
+
 }
