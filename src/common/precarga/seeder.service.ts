@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { SedeRepository } from 'src/modules/sede/sede.repository';
 import * as data from '../../common/precarga/data.json';
 import * as dataUsers from '../../common/precarga/users.json';
-import { canchaRepository } from 'src/modules/cancha/cancha.repository';
+import { CanchaRepository } from 'src/modules/cancha/cancha.repository';
 import { UserRepository } from 'src/modules/user/user.repository';
 import { AuthService } from 'src/modules/auth/auth.service';
 
@@ -13,7 +13,7 @@ export class SeederService implements OnModuleInit {
 
   constructor(
     private readonly sedeRepository: SedeRepository,
-    private readonly canchaRepository: canchaRepository,
+    private readonly canchaRepository: CanchaRepository,
     private readonly serviceAuth: AuthService) { }
 
   async onModuleInit() {
