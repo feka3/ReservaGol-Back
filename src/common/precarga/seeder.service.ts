@@ -3,18 +3,17 @@ import { SedeRepository } from 'src/modules/sede/sede.repository';
 import * as data from '../../common/precarga/data.json';
 import * as dataUsers from '../../common/precarga/users.json';
 import { CanchaRepository } from 'src/modules/cancha/cancha.repository';
-import { UserRepository } from 'src/modules/user/user.repository';
 import { AuthService } from 'src/modules/auth/auth.service';
-
 
 @Injectable()
 export class SeederService implements OnModuleInit {
-  private testUser: any
+  private testUser: any;
 
   constructor(
     private readonly sedeRepository: SedeRepository,
     private readonly canchaRepository: CanchaRepository,
-    private readonly serviceAuth: AuthService) { }
+    private readonly serviceAuth: AuthService
+  ) { }
 
   async onModuleInit() {
     await this.seedData();
@@ -22,9 +21,9 @@ export class SeederService implements OnModuleInit {
 
   async seedData() {
     try {
-      await this.seedUsers()
-      const sedes = await this.seedSedes()
-      await this.seedCanchas(sedes)
+      await this.seedUsers();
+      const sedes = await this.seedSedes();
+      await this.seedCanchas(sedes);
     } catch (error) {
       console.error('Error seeding data:', error);
     }
@@ -33,10 +32,9 @@ export class SeederService implements OnModuleInit {
   async seedUsers() {
     const users = [];
     for (const element of dataUsers) {
-      this.testUser = await this.serviceAuth.signup(element.user)
+      this.testUser = await this.serviceAuth.signup(element.user);
+      users.push(this.testUser);
     }
-
-    users.push(this.testUser)
   }
 
   async seedSedes() {
@@ -49,19 +47,25 @@ export class SeederService implements OnModuleInit {
         imgUrl: element.imgUrl,
         user: this.testUser.id
       });
-      sedes.push(sede);
+      sedes.push({ ...sede, canchas: element.canchas });
     }
     return sedes;
   }
 
   async seedCanchas(sedes) {
     for (const sede of sedes) {
-      const sedeData = data.find(d => d.name === sede.name);
-      if (sedeData && sedeData.canchas) {
-        for (const cancha of sedeData.canchas) {
+      if (sede.canchas) {
+        for (const cancha of sede.canchas) {
           await this.canchaRepository.createCancha({
-            ...cancha,
-            sedeId: sede.id
+            name: cancha.name,
+            price: cancha.price,
+            sport: cancha.sport,
+            type: cancha.type,
+            player: cancha.player,
+            timeopen: cancha.timeopen,
+            timeclose: cancha.timeclose,
+            techado: cancha.techado,
+            sedeName: sede.name,
           }, cancha.imgUrl);
         }
       }
