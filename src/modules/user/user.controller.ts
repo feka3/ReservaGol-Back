@@ -1,9 +1,12 @@
 
 import { Controller, Get, Param, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { UsersService } from './user.service';
+
 const { requiresAuth } = require('express-openid-connect');
 import { Request } from 'express';
+
+
+import { UserService } from './user.service';
 
 
 @ApiTags('user')
@@ -11,8 +14,7 @@ import { Request } from 'express';
 export class UserController {
 
     constructor(
-        private readonly userService: UsersService,
-      ) {}
+        private readonly userService: UserService) {}
 
   
     @Get('auth0/protected')
@@ -26,5 +28,5 @@ export class UserController {
         return await this.userService.getUserById(id);
     }
     
-    
+   
 }

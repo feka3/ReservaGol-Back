@@ -7,12 +7,10 @@ import { Repository } from 'typeorm';
 export class UserRepository {
     constructor(
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
-    ) { }
+        private readonly userRepository: Repository<User>) {}
 
 
     async getUserById(userId: string): Promise<User> {
-
 
         const user = await this.userRepository.findOne({
             where: { id: userId },
@@ -34,10 +32,11 @@ export class UserRepository {
 
         return noPassword;
     }
+
     async signupCanchero(canchero) {
         const newCanchero = await this.userRepository.create(canchero);
         await this.userRepository.save(newCanchero);
-        return 'user canchero already';
+        return 'Usuario registrado con exito';
     }
 
     async getUserEmail(email: string) {

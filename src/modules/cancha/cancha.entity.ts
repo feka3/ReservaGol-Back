@@ -13,22 +13,31 @@ import {
 export class Cancha {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   name: string;
+
   @Column()
   price: number;
+
   @Column()
   sport: number;
+
   @Column()
   type: string;
+
   @Column()
   player: number;
+
   @Column()
   timeopen: string;
+
   @Column()
   timeclose: string;
+
   @Column()
   techado: boolean;
+  
   @Column({
     default: 'https://ejemplo.com/imagen-por-defecto.jpg',
     type: 'varchar',

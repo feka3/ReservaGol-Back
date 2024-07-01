@@ -9,16 +9,15 @@ import { Repository } from 'typeorm';
 import { Cancha } from './cancha.entity';
 import { Sede } from '../sede/sede.entity';
 import { UUID } from 'crypto';
-import { updatecanchaDto } from './cancha.dto';
+import { updateCanchaDto } from './cancha.dto';
 
 @Injectable()
-export class canchaRepository {
+export class CanchaRepository {
   constructor(
-    @InjectRepository(Cancha)
-    private canchaRepository: Repository<Cancha>,
-    @InjectRepository(Sede)
-    private sedeRepository: Repository<Sede>,
+    @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
+    @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
   ) {}
+
   async createCancha(cancha, imgUrl) {
     const sede = await this.sedeRepository.findOne({
       where: { name: cancha.sedeName },
@@ -39,7 +38,6 @@ export class canchaRepository {
     if (imgUrl != null) {
       cancha.imgUrl = imgUrl;
     }
-
     const canchadb = this.canchaRepository.create({
       ...cancha,
       sede: sede,
@@ -47,16 +45,19 @@ export class canchaRepository {
     await this.canchaRepository.save(canchadb);
     return 'Cancha creada';
   }
+
   async getCanchas() {
     return await this.canchaRepository.find();
   }
-  async getCanchaById(id) {
+
+  async getCanchaById(id: string) {
     const cancha = await this.canchaRepository.findOne({
       where: { id: id },
       relations: ['sede'],
     });
     return cancha;
   }
+
   async getCanchaDeporte(deporte: number) {
     return await this.canchaRepository
       .createQueryBuilder('cancha')
@@ -65,7 +66,8 @@ export class canchaRepository {
       .where('cancha.sport = :deporte', { deporte })
       .getMany();
   }
-  async updateCancha(id: UUID, cancha: updatecanchaDto) {
+
+  async updateCancha(id: string, cancha: updateCanchaDto) {
     const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
     if (!canchaDb) {
       throw new HttpException('Cancha no encontrada', HttpStatus.NOT_FOUND);
@@ -74,7 +76,7 @@ export class canchaRepository {
     return 'Cancha actualizada';
   }
 
-  async deleteCancha(id) {
+  async deleteCancha(id: string) {
     await this.canchaRepository.delete(id);
     return 'Cancha eliminada';
   }

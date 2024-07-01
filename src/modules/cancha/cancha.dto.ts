@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
   Matches,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
@@ -104,7 +103,7 @@ export class canchaDto {
   sedeName: string;
 }
 
-export class updatecanchaDto {
+export class updateCanchaDto {
   @IsOptional()
   @IsString()
   @ApiProperty({

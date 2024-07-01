@@ -39,9 +39,14 @@ export class SedeController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async createSede(
-    @Body() sede: any,
+    @Body() sedeConUser: { data: any; userDB: any },
     @UploadedFile() file: Express.Multer.File,
   ) {
+    const { data, userDB } = sedeConUser;
+
+    const user = userDB.userDb;
+    const sede: CreateSedeDto = data;
+    sede.user = user.id;
     if (!file) {
       return this.sedeService.createSede(sede);
     }
@@ -58,6 +63,6 @@ export class SedeController {
   @Delete(':id')
   async deleteSede(@Param('id', ParseUUIDPipe) id: string) {
     await this.sedeService.deleteSedeByid(id);
-    return `Sede with id ${id} was deleted successfully`;
+    return `La sede con id: ${id} ha sido eliminada correctamente`;
   }
 }

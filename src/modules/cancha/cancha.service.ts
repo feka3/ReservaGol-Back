@@ -1,27 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { canchaRepository } from './cancha.repository';
+import { CanchaRepository } from './cancha.repository';
+import { updateCanchaDto } from './cancha.dto';
 
 @Injectable()
 export class CanchaService {
-  constructor(private readonly canchaRepository: canchaRepository) {}
+  constructor(private readonly canchaRepository: CanchaRepository) {}
 
-  async getCanchaByid(id) {
+  async getCanchaByid(id:string) {
     return await this.canchaRepository.getCanchaById(id);
   }
+
   async getCanchas() {
     return await this.canchaRepository.getCanchas();
   }
-  async getCanchaDeporte(cancha) {
-    return await this.canchaRepository.getCanchaDeporte(cancha);
+
+  async getCanchaDeporte(deporte:number) {
+    return await this.canchaRepository.getCanchaDeporte(deporte);
   }
 
   async createCancha(cancha, imgUrl) {
     return await this.canchaRepository.createCancha(cancha, imgUrl);
   }
-  async updateCancha(id, cancha) {
+  
+  async updateCancha(id:string, cancha: updateCanchaDto) {
     return await this.canchaRepository.updateCancha(id, cancha);
   }
-  async deleteCancha(id) {
+
+  async deleteCancha(id:string) {
     return await this.canchaRepository.deleteCancha(id);
   }
 }

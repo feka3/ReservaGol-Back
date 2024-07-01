@@ -2,12 +2,23 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { MiddlewareGlobal } from './common/middlewares/global.middleware';
+import * as dotenv from "dotenv"
+
 import { auth } from 'express-openid-connect';
 import {config as auth0Config} from './config/auth0.config'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(auth(auth0Config))
+
+
+dotenv.config({ path: ".env.development" })
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.use(MiddlewareGlobal)
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -34,6 +45,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
+}
 }
 bootstrap();
