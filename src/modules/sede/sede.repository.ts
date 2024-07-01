@@ -7,12 +7,15 @@ import { Sede } from './sede.entity';
 export class SedeRepository {
   constructor(
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
-  ) { }
+  ) {}
 
   async getSedes(): Promise<Sede[]> {
-    return await this.sedeRepository.find({
-      relations: ['canchas'],
-    });
+    return await this.sedeRepository
+      .createQueryBuilder('sede')
+      .leftJoinAndSelect('sede.canchas', 'cancha')
+      .leftJoinAndSelect('sede.user', 'user')
+      .select(['sede', 'cancha', 'user.id']) // Seleccionar solo la ID del usuario
+      .getMany();
   }
 
   async getSedeById(id: string): Promise<Sede> {
@@ -25,7 +28,6 @@ export class SedeRepository {
     }
     return sede;
   }
-
 
   async createSede(sede: any & { imgUrl: string }) {
     const sedeExist = await this.sedeRepository.findOneBy({ name: sede.name });
