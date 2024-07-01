@@ -2,12 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
+import { CancheroDto } from '../auth/auth.dto';
+import * as bcrypt from "bcrypt";
+
 
 @Injectable()
 export class UserRepository {
     constructor(
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>) {}
+        private readonly userRepository: Repository<User>) { }
 
 
     async getUserById(userId: string): Promise<User> {
@@ -33,10 +36,13 @@ export class UserRepository {
         return noPassword;
     }
 
-    async signupCanchero(canchero) {
+    async signupCanchero(canchero: CancheroDto) {
+        const { password } = canchero;
+        canchero.password = await bcrypt.hash(password, 10);
+
         const newCanchero = await this.userRepository.create(canchero);
         await this.userRepository.save(newCanchero);
-        return 'Usuario registrado con exito';
+        return newCanchero
     }
 
     async getUserEmail(email: string) {
