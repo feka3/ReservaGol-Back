@@ -3,7 +3,7 @@
     "name": "Sede Central",
     "location": "Calle Principal 123, Ciudad Capital",
     "description": "La sede central de la empresa, ubicada en el corazón de la ciudad.",
-    "imgUrl": "https://ejemplo.com/imagen-sede-central.jpg",
+    "imgUrl": "https://www.clarin.com/img/2018/05/08/HkM6R3lRf_720x0__1.jpg",
     "canchas": [
       {
         "name": "cancha 1",
@@ -33,7 +33,7 @@
     "name": "Sede Norte",
     "location": "Avenida Norte 456, Ciudad Norte",
     "description": "Sede ubicada en el norte de la ciudad, cerca de importantes áreas comerciales.",
-    "imgUrl": "https://ejemplo.com/imagen-sede-norte.jpg",
+    "imgUrl": "https://i0.wp.com/deportesyeducacionfisica.com/wp-content/uploads/2015/06/Master-Gestion-Centro-Deportivos.jpg?ssl=1",
     "canchas": [
       {
         "name": "cancha 1",
@@ -63,7 +63,7 @@
     "name": "Sede Sur",
     "location": "Boulevard Sur 789, Ciudad Sur",
     "description": "Nuestra sede en el sur, con modernas instalaciones y fácil acceso.",
-    "imgUrl": "https://ejemplo.com/imagen-sede-sur.jpg",
+    "imgUrl": "https://grupoargenia.com/wp-content/uploads/2024/04/79785574-c49d-48ae-8704-13f835e0beef-1200x454.jpg",
     "canchas": [
       {
         "name": "cancha medio",
@@ -93,7 +93,7 @@
     "name": "Sede Este",
     "location": "Calle Este 101, Ciudad Este",
     "description": "Sede estratégica en el este de la ciudad, ideal para reuniones de negocios.",
-    "imgUrl": "https://ejemplo.com/imagen-sede-este.jpg",
+    "imgUrl": "https://www.argentina.gob.ar/sites/default/files/cenard_002.jpg",
     "canchas": [
       {
         "name": "cancha grande",
@@ -123,7 +123,7 @@
     "name": "Sede Oeste",
     "location": "Avenida Oeste 202, Ciudad Oeste",
     "description": "Ubicada en el oeste, esta sede ofrece amplios espacios para eventos corporativos.",
-    "imgUrl": "https://ejemplo.com/imagen-sede-oeste.jpg",
+    "imgUrl": "https://www.eldiario.com.ar/wp-content/uploads/2023/09/pagina-23-26.9.jpg",
     "canchas": [
       {
         "name": "cancha premium",
