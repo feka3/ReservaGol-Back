@@ -15,7 +15,8 @@ import { updateCanchaDto } from './cancha.dto';
 export class CanchaRepository {
   constructor(
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
-    @InjectRepository(Sede) private sedeRepository: Repository<Sede>) {}
+    @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
+  ) {}
 
   async createCancha(cancha, imgUrl) {
     const sede = await this.sedeRepository.findOne({
@@ -37,7 +38,6 @@ export class CanchaRepository {
     if (imgUrl != null) {
       cancha.imgUrl = imgUrl;
     }
-
     const canchadb = this.canchaRepository.create({
       ...cancha,
       sede: sede,
@@ -45,12 +45,12 @@ export class CanchaRepository {
     await this.canchaRepository.save(canchadb);
     return 'Cancha creada';
   }
-  
+
   async getCanchas() {
     return await this.canchaRepository.find();
   }
 
-  async getCanchaById(id:string) {
+  async getCanchaById(id: string) {
     const cancha = await this.canchaRepository.findOne({
       where: { id: id },
       relations: ['sede'],
