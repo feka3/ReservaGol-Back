@@ -2,7 +2,6 @@
 /dist
 /node_modules
 /build
-
 package-lock.json
 
 
@@ -39,7 +38,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
-.env.development
+.env.develoment
 .env
 .env.development.local
 .env.test.local
