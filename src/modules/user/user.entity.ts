@@ -86,7 +86,7 @@ export class User {
   * - user: El usuario solo tiene permisos de usuario
   * - Por defecto es user
   */
-  @Column({ default: 'user' })
+  @Column({ type: 'enum', enum: Role, default: Role.User })
   rol: Role;
 
   /**

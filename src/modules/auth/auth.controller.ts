@@ -2,11 +2,12 @@ import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CancheroDto, LoginDto, UserDto } from './auth.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { log } from 'console';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly serviceAuth: AuthService) {}
+  constructor(private readonly serviceAuth: AuthService) { }
 
   @Post('signin')
   async singIn(@Body() credential: LoginDto) {
@@ -19,10 +20,11 @@ export class AuthController {
   async signup(@Body() user: UserDto) {
     return this.serviceAuth.signup(user);
   }
-  
-  @Post('signupAdmin')
+
+  @Post('signup/admin')
   async signupCanchero(@Body() canchero: CancheroDto) {
-    console.log(`debug de canchero ${canchero}`);
+    console.log("asd");
+
     return this.serviceAuth.signupCanchero(canchero);
   }
 }
