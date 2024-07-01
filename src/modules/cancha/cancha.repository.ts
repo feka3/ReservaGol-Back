@@ -15,7 +15,8 @@ import { updateCanchaDto } from './cancha.dto';
 export class CanchaRepository {
   constructor(
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
-    @InjectRepository(Sede) private sedeRepository: Repository<Sede>) {}
+    @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
+  ) {}
 
   async createCancha(cancha, imgUrl) {
     const sede = await this.sedeRepository.findOne({
@@ -37,6 +38,19 @@ export class CanchaRepository {
     if (imgUrl != null) {
       cancha.imgUrl = imgUrl;
     }
+    if (cancha.imgUrl === null && cancha.sport === 1) {
+      cancha.imgUrl =
+        'https://www.teleflor.com.ar/wp-content/uploads/cuanto-vale-poner-una-cancha-de-futbol.webp';
+    }
+    if (cancha.imgUrl === null && cancha.sport === 2) {
+      cancha.imgUrl =
+        'https://t1.uc.ltmcdn.com/es/posts/6/9/5/tipos_de_deportes_con_raqueta_52596_orig.jpg';
+    }
+
+    if (cancha.imgUrl === null && cancha.sport === 3) {
+      cancha.imgUrl =
+        'https://static01.nyt.com/images/2024/03/15/00xp-padel-78689-cover/00xp-padel-78689-cover-videoSixteenByNine3000.jpg';
+    }
 
     const canchadb = this.canchaRepository.create({
       ...cancha,
@@ -45,12 +59,12 @@ export class CanchaRepository {
     await this.canchaRepository.save(canchadb);
     return 'Cancha creada';
   }
-  
+
   async getCanchas() {
     return await this.canchaRepository.find();
   }
 
-  async getCanchaById(id:string) {
+  async getCanchaById(id: string) {
     const cancha = await this.canchaRepository.findOne({
       where: { id: id },
       relations: ['sede'],
