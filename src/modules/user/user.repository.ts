@@ -36,7 +36,7 @@ export class UserRepository {
         return noPassword;
     }
 
-    async signupCanchero(canchero: CancheroDto) {
+    async signupCanchero(canchero) {
         const { password } = canchero;
         canchero.password = await bcrypt.hash(password, 10);
 
