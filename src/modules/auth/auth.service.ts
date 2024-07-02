@@ -55,6 +55,10 @@ export class AuthService {
     return await this.usersRepo.postUser({ ...user, password: passwordHash });
   }
 
+  async authRegister( user) {
+    
+  }
+
   async signupCanchero(canchero:CancheroDto) {
     return await this.usersRepo.signupCanchero(canchero);
   }
