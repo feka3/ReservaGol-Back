@@ -48,24 +48,19 @@ export class SedeController {
   // @Roles(Role.Superadmin, Role.Admin)
   // @UseGuards(AuthGuard, RolesGuard)
   async createSede(
-    @Body() sedeConUser: { data: any; userDB: any },
+    @Body() sedeData: CreateSedeDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
 
     try {
 
-      const { data, userDB } = sedeConUser;
-
-      const user = userDB.userDb;
-      const sede: CreateSedeDto = data;
-      sede.user = user.id;
       if (!file) {
-        return this.sedeService.createSede(sede);
+        throw new NotFoundException('File not found');
       }
 
       const uploadResult = await this.cloudinaryService.uploadImage(file);
       const imgUrl = uploadResult.secure_url;
-      return await this.sedeService.createSede({ ...sede, imgUrl });
+      return await this.sedeService.createSede({ ...sedeData, imgUrl });
     } catch (error) {
       throw new NotFoundException(error);
     }
