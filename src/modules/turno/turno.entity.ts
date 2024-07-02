@@ -12,8 +12,10 @@ import { Cancha } from '../cancha/cancha.entity';
   name: 'turnos',
 })
 export class Appointment {
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
   date: Date;
 
@@ -22,5 +24,6 @@ export class Appointment {
   cancha = Cancha;
 
   @ManyToOne(() => User, (user) => user.appointments)
+  @JoinColumn({ name: "user_id" })
   user = User;
 }
