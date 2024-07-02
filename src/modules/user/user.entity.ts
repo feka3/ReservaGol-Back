@@ -1,11 +1,12 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from './roles.enum';
-import { Appointment } from 'src/modules/turno/turno.entity';
+import { Turno } from 'src/modules/turno/turno.entity';
 import { Sede } from '../sede/sede.entity';
 
 @Entity({
@@ -45,14 +46,14 @@ export class User {
   /** 
   * @example 01/01/1999
   */
-  // @Column()
-  // birthdate: string;
+  @Column({nullable:true})
+  birthdate: string;
 
   /** 
   * @example 12345678
   */
-  // @Column()
-  // dni: number;
+  @Column({nullable:true})
+  dni: number;
 
   /** 
   * @example +5491112345678
@@ -63,14 +64,14 @@ export class User {
   /** 
   * @example Ejemplo
   */
-  // @Column({ length: 50 })
-  // city: string
+  @Column({ length: 50, nullable:true })
+  city: string
 
   /** 
   * @example CalleEjemplo
   */
-  // @Column()
-  // address: string;
+  @Column({nullable:true})
+  address: string;
 
   /** 
   *  Por defecto se asigna imagen descriptiva "sin foto disponible" 
@@ -93,11 +94,13 @@ export class User {
    * Listado de Sedes asociadas al usuario
    */
   @OneToMany(() => Sede, (sede) => sede.user)
+  @JoinColumn({name: "sede_id"})
   sedes: Sede[];
 
   /**
    * Listado de Reservas asociadas al usuario
    */
-  @OneToMany(() => Appointment, (appointment) => appointment.user)
-  appointments: Appointment[];
+  @OneToMany(() => Turno, (turno) => turno.user)
+  @JoinColumn({name: "turno_id"})
+  turnos: Turno[];
 }
