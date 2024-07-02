@@ -58,7 +58,7 @@ export class User {
   /** 
   * @example +5491112345678
   */
-  @Column()
+  @Column({ nullable:true })
   phone: string;
 
   /** 
