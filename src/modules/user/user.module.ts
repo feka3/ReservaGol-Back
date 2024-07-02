@@ -14,8 +14,5 @@ import { requiresAuth } from 'express-openid-connect';
   providers: [UserService, UserRepository],
   controllers: [UserController],
 })
-export class UserModule implements NestModule {
-   configure(consumer: MiddlewareConsumer) {
-       consumer.apply(requiresAuth()).forRoutes('user/auth0/protected')
-   }
-  }
+export class UserModule {} 
+  

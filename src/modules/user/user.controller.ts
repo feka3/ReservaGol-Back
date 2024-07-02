@@ -17,11 +17,7 @@ export class UserController {
         private readonly userService: UserService) {}
 
   
-    @Get('auth0/protected')
-    async getAuth0Protected(@Req() req: Request){
-        //console.log(req.oidc.accessToken)
-        return JSON.stringify(req.oidc.user)
-    }
+   
 
     @Get(":id")
     async getUserById(@Param("id") id: string) {

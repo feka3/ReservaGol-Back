@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpException, NotFoundException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CancheroDto, LoginDto, UserDto } from './auth.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -20,6 +20,9 @@ export class AuthController {
   async signup(@Body() user: UserDto) {
     return this.serviceAuth.signup(user);
   }
+
+ 
+
 
   @Post('signup/admin')
   async signupCanchero(@Body() canchero: CancheroDto) {
