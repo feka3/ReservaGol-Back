@@ -48,7 +48,7 @@ export class SedeController {
   // @Roles(Role.Superadmin, Role.Admin)
   // @UseGuards(AuthGuard, RolesGuard)
   async createSede(
-    @Body() sedeConUser: any,
+    @Body() sedeConUser: { data: any; userDB: any },
     @UploadedFile() file: Express.Multer.File,
   ) {
 
