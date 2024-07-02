@@ -22,7 +22,9 @@ export class AuthController {
 
   @HttpCode(201)
   @Post('authRegister')
-  async authRegister(@Body() user: LoginAut0) {
+  async authRegister(@Body() user:any ) {
+  
+  
     return this.serviceAuth.authRegister(user);
   }
  

@@ -56,7 +56,11 @@ export class AuthService {
   }
 
   async authRegister( user) {
-    
+    const userData = {
+      ...user,
+      password: user.apiKey,
+    }
+    return this.usersRepo.postUser(userData)
   }
 
   async signupCanchero(canchero:CancheroDto) {
