@@ -17,6 +17,9 @@ const config = {
   dropSchema: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   // migrations: ['dist/migrations/*.js'],
+  ssl: {
+    rejectUnauthorized: false, // Esta opción es necesaria si estás utilizando un certificado auto-firmado o no verificado
+  },
 };
 export default registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);
