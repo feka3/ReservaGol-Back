@@ -6,20 +6,31 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
+import { Cancha } from '../cancha/cancha.entity';
+import { Status } from './status.enum';
 
 @Entity({
   name: 'turnos',
 })
-export class Appointment {
+export class Turno {
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column()
-  date: Date;
+  date: string;
 
-  // @ManyToOne(() => Court, (court) => court.appointments)
-  // @JoinColumn({ name: "court_id" })
-  // court = Court;
+  @Column()
+  time: string;
 
-  @ManyToOne(() => User, (user) => user.appointments)
-  user = User;
+  @Column({type:"enum", enum: Status, default: Status.Activo})
+  status: Status
+
+  @ManyToOne(() => Cancha, (cancha) => cancha.turnos)
+  @JoinColumn({ name: "cancha_id" })
+  cancha: Cancha;
+
+  @ManyToOne(() => User, (user) => user.turnos)
+  @JoinColumn({ name: "user_id" })
+  user: User;
 }
