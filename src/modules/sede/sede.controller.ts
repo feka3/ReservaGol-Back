@@ -43,7 +43,6 @@ export class SedeController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     const { data, userDB } = sedeConUser;
-
     const user = userDB.userDb;
     const sede: CreateSedeDto = data;
     sede.user = user.id;
