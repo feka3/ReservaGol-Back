@@ -45,14 +45,14 @@ export class User {
   /** 
   * @example 01/01/1999
   */
-  // @Column()
-  // birthdate: string;
+  @Column({nullable:true})
+  birthdate: string;
 
   /** 
   * @example 12345678
   */
-  // @Column()
-  // dni: number;
+  @Column({nullable:true})
+  dni: number;
 
   /** 
   * @example +5491112345678
@@ -63,14 +63,14 @@ export class User {
   /** 
   * @example Ejemplo
   */
-  // @Column({ length: 50 })
-  // city: string
+  @Column({ length: 50, nullable:true })
+  city: string
 
   /** 
   * @example CalleEjemplo
   */
-  // @Column()
-  // address: string;
+  @Column({nullable:true})
+  address: string;
 
   /** 
   *  Por defecto se asigna imagen descriptiva "sin foto disponible" 
