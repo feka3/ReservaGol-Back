@@ -58,7 +58,7 @@ export class AuthService {
   async authRegister( user) {
     const userData = {
       ...user,
-      password: user.apiKey,
+      password: user.uid,
     }
     return this.usersRepo.postUser(userData)
   }
