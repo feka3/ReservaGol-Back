@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Cancha } from '../cancha/cancha.entity';
+import { Status } from './status.enum';
 
 @Entity({
   name: 'turnos',
@@ -17,13 +18,19 @@ export class Turno {
   id: string;
 
   @Column()
-  date: Date;
+  date: string;
+
+  @Column()
+  time: string;
+
+  @Column({type:"enum", enum: Status, default: Status.Activo})
+  status: Status
 
   @ManyToOne(() => Cancha, (cancha) => cancha.turnos)
   @JoinColumn({ name: "cancha_id" })
-  cancha = Cancha;
+  cancha: Cancha;
 
   @ManyToOne(() => User, (user) => user.turnos)
   @JoinColumn({ name: "user_id" })
-  user = User;
+  user: User;
 }
