@@ -15,9 +15,6 @@ import { Cancha } from 'src/modules/cancha/cancha.entity';
 @Injectable()
 export class SeederService implements OnModuleInit {
   constructor(
-    private readonly sedeRepository: SedeRepository,
-    private readonly canchaRepository: CanchaRepository,
-    private readonly serviceAuth: AuthService,
     @InjectRepository(User) private readonly user: Repository<User>,
     @InjectRepository(Sede) private readonly sede: Repository<Sede>,
     @InjectRepository(Cancha) private readonly cancha: Repository<Cancha>,
@@ -85,29 +82,3 @@ export class SeederService implements OnModuleInit {
     }
   }
 }
-
-
-
-
-
-// async seedCanchas(sedes) {
-//   for (const sede of sedes) {
-//     if (sede.canchas) {
-//       for (const cancha of sede.canchas) {
-//         await this.canchaRepository.createCancha({
-//           name: cancha.name,
-//           price: cancha.price,
-//           sport: cancha.sport,
-//           type: cancha.type,
-//           player: cancha.player,
-//           timeopen: cancha.timeopen,
-//           timeclose: cancha.timeclose,
-//           techado: cancha.techado,
-//           sedeName: sede.name,
-//         }, cancha.imgUrl);
-//       }
-//     }
-//   }
-// }
-
-
