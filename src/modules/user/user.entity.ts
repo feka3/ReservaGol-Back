@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from './roles.enum';
-import { Appointment } from 'src/modules/turno/turno.entity';
+import { Turno } from 'src/modules/turno/turno.entity';
 import { Sede } from '../sede/sede.entity';
 
 @Entity({
@@ -98,6 +98,6 @@ export class User {
   /**
    * Listado de Reservas asociadas al usuario
    */
-  @OneToMany(() => Appointment, (appointment) => appointment.user)
-  appointments: Appointment[];
+  @OneToMany(() => Turno, (turno) => turno.user)
+  turnos: Turno[];
 }

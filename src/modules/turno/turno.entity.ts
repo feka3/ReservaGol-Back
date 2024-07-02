@@ -11,7 +11,7 @@ import { Cancha } from '../cancha/cancha.entity';
 @Entity({
   name: 'turnos',
 })
-export class Appointment {
+export class Turno {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -19,11 +19,11 @@ export class Appointment {
   @Column()
   date: Date;
 
-  @ManyToOne(() => Cancha, (cancha) => cancha.appointments)
+  @ManyToOne(() => Cancha, (cancha) => cancha.turnos)
   @JoinColumn({ name: "cancha_id" })
   cancha = Cancha;
 
-  @ManyToOne(() => User, (user) => user.appointments)
+  @ManyToOne(() => User, (user) => user.turnos)
   @JoinColumn({ name: "user_id" })
   user = User;
 }
