@@ -17,7 +17,7 @@ export class UserRepository {
 
         const user = await this.userRepository.findOne({
             where: { id: userId },
-            relations: ['sedes'],
+            relations: ["sedes", "turnos"],
         });
 
         if (!user) {

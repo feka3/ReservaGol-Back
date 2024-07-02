@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -93,11 +94,13 @@ export class User {
    * Listado de Sedes asociadas al usuario
    */
   @OneToMany(() => Sede, (sede) => sede.user)
+  @JoinColumn({name: "sede_id"})
   sedes: Sede[];
 
   /**
    * Listado de Reservas asociadas al usuario
    */
   @OneToMany(() => Turno, (turno) => turno.user)
+  @JoinColumn({name: "turno_id"})
   turnos: Turno[];
 }
