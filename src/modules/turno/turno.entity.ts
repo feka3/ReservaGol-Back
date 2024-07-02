@@ -6,6 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
+import { Cancha } from '../cancha/cancha.entity';
 
 @Entity({
   name: 'turnos',
@@ -16,9 +17,9 @@ export class Appointment {
   @Column()
   date: Date;
 
-  // @ManyToOne(() => Court, (court) => court.appointments)
-  // @JoinColumn({ name: "court_id" })
-  // court = Court;
+  @ManyToOne(() => Cancha, (cancha) => cancha.appointments)
+  @JoinColumn({ name: "cancha_id" })
+  cancha = Cancha;
 
   @ManyToOne(() => User, (user) => user.appointments)
   user = User;
