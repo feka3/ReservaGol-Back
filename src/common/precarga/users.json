@@ -1,0 +1,26 @@
+[
+  {
+    "name": "TestUser",
+    "email": "testuser@example.com",
+    "password": "aaBBcc123!",
+    "phone": "+5491112345678",
+    "imgUrl": "https://ejemplo.com/imagen-por-defecto.jpg",
+    "role": "user"
+  },
+  {
+    "name": "TestAdmin",
+    "email": "testadmin@example.com",
+    "password": "aaBBcc123!",
+    "phone": "+5491112345678",
+    "imgUrl": "https://ejemplo.com/imagen-por-defecto.jpg",
+    "role": "admin"
+  },
+  {
+    "name": "TestSuperAmin",
+    "email": "testsuperadmin@example.com",
+    "password": "aaBBcc123!",
+    "phone": "+5491112345678",
+    "imgUrl": "https://ejemplo.com/imagen-por-defecto.jpg",
+    "role": "superadmin"
+  }
+]
