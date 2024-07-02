@@ -3,6 +3,7 @@
 /node_modules
 /build
 package-lock.json
+src/config/typeorm.ts
 
 package-lock.json
 
