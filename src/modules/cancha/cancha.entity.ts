@@ -5,7 +5,9 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import { Turno } from '../turno/turno.entity';
 
 @Entity({
   name: 'canchas',
@@ -48,7 +50,7 @@ export class Cancha {
   @JoinColumn({ name: 'sede_id' })
   sede: Sede;
 
-  // @OneToMany(() => Appointment, (appointment) => appointment.court)
-  // @JoinColumn({ name: 'appointment_id' })
-  // appointments: Appointment[];
+  @OneToMany(() => Turno, (turno) => turno.cancha)
+  @JoinColumn({ name: 'turno_id' })
+  turnos: Turno[];
 }

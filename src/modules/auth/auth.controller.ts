@@ -2,7 +2,6 @@ import { Body, Controller, HttpCode, HttpException, NotFoundException, Post } fr
 import { AuthService } from './auth.service';
 import { CancheroDto, LoginDto, UserDto } from './auth.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { log } from 'console';
 
 @ApiTags('Auth')
 @Controller('auth')

@@ -8,8 +8,7 @@ import { Request } from 'express';
 
 import { UserService } from './user.service';
 
-
-@ApiTags('user')
+@ApiTags('Usuario')
 @Controller('user')
 export class UserController {
 
