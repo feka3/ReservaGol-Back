@@ -1,6 +1,11 @@
 
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+
+const { requiresAuth } = require('express-openid-connect');
+import { Request } from 'express';
+
+
 import { UserService } from './user.service';
 
 @ApiTags('Usuario')
@@ -10,6 +15,8 @@ export class UserController {
     constructor(
         private readonly userService: UserService) {}
 
+  
+   
 
     @Get(":id")
     async getUserById(@Param("id") id: string) {

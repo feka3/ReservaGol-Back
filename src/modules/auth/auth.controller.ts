@@ -1,6 +1,6 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpException, NotFoundException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CancheroDto, LoginDto, UserDto } from './auth.dto';
+import { CancheroDto, LoginAut0, LoginDto, UserDto } from './auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')
@@ -19,6 +19,16 @@ export class AuthController {
   async signup(@Body() user: UserDto) {
     return this.serviceAuth.signup(user);
   }
+
+  @HttpCode(201)
+  @Post('authRegister')
+  async authRegister(@Body() user:any ) {
+  
+  
+    return this.serviceAuth.authRegister(user);
+  }
+ 
+
 
   @Post('signup/admin')
   async signupCanchero(@Body() canchero: CancheroDto) {
