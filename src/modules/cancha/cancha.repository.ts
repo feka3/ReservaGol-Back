@@ -53,7 +53,7 @@ export class CanchaRepository {
   async getCanchaById(id: string) {
     const cancha = await this.canchaRepository.findOne({
       where: { id: id },
-      relations: ['sede'],
+      relations: ['sede', "turnos"],
     });
     return cancha;
   }
