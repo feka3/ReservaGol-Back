@@ -51,8 +51,9 @@ export class SeederService implements OnModuleInit {
 
   async seedSedes() {
     const user = await this.user.findOne({
-      where: { rol: Role['admin'] },
+      where: { rol: Role.Admin },
     });
+
     for (const sedeData of data) {
       const sedeEntity = new Sede();
       sedeEntity.name = sedeData.name;
