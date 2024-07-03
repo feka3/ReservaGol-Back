@@ -3,17 +3,23 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { SedeService } from './sede.service';
 import { CreateSedeDto } from './dto/createSede.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles } from 'src/decorator/roles.decorator';
+import { Role } from '../user/roles.enum';
+import { AuthGuard } from 'src/common/guards/auth.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @ApiTags('Sede')
 @Controller('sede')
@@ -38,21 +44,29 @@ export class SedeController {
   @ApiOperation({ summary: 'Create sede', description: 'Create sede' })
   @Post()
   @UseInterceptors(FileInterceptor('file'))
+  // @ApiBearerAuth()
+  // @Roles(Role.Superadmin, Role.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
   async createSede(
     @Body() sedeConUser: { data: any; userDB: any },
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const { data, userDB } = sedeConUser;
-    const user = userDB.userDb;
-    const sede: CreateSedeDto = data;
-    sede.user = user.id;
-    if (!file) {
-      return this.sedeService.createSede(sede);
-    }
+    try {
+      const { data, userDB } = sedeConUser;
 
-    const uploadResult = await this.cloudinaryService.uploadImage(file);
-    const imgUrl = uploadResult.secure_url;
-    return await this.sedeService.createSede({ ...sede, imgUrl });
+      const user = userDB.userDb;
+      const sede: CreateSedeDto = data;
+      sede.user = user.id;
+      if (!file) {
+        return this.sedeService.createSede(sede);
+      }
+
+      const uploadResult = await this.cloudinaryService.uploadImage(file);
+      const imgUrl = uploadResult.secure_url;
+      return await this.sedeService.createSede({ ...sede, imgUrl });
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 
   @ApiOperation({

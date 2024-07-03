@@ -1,11 +1,12 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from '../user/user.repository';
 import { JwtService } from '@nestjs/jwt';
-import { CancheroDto, UserDto } from './auth.dto';
+import { CancheroDto, LoginAut0, UserDto } from './auth.dto';
 import { UserController } from '../user/user.controller';
 
 @Injectable()
@@ -19,7 +20,7 @@ export class AuthService {
     if (!email || !password) return 'Datos incompletos';
 
     const userDb = await this.usersRepo.getUserEmail(email);
-    console.log(userDb);
+    //console.log(userDb,' prueba');
     if (!userDb) {
       throw new BadRequestException('Credenciales incorrectas');
     }
@@ -53,6 +54,14 @@ export class AuthService {
     }
 
     return await this.usersRepo.postUser({ ...user, password: passwordHash });
+  }
+
+  async authRegister( userData : any) {
+    
+    const validar= await this.usersRepo.getUserEmail(userData.email)
+    if(validar){ await this.singIn(userData.email, userData.password)}
+
+    return this.usersRepo.postUser(userData)
   }
 
   async signupCanchero(canchero:CancheroDto) {

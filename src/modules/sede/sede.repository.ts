@@ -7,7 +7,7 @@ import { Sede } from './sede.entity';
 export class SedeRepository {
   constructor(
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
-  ) {}
+  ) { }
 
   async getSedes(): Promise<Sede[]> {
     return await this.sedeRepository
@@ -30,12 +30,17 @@ export class SedeRepository {
   }
 
   async createSede(sede: any & { imgUrl: string }) {
-    const sedeExist = await this.sedeRepository.findOneBy({ name: sede.name });
-    if (sedeExist) {
-      throw new NotFoundException(`La sede ${sede.name} ya existe`);
+    try {
+      const sedeExist = await this.sedeRepository.findOneBy({ name: sede.name });
+      if (sedeExist) {
+        throw new NotFoundException(`La sede ${sede.name} ya existe`);
+      }
+      const newSede = this.sedeRepository.create(sede);
+      return await this.sedeRepository.save(newSede);
+
+    } catch (error) {
+      throw new NotFoundException(error);
     }
-    const newSede = this.sedeRepository.create(sede);
-    return await this.sedeRepository.save(newSede);
   }
 
   async deleteSedeByid(id: string) {

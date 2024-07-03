@@ -3,8 +3,8 @@
 /node_modules
 /build
 package-lock.json
+src/config/typeorm.ts
 
-package-lock.json
 
 # Logs
 logs
@@ -39,7 +39,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
-.env.development
+.env.develoment
 .env
 .env.development.local
 .env.test.local
