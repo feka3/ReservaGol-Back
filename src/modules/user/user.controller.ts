@@ -15,13 +15,14 @@ export class UserController {
     constructor(
         private readonly userService: UserService) {}
 
-  
-   
-
+    @Get()
+    async getUsers() {
+        return this.userService.getUsers()
+    }
+        
     @Get(":id")
     async getUserById(@Param("id") id: string) {
         return await this.userService.getUserById(id);
     }
-    
-   
+
 }
