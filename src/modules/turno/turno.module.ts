@@ -6,11 +6,17 @@ import { Turno } from './turno.entity';
 import { TurnoRepository } from './turno.repository';
 import { User } from '../user/user.entity';
 import { Cancha } from '../cancha/cancha.entity';
-import { EmailService } from "../email/email.service";
+import { EmailService } from '../email/email.service';
+import { TurnoGeneratorService } from './turnoGenerator.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Turno, User, Cancha])],
-  providers: [TurnoService, TurnoRepository, EmailService],
-  controllers: [TurnoController]
+  providers: [
+    TurnoService,
+    TurnoRepository,
+    EmailService,
+    TurnoGeneratorService,
+  ],
+  controllers: [TurnoController],
 })
 export class TurnoModule {}
