@@ -11,6 +11,10 @@ export class TurnoService {
         return await this.turnoRepository.createTurno(turno)
     }
 
+    async getTurnoById(id: string) {
+        return await this.turnoRepository.getTurnoById(id)
+    }
+
     async cancelTurno(id: string) {
         return await this.turnoRepository.cancelTurno(id)
     }
