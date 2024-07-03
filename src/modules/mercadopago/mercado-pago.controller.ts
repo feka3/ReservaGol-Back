@@ -7,8 +7,6 @@ export class MercadoPagoController {
 
   @Post('create_preference')
   async createPreference(@Body() createPreferenceDto: any) {
-    return await this.mercadoPagoService.createPreference(
-      createPreferenceDto.items,
-    );
+    return await this.mercadoPagoService.createPreference(createPreferenceDto);
   }
 }

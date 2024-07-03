@@ -8,4 +8,4 @@ import { MercadoPagoService } from './mercado-pago.service';
   controllers: [MercadoPagoController],
   providers: [MercadoPagoService],
 })
-export class AppModule {}
+export class MercadopagoModule {}
