@@ -27,7 +27,7 @@ export class SedeController {
   constructor(
     private readonly sedeService: SedeService,
     private readonly cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   @ApiOperation({ summary: 'Get all sedes', description: 'Get all sedes' })
   @Get()
@@ -51,9 +51,7 @@ export class SedeController {
     @Body() sedeConUser: { data: any; userDB: any },
     @UploadedFile() file: Express.Multer.File,
   ) {
-
     try {
-
       const { data, userDB } = sedeConUser;
 
       const user = userDB.userDb;
