@@ -13,15 +13,16 @@ export class SedeRepository {
     return await this.sedeRepository
       .createQueryBuilder('sede')
       .leftJoinAndSelect('sede.canchas', 'cancha')
+      .leftJoinAndSelect('cancha.turnos', 'turnos')
       .leftJoinAndSelect('sede.user', 'user')
-      .select(['sede', 'cancha', 'user.id']) // Seleccionar solo la ID del usuario
+      .select(['sede', 'cancha', 'turnos', 'user.id']) // Seleccionar solo la ID del usuario
       .getMany();
   }
 
   async getSedeById(id: string): Promise<Sede> {
     const sede = await this.sedeRepository.findOne({
       where: { id },
-      relations: ['canchas'],
+      relations: ['canchas', 'canchas.turnos', 'user'],
     });
     if (!sede) {
       throw new NotFoundException('Sede no encontrada');
