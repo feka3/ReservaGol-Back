@@ -51,10 +51,12 @@ export class SedeController {
     @Body() formData: CreateSedeDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(file, formData);
-
     try {
+      const { data, userDB } = sedeConUser;
 
+      const user = userDB.userDb;
+      const sede: CreateSedeDto = data;
+      sede.user = user.id;
       if (!file) {
         throw new NotFoundException('File not found');
       }

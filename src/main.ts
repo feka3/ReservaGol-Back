@@ -3,13 +3,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MiddlewareGlobal } from './common/middlewares/global.middleware';
-import * as dotenv from "dotenv"
+import * as dotenv from 'dotenv';
 
-dotenv.config({ path: ".env.development" })
+dotenv.config();
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.use(MiddlewareGlobal)
+  
+  async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+    
+    app.use(MiddlewareGlobal)
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -38,4 +41,5 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT);
 }
+
 bootstrap();

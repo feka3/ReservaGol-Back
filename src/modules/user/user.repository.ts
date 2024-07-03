@@ -13,6 +13,10 @@ export class UserRepository {
         private readonly userRepository: Repository<User>) { }
 
 
+    async getUsers(){
+        return this.userRepository.find()
+    }
+
     async getUserById(userId: string): Promise<User> {
 
         const user = await this.userRepository.findOne({
@@ -35,6 +39,8 @@ export class UserRepository {
 
         return noPassword;
     }
+
+    
 
     async signupCanchero(canchero) {
         const { password } = canchero;

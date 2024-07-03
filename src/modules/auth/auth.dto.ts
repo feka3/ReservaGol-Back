@@ -80,5 +80,8 @@ export class CancheroDto {
 export class UserDto extends PickType(CancheroDto, ["name", "email", "password", "confirmPassword", "phone"]) {
 }
 
+export class LoginAut0 extends PickType(CancheroDto, ["email", "name", "password"]) {
+}
+
 export class LoginDto extends PickType(CancheroDto, ["email", "password"]) {
 }
