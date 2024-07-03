@@ -14,7 +14,7 @@ export class UserRepository {
 
 
     async getUsers(){
-        return this.userRepository.find()
+        return this.userRepository.find({relations: ["sedes", "turnos"]})
     }
 
     async getUserById(userId: string): Promise<User> {

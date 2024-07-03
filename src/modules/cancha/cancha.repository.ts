@@ -47,7 +47,7 @@ export class CanchaRepository {
   }
 
   async getCanchas() {
-    return await this.canchaRepository.find();
+    return await this.canchaRepository.find({relations: ["sede", "turnos"]});
   }
 
   async getCanchaById(id: string) {
