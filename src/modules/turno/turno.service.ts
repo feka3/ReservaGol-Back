@@ -10,4 +10,8 @@ export class TurnoService {
     async createTurno(turno: TurnoDto) {
         return await this.turnoRepository.createTurno(turno)
     }
+
+    async cancelTurno(id: string) {
+        return await this.turnoRepository.cancelTurno(id)
+    }
 }

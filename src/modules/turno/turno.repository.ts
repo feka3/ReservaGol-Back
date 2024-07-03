@@ -44,4 +44,16 @@ export class TurnoRepository {
         return "El turno fue creado con éxito";
 
     }
+
+    async cancelTurno(id: string) {
+
+        const turnoFinded = await this.turnoRepository.findOne({where:{id: id}, relations: ["cancha", "user"]})
+
+        if(!turnoFinded) return new NotFoundException("El turno que desea cancelar no existe")
+
+        turnoFinded.status = Status.Cancelado
+        await this.turnoRepository.save(turnoFinded)
+
+        return (`El turno con id: ${turnoFinded.id} ha sido cancelado con éxito.`)
+}
 }
