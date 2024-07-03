@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SedeRepository } from './sede.repository';
-import { CreateSedeDto } from './dto/createSede.dto';
+import { CreateSedeDto, UpdateSedeDto } from './dto/createSede.dto';
 
 @Injectable()
 export class SedeService {
@@ -16,6 +16,10 @@ export class SedeService {
 
   async createSede(sede: CreateSedeDto & { imgUrl: string }) {
     return await this.sedeRepository.createSede(sede);
+  }
+
+  async updateSede(sede: UpdateSedeDto & { imgUrl: string }, id: string) {
+    return await this.sedeRepository.updateSede(sede, id);
   }
 
   async deleteSedeByid(id: string) {
