@@ -67,9 +67,9 @@ export class SedeController {
   }
 
   @ApiOperation({ summary: 'Update sede', description: 'Update sede' })
-  // @ApiBearerAuth()
-  // @Roles(Role.Superadmin, Role.Admin)
-  // @UseGuards(AuthGuard, RolesGuard)
+  @ApiBearerAuth()
+  @Roles(Role.Superadmin, Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Put(':id')
   async updateSede(
     @Param('id', ParseUUIDPipe) id: string,
