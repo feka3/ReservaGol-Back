@@ -6,7 +6,7 @@ import { Turno } from "./turno.entity";
 import { User } from "../user/user.entity";
 import { Cancha } from "../cancha/cancha.entity";
 import { Status } from "./status.enum";
-import { EmailService } from "src/common/email/email.service";
+import { EmailService } from "../email/email.service";
 
 @Injectable()
 export class TurnoRepository {

@@ -10,7 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SeederModule } from './common/precarga/seerder.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
-import { EmailModule } from './common/email/email.module';
+import { EmailModule } from './modules/email/email.module';
 
 
 

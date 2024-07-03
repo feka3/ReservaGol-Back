@@ -6,7 +6,7 @@ import { Turno } from './turno.entity';
 import { TurnoRepository } from './turno.repository';
 import { User } from '../user/user.entity';
 import { Cancha } from '../cancha/cancha.entity';
-import { EmailService } from 'src/common/email/email.service';
+import { EmailService } from "../email/email.service";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Turno, User, Cancha])],
