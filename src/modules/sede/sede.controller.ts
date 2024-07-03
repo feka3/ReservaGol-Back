@@ -52,11 +52,7 @@ export class SedeController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     try {
-      const { data, userDB } = sedeConUser;
 
-      const user = userDB.userDb;
-      const sede: CreateSedeDto = data;
-      sede.user = user.id;
       if (!file) {
         throw new NotFoundException('File not found');
       }
@@ -68,6 +64,7 @@ export class SedeController {
       throw new NotFoundException(error);
     }
   }
+
 
   @ApiOperation({
     summary: 'Delete sede by id',
