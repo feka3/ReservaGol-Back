@@ -22,10 +22,18 @@ export class AuthController {
 
   @HttpCode(201)
   @Post('authRegister')
-  async authRegister(@Body() user:any ) {
+  async authRegister(@Body() dataGoogle:any ) {
+    console.log(dataGoogle, 'aca')
+    
+    const userData = {
+      ...dataGoogle,
+      name: dataGoogle.displayName,
+      password: dataGoogle.uid,
+    }
+    //console.log(userData)
   
   
-    return this.serviceAuth.authRegister(user);
+    return this.serviceAuth.authRegister(userData );
   }
  
 
