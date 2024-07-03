@@ -7,12 +7,13 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { SedeService } from './sede.service';
-import { CreateSedeDto } from './dto/createSede.dto';
+import { CreateSedeDto, UpdateSedeDto } from './dto/createSede.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -44,9 +45,9 @@ export class SedeController {
   @ApiOperation({ summary: 'Create sede', description: 'Create sede' })
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  // @ApiBearerAuth()
-  // @Roles(Role.Superadmin, Role.Admin)
-  // @UseGuards(AuthGuard, RolesGuard)
+  @ApiBearerAuth()
+  @Roles(Role.Superadmin, Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   async createSede(
     @Body() formData: CreateSedeDto,
     @UploadedFile() file: Express.Multer.File,
@@ -65,11 +66,29 @@ export class SedeController {
     }
   }
 
+  @ApiOperation({ summary: 'Update sede', description: 'Update sede' })
+  @ApiBearerAuth()
+  @Roles(Role.Superadmin, Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Put(':id')
+  async updateSede(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() sede: UpdateSedeDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const uploadResult = await this.cloudinaryService.uploadImage(file);
+    const imgUrl = uploadResult.secure_url;
+
+    return await this.sedeService.updateSede({ ...sede, imgUrl }, id);
+  }
 
   @ApiOperation({
     summary: 'Delete sede by id',
     description: 'Delete sede by id',
   })
+  @ApiBearerAuth()
+  @Roles(Role.Superadmin, Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Delete(':id')
   async deleteSede(@Param('id', ParseUUIDPipe) id: string) {
     await this.sedeService.deleteSedeByid(id);

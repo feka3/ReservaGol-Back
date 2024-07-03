@@ -22,3 +22,21 @@ export class CreateSedeDto {
     @IsOptional()
     imgUrl: string;
 }
+
+export class UpdateSedeDto {
+
+    @IsOptional()
+    @IsString()
+    name: string;
+
+    @IsOptional()
+    @IsString()
+    location: string;
+
+    @IsOptional()
+    @IsString()
+    description: string;
+
+    @IsOptional()
+    imgUrl: string;
+}
