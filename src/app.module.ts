@@ -11,6 +11,10 @@ import { SeederModule } from './common/precarga/seerder.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { MercadopagoModule } from './modules/mercadopago/mercado-pago.module';
+import { EmailModule } from './modules/email/email.module';
+
+
+
 
 @Module({
   imports: [
@@ -20,6 +24,7 @@ import { MercadopagoModule } from './modules/mercadopago/mercado-pago.module';
       useFactory: (ConfigService: ConfigService) =>
         ConfigService.get('typeorm'),
     }),
+
     UserModule,
     SedeModule,
     MercadopagoModule,
@@ -28,6 +33,8 @@ import { MercadopagoModule } from './modules/mercadopago/mercado-pago.module';
     AuthModule,
     SeederModule,
     CloudinaryModule,
+    EmailModule,
+
     JwtModule.register({
       global: true,
       signOptions: { expiresIn: '1h' },
