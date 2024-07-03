@@ -23,7 +23,7 @@ export class Turno {
   @Column()
   time: string;
 
-  @Column({type:"enum", enum: Status, default: Status.Activo})
+  @Column({type:"enum", enum: Status, default: Status.Pendiente})
   status: Status
 
   @ManyToOne(() => Cancha, (cancha) => cancha.turnos)
