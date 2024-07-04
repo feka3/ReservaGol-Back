@@ -15,7 +15,6 @@ export class TurnoGeneratorService {
   async generateTurnos() {
     const canchas = await this.canchaRepository.find();
     const dates = this.getNext15Days();
-    console.log(canchas);
     for (const cancha of canchas) {
       const open = parseInt(cancha.timeopen.split(':')[0], 10);
       const close = parseInt(cancha.timeclose.split(':')[0], 10);
@@ -33,6 +32,7 @@ export class TurnoGeneratorService {
         }
       }
     }
+    return 'Turnos generados exitosamente';
   }
 
   private getNext15Days() {

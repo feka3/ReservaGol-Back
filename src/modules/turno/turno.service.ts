@@ -7,8 +7,8 @@ export class TurnoService {
 
     constructor(private readonly turnoRepository: TurnoRepository) { }
 
-    async createTurno(turno: TurnoDto) {
-        return await this.turnoRepository.createTurno(turno)
+    async createTurno(turno, user) {
+        return await this.turnoRepository.createTurno(turno, user)
     }
 
     async getTurnoById(id: string) {
