@@ -6,15 +6,15 @@ import {
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from '../user/user.repository';
 import { JwtService } from '@nestjs/jwt';
-import { CancheroDto, LoginAut0, UserDto } from './auth.dto';
-import { UserController } from '../user/user.controller';
+import { CancheroDto} from './auth.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersRepoitory: UserRepository,
     private readonly jwtservice: JwtService,
-  ) { }
+    private readonly emailService: EmailService) { }
 
   async singIn(email, password) {
     if (!email || !password) return 'Datos incompletos';
@@ -52,6 +52,13 @@ export class AuthService {
     if (!passwordHash) {
       throw new BadRequestException('Error al hashear la contraseña');
     }
+
+    const emailSubject = 'Registro Exitoso';
+    const emailText = `Hola ${user.name}, has sido registrado con éxito! Ya podes empezar a disfrutar de nuestros servicios de reservas`;
+    const emailHtml = `<p>Hola ${user.name}</p><p>Has sido registrado con éxito! Ya podes empezar a disfrutar de nuestros servicios de reservas.</p>`;
+
+    await this.emailService.sendEmail(user.email, emailSubject, emailText, emailHtml);
+
 
     return await this.usersRepoitory.postUser({ ...user, password: passwordHash });
   }

@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Sede } from './sede.entity';
 import { Cancha } from '../cancha/cancha.entity';
 import { CloudinaryModule } from '../cloudinary/cloudinary.module';
+import { EmailService } from '../email/email.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Sede, Cancha]), CloudinaryModule],

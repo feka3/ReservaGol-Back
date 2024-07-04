@@ -65,6 +65,7 @@ export class CanchaController {
       const imgUrl = null;
       return this.canchaService.createCancha(cancha, imgUrl);
     }
+    console.log(cancha, 'estoy aca')
     const uploadResult = await this.cloudinaryService.uploadImageCancha(file);
     const imgUrl = uploadResult.secure_url;
     return this.canchaService.createCancha(cancha, imgUrl);
