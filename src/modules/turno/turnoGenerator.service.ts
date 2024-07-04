@@ -25,7 +25,7 @@ export class TurnoGeneratorService {
             date: date,
             time: `${i < 10 ? '0' + i : i}:00`,
             cancha: cancha,
-            status: Status.Activo,
+            status: Status.Libre,
           });
 
           await this.turnoRepository.save(turno);

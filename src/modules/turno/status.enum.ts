@@ -1,6 +1,6 @@
 
 export enum Status{
-    Activo = "activo",
-    Cancelado = "cancelado",
+    Libre = "libre",
+    Ocupado = "ocupado",
     Pendiente = "pendiente"
 }

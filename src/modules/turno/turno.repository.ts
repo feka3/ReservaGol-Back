@@ -26,7 +26,7 @@ export class TurnoRepository {
 
             const turnodb= await this.turnoRepository.findOne({where:{id: turno.id}})
             if(!turnodb) throw new NotFoundException('no se encontro turno')
-            if(turnodb.status != Status.Activo) throw new NotFoundException('turno reservado')
+            if(turnodb.status != Status.Libre) throw new NotFoundException('turno reservado')
 
             turnodb.user = userFinded
             turnodb.status= Status.Pendiente
@@ -50,7 +50,7 @@ export class TurnoRepository {
 
         if(!turnoFinded) return new NotFoundException("El turno que desea cancelar no existe")
 
-        turnoFinded.status = Status.Cancelado
+        turnoFinded.status = Status.Libre
         await this.turnoRepository.save(turnoFinded)
 
         const emailSubject = 'Turno cancelado con exito';
