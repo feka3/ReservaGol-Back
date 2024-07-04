@@ -40,7 +40,17 @@ export class UserRepository {
         return noPassword;
     }
 
-    
+    async updateUserById(user: Partial<User> & { imgFile: string }, id:string) {
+
+        const userFinded = await this.getUserById(id)
+
+        if(!userFinded) return new NotFoundException("Usuario no encontrado")
+
+        await this.userRepository.update(userFinded.id, user)
+
+        return ("El usuario ha sido actualizado con exito")
+
+    }
 
     async signupCanchero(canchero) {
         const { password } = canchero;
