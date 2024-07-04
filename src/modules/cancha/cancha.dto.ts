@@ -9,8 +9,13 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class canchaDto {
+
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
