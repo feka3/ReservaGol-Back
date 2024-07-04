@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TurnoService } from './turno.service';
 import { TurnoGeneratorService } from './turnoGenerator.service';
@@ -46,5 +56,12 @@ export class TurnoController {
   @Delete(':id')
   async cancelTurno(@Body('id') id: string) {
     return await this.turnoService.cancelTurno(id);
+  }
+  @Get('/payments/turno/:id')
+  async getPaymentTurno(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Res() res: Response,
+  ) {
+    return await this.turnoService.paymentFinish(id, res);
   }
 }
