@@ -4,18 +4,17 @@ import { TurnoRepository } from './turno.repository';
 
 @Injectable()
 export class TurnoService {
+  constructor(private readonly turnoRepository: TurnoRepository) {}
 
-    constructor(private readonly turnoRepository: TurnoRepository) { }
+  async takeTurno(turno, user) {
+    return await this.turnoRepository.takeTurno(turno, user);
+  }
 
-    async createTurno(turno, user) {
-        return await this.turnoRepository.createTurno(turno, user)
-    }
+  async getTurnoById(id: string) {
+    return await this.turnoRepository.getTurnoById(id);
+  }
 
-    async getTurnoById(id: string) {
-        return await this.turnoRepository.getTurnoById(id)
-    }
-
-    async cancelTurno(id: string) {
-        return await this.turnoRepository.cancelTurno(id)
-    }
+  async cancelTurno(id: string) {
+    return await this.turnoRepository.cancelTurno(id);
+  }
 }
