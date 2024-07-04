@@ -1,10 +1,8 @@
 import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { TurnoDto } from './turno.dto';
 import { TurnoService } from './turno.service';
 import { TurnoGeneratorService } from './turnoGenerator.service';
-import { User } from '../user/user.entity';
-import { Turno } from './turno.entity';
+
 @ApiTags('Turnos')
 @Controller('turno')
 export class TurnoController {
@@ -25,10 +23,10 @@ export class TurnoController {
   }
 
   @Post()
-  async createTurno(@Body() data:any) {
-    const {turno, user} = data
-    console.log(turno)
-    return await this.turnoService.createTurno(data.turno, data.user);
+  async takeTurnos(@Body() data: any) {
+    const { turno, user } = data;
+    console.log(turno);
+    return await this.turnoService.takeTurno(data.turno, data.user);
   }
 
   @Delete(':id')
