@@ -43,7 +43,7 @@ export class CanchaRepository {
     }
     const turnos = await this.createTurnos(cancha.timeopen, cancha.timeclose, 15);
     await this.turnoRepository.save(turnos);
-    
+
     const newCancha = this.canchaRepository.create({ ...cancha, sede: sede, turnos: turnos });
     newCancha.id
     const savedCancha = await this.canchaRepository.save(newCancha);
@@ -74,7 +74,7 @@ export class CanchaRepository {
         const turno = this.turnoRepository.create({
           date: horaInicio.toISOString().split('T')[0], // YYYY-MM-DD
           time: horaInicio.toISOString().split('T')[1].slice(0, 5), // HH:MM
-          status: Status.Activo,
+          status: Status.Libre,
         });
         turnos.push(turno);
         horaInicio = new Date(horaInicio.getTime() + duracionTurno);
