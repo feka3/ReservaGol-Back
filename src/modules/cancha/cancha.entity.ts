@@ -53,7 +53,7 @@ export class Cancha {
   type: string;
 
   /**
-   * cantidad de juagadores.
+   * Cantidad de jugadores.
    * @example 00
    */
   @Column()
