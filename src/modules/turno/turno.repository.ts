@@ -48,9 +48,9 @@ export class TurnoRepository {
         const emailHtml = `<p>Hola ${userFinded.name},</p><p>Tu turno ha sido reservado para el día <strong>${turno.date}</strong> a las <strong>${turno.time}</strong>.</p><p>Te recordamos que debe efectuarse el pago de la reserva para que quede confirmado.</p>`;
         
         // await this.emailService.sendEmail(userFinded.email, emailSubject, emailText, emailHtml);
-        await this.emailService.sendEmail('imogene.bergstrom79@ethereal.email', emailSubject, emailText, emailHtml)
+        await this.emailService.sendEmail('romigentile@hotmail.com', emailSubject, emailText, emailHtml)
     
-        return "El turno fue creado con éxito";
+        return ("El turno fue creado con éxito");
 
     }
 
