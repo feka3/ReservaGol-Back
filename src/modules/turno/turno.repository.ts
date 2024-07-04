@@ -10,7 +10,6 @@ import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class TurnoRepository {
-
   constructor(
     @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
     @InjectRepository(User) private userRepository: Repository<User>,
@@ -41,7 +40,12 @@ export class TurnoRepository {
     const emailText = `Hola ${userFinded.name}, tu turno ha sido reservado para el día ${turno.date} a las ${turno.time}. Te recordamos que debe efectuarse el pago de la reserva para que quede confirmado.`;
     const emailHtml = `<p>Hola ${userFinded.name},</p><p>Tu turno ha sido reservado para el día <strong>${turno.date}</strong> a las <strong>${turno.time}</strong>.</p><p>Te recordamos que debe efectuarse el pago de la reserva para que quede confirmado.</p>`;
 
-    await this.emailService.sendEmail(userFinded.email, emailSubject, emailText, emailHtml);
+    await this.emailService.sendEmail(
+      userFinded.email,
+      emailSubject,
+      emailText,
+      emailHtml,
+    );
 
     await this.turnoRepository.update(turnodb.id, turnodb);
 
@@ -64,8 +68,12 @@ export class TurnoRepository {
     const emailText = `Hola ${turnoFinded.user.name}, tu turno para el día ${turnoFinded.date} a las ${turnoFinded.time} ha sido cancelado.`;
     const emailHtml = `<p>Hola ${turnoFinded.user.name},</p><p>Tu turno para el día <strong>${turnoFinded.date}</strong> a las <strong>${turnoFinded.time}</strong> ha sido cancelado.</p>`;
 
-    await this.emailService.sendEmail(turnoFinded.user.email, emailSubject, emailText, emailHtml);
- 
+    await this.emailService.sendEmail(
+      turnoFinded.user.email,
+      emailSubject,
+      emailText,
+      emailHtml,
+    );
 
     return `El turno con id: ${turnoFinded.id} ha sido cancelado con éxito.`;
   }
@@ -82,5 +90,3 @@ export class TurnoRepository {
     return turnoFinded;
   }
 }
-
-

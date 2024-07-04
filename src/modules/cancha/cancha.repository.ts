@@ -20,8 +20,7 @@ export class CanchaRepository {
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
     @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
-
-  ) { }
+  ) {}
 
   async createCancha(cancha: canchaDto, imgUrl) {
     const sede = await this.sedeRepository.findOne({
@@ -34,42 +33,80 @@ export class CanchaRepository {
     const canchas = sede.canchas;
     canchas.forEach((c) => {
       if (c.name === cancha.name) {
-        throw new HttpException('Cancha ya existente en esta sede', HttpStatus.CONFLICT);
+        throw new HttpException(
+          'Cancha ya existente en esta sede',
+          HttpStatus.CONFLICT,
+        );
       }
     });
 
     if (imgUrl) {
       cancha.imgUrl = imgUrl;
     }
-    const turnos = await this.createTurnos(cancha.timeopen, cancha.timeclose, 15);
+    const turnos = await this.createTurnos(
+      cancha.timeopen,
+      cancha.timeclose,
+      10,
+    );
     await this.turnoRepository.save(turnos);
 
-    const newCancha = this.canchaRepository.create({ ...cancha, sede: sede, turnos: turnos });
-    newCancha.id
+    const newCancha = this.canchaRepository.create({
+      ...cancha,
+      sede: sede,
+      turnos: turnos,
+    });
+    newCancha.id;
     const savedCancha = await this.canchaRepository.save(newCancha);
-    console.log(turnos)
+    console.log(turnos);
     return {
       message: 'creada',
-      savedCancha
+      savedCancha,
     };
   }
 
-
-  async createTurnos(timeopen: string, timeclose: string, days): Promise<Turno[]> {
+  async createTurnos(
+    timeopen: string,
+    timeclose: string,
+    days,
+  ): Promise<Turno[]> {
     const turnos = [];
     let [openHour, openMinute] = timeopen.split(':').map(Number);
     let [closeHour, closeMinute] = timeclose.split(':').map(Number);
     let today = new Date();
-    let horaInicio = new Date(today.getFullYear(), today.getMonth(), today.getDate(), openHour, openMinute);
-    let horaFin = new Date(today.getFullYear(), today.getMonth(), today.getDate(), closeHour, closeMinute);
-    const duracionTurno = 60 * 60 * 1000; 
+    let horaInicio = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      openHour,
+      openMinute,
+    );
+    let horaFin = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      closeHour,
+      closeMinute,
+    );
+    const duracionTurno = 60 * 60 * 1000;
 
     for (let dayOffset = 0; dayOffset < days; dayOffset++) {
       let today = new Date();
       today.setDate(today.getDate() + dayOffset); // Incrementa el día actual por el offset
-      let horaInicio = new Date(today.getFullYear(), today.getMonth(), today.getDate(), openHour, openMinute);
-      let horaFin = new Date(today.getFullYear(), today.getMonth(), today.getDate(), closeHour, closeMinute);
-  
+      let horaInicio = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        openHour,
+        openMinute,
+      );
+      let horaFin = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        closeHour,
+        closeMinute,
+      );
+
       while (horaInicio.getTime() < horaFin.getTime()) {
         const turno = this.turnoRepository.create({
           date: horaInicio.toISOString().split('T')[0], // YYYY-MM-DD
@@ -79,19 +116,18 @@ export class CanchaRepository {
         turnos.push(turno);
         horaInicio = new Date(horaInicio.getTime() + duracionTurno);
       }
-
     }
     return turnos;
   }
 
   async getCanchas() {
-    return await this.canchaRepository.find({ relations: ["sede", "turnos"] });
+    return await this.canchaRepository.find({ relations: ['sede', 'turnos'] });
   }
 
   async getCanchaById(id: string) {
     const cancha = await this.canchaRepository.findOne({
       where: { id: id },
-      relations: ['sede', "turnos"],
+      relations: ['sede', 'turnos'],
     });
     return cancha;
   }

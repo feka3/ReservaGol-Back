@@ -18,5 +18,6 @@ import { TurnoGeneratorService } from './turnoGenerator.service';
     TurnoGeneratorService,
   ],
   controllers: [TurnoController],
+  exports: [TypeOrmModule],
 })
 export class TurnoModule {}
