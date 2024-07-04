@@ -17,31 +17,22 @@ export class TurnoRepository {
         @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
         private readonly emailService: EmailService) {}
 
-    async createTurno(turno: TurnoDto) {
-        
-        const userFinded = await this.userRepository.findOne({where:{id: turno.userId}, relations: ["turnos", "sedes"]});
+    async createTurno(turno: Turno, user:User) {
+        console.log(user.id)
+        console.log(turno.id)
+        console.log(user)
+        const userFinded= await this.userRepository.findOne({where:{id: user.id}})
+        if(!userFinded) throw new NotFoundException('no se encontro usuario')
 
-        if (!userFinded) {
-            return new NotFoundException('Usuario no encontrado')
-        }
+            const turnodb= await this.turnoRepository.findOne({where:{id: turno.id}})
+            if(!turnodb) throw new NotFoundException('no se encontro turno')
+            if(turnodb.status != Status.Activo) throw new NotFoundException('turno reservado')
 
-        const canchaFinded = await this.canchaRepository.findOne({where:{id: turno.canchaId}, relations: ["turnos", "sede"]});
+            turnodb.user = userFinded
+            turnodb.status= Status.Pendiente
 
-        for (let index = 0; index < canchaFinded.turnos.length; index++) {
-            if(canchaFinded.turnos[index].date === turno.date) {
-                if(canchaFinded.turnos[index].time === turno.time) {
-                    return new NotFoundException('Para el dia y horario seleccionado la cancha se encuentra ocupada')
-                }
-            }
-        }
 
-        const newTurno = new Turno()
-        newTurno.date = turno.date
-        newTurno.time = turno.time
-        newTurno.cancha = canchaFinded
-        newTurno.user = userFinded
-    
-        await this.turnoRepository.save(newTurno);
+
 
         const emailSubject = 'Turno reservado con éxito';
         const emailText = `Hola ${userFinded.name}, tu turno ha sido reservado para el día ${turno.date} a las ${turno.time}. Te recordamos que debe efectuarse la confirmación de la reserva para que quede confirmado.`;
@@ -49,8 +40,10 @@ export class TurnoRepository {
         
         // await this.emailService.sendEmail(userFinded.email, emailSubject, emailText, emailHtml);
         await this.emailService.sendEmail('imogene.bergstrom79@ethereal.email', emailSubject, emailText, emailHtml)
-    
-        return "El turno fue creado con éxito";
+
+        await this.turnoRepository.update(turnodb.id, turnodb);
+
+        return "El turno fue reservado con exito";
 
     }
 
