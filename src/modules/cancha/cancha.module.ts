@@ -14,8 +14,18 @@ import { User } from '../user/user.entity';
 import { EmailService } from '../email/email.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cancha, Sede, Turno,User]), CloudinaryModule],
+  imports: [
+    TypeOrmModule.forFeature([Cancha, Sede, Turno, User]),
+    CloudinaryModule,
+  ],
   controllers: [CanchaController],
-  providers: [CanchaService, CanchaRepository,TurnoRepository,UserRepository,EmailService],
+  providers: [
+    CanchaService,
+    CanchaRepository,
+    TurnoRepository,
+    UserRepository,
+    EmailService,
+  ],
+  exports: [TypeOrmModule],
 })
 export class CanchaModule {}

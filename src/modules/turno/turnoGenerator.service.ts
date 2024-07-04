@@ -4,6 +4,7 @@ import { Cancha } from '../cancha/cancha.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Status } from './status.enum';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class TurnoGeneratorService {
@@ -11,10 +12,10 @@ export class TurnoGeneratorService {
     @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
   ) {}
-
+  @Cron('0 0 */2 * *')
   async generateTurnos() {
     const canchas = await this.canchaRepository.find();
-    const dates = this.getNext15Days();
+    const dates = this.getNext10Days();
 
     const turnosExistentes = await this.turnoRepository.find({
       where: {
@@ -59,9 +60,9 @@ export class TurnoGeneratorService {
     return 'Turnos generados exitosamente';
   }
 
-  private getNext15Days() {
+  private getNext10Days() {
     const dates = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 10; i++) {
       const date = new Date();
       date.setDate(date.getDate() + i);
       dates.push(date.toISOString().split('T')[0]);

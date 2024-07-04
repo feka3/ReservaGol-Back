@@ -12,12 +12,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { MercadopagoModule } from './modules/mercadopago/mercado-pago.module';
 import { EmailModule } from './modules/email/email.module';
-
-
-
+import { ScheduleModule } from '@nestjs/schedule';
+import { TurnoGeneratorService } from './modules/turno/turnoGenerator.service';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, load: [typeOrmConfig] }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -42,6 +42,6 @@ import { EmailModule } from './modules/email/email.module';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [TurnoGeneratorService],
 })
 export class AppModule {}
