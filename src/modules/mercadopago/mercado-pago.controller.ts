@@ -6,7 +6,10 @@ export class MercadoPagoController {
   constructor(private mercadoPagoService: MercadoPagoService) {}
 
   @Post('create_preference')
-  async createPreference(@Body() createPreferenceDto: any) {
-    return await this.mercadoPagoService.createPreference(createPreferenceDto);
+  async createPreference(@Body() { preference, turno }: any) {
+    return await this.mercadoPagoService.createPreference({
+      preference,
+      turno,
+    });
   }
 }

@@ -89,4 +89,12 @@ export class TurnoRepository {
 
     return turnoFinded;
   }
+  async paymentFinish(id, res) {
+    let turnoPayment = await this.turnoRepository.findOne({
+      where: { id: id },
+    });
+    turnoPayment.status = Status.Ocupado;
+    await this.turnoRepository.save(turnoPayment);
+    return res.redirect(`${process.env.FRONTEND_URL}/PagoSuccess`);
+  }
 }

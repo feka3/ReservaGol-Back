@@ -9,7 +9,9 @@ export class TurnoService {
   async takeTurno(turno, user) {
     return await this.turnoRepository.takeTurno(turno, user);
   }
-
+  async paymentFinish(id, res) {
+    return await this.turnoRepository.paymentFinish(id, res);
+  }
   async getTurnoById(id: string) {
     return await this.turnoRepository.getTurnoById(id);
   }
