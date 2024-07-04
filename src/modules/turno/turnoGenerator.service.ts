@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Turno } from './turno.entity';
 import { Cancha } from '../cancha/cancha.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,23 +15,47 @@ export class TurnoGeneratorService {
   async generateTurnos() {
     const canchas = await this.canchaRepository.find();
     const dates = this.getNext15Days();
+
+    const turnosExistentes = await this.turnoRepository.find({
+      where: {
+        date: In(dates),
+      },
+    });
+
+    const turnosMap = new Map<string, boolean>();
+    for (const turno of turnosExistentes) {
+      const key = `${turno.date}-${turno.cancha.id}`;
+      turnosMap.set(key, true);
+    }
+
+    const newTurnos = [];
     for (const cancha of canchas) {
       const open = parseInt(cancha.timeopen.split(':')[0], 10);
       const close = parseInt(cancha.timeclose.split(':')[0], 10);
 
       for (const date of dates) {
+        const key = `${date}-${cancha.id}`;
+        if (turnosMap.has(key)) {
+          continue;
+        }
+
         for (let i = open; i < close; i++) {
-          const turno = this.turnoRepository.create({
+          const time = `${i < 10 ? '0' + i : i}:00`;
+          const turno = {
             date: date,
-            time: `${i < 10 ? '0' + i : i}:00`,
+            time: time,
             cancha: cancha,
             status: Status.Libre,
-          });
-
-          await this.turnoRepository.save(turno);
+          };
+          newTurnos.push(turno);
         }
       }
     }
+
+    if (newTurnos.length > 0) {
+      await this.turnoRepository.save(newTurnos);
+    }
+
     return 'Turnos generados exitosamente';
   }
 
