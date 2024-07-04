@@ -57,8 +57,7 @@ export class TurnoRepository {
         const emailText = `Hola ${turnoFinded.user.name}, tu turno para el día ${turnoFinded.date} a las ${turnoFinded.time} ha sido cancelado.`;
         const emailHtml = `<p>Hola ${turnoFinded.user.name},</p><p>Tu turno para el día <strong>${turnoFinded.date}</strong> a las <strong>${turnoFinded.time}</strong> ha sido cancelado.</p>`;
 
-        // await this.emailService.sendEmail(turnoFinded.user.email, emailSubject, emailText, emailHtml);
-        await this.emailService.sendEmail('imogene.bergstrom79@ethereal.email', emailSubject, emailText, emailHtml)
+        await this.emailService.sendEmail(turnoFinded.user.email, emailSubject, emailText, emailHtml);
 
         return (`El turno con id: ${turnoFinded.id} ha sido cancelado con éxito.`)
     }

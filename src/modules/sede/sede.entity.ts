@@ -12,29 +12,56 @@ import {
 
 @Entity({ name: 'sedes' })
 export class Sede {
+
+  /** 
+  * El ID de la sede se genera de forma automática.
+  * - Es del tipo UUID.
+  */ 
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  /**
+   * Nombre de la sede.
+   * @example SedeTest
+   */
   @Column({
     unique: true,
   })
   name: string;
 
+  /**
+  * Ubicacion de la sede.
+  * @example Ejemplo
+  */
   @Column()
   location: string;
 
+  /**
+  * Descripción de la sede.
+  * @example Descripcion
+  */
   @Column()
   description: string;
 
+  /** 
+  *  Por defecto se asigna imagen de perfil genérica.  
+  * @example "https://test.com/test.png"
+  */
   @Column({
-    default: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fclubflandria.com.ar%2F2023%2F09%2F10%2Fnueva-cancha-en-la-sede%2F&psig=AOvVaw2RDRQN2c-vK14is1izoJBa&ust=1719587209122000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOjSwN-H_IYDFQAAAAAdAAAAABAR',
+    default: 'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg',
   })
   imgUrl?: string;
 
+  /**
+   * Usuario asociado a la sede.
+   */
   @ManyToOne(() => User, (user) => user.sedes)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
+  /**
+   * Listado de canchas asociadas a la sede.
+   */
   @OneToMany(() => Cancha, (cancha) => cancha.sede, {
     cascade: true,
   })
