@@ -18,9 +18,6 @@ export class TurnoRepository {
   ) {}
 
   async takeTurno(turno: Turno, user: User) {
-    console.log(user.id);
-    console.log(turno.id);
-    console.log(user);
     const userFinded = await this.userRepository.findOne({
       where: { id: user.id },
     });
@@ -36,20 +33,9 @@ export class TurnoRepository {
     turnodb.user = userFinded;
     turnodb.status = Status.Pendiente;
 
-    const emailSubject = 'Turno reservado con éxito';
-    const emailText = `Hola ${userFinded.name}, tu turno ha sido reservado para el día ${turno.date} a las ${turno.time}. Te recordamos que debe efectuarse el pago de la reserva para que quede confirmado.`;
-    const emailHtml = `<p>Hola ${userFinded.name},</p><p>Tu turno ha sido reservado para el día <strong>${turno.date}</strong> a las <strong>${turno.time}</strong>.</p><p>Te recordamos que debe efectuarse el pago de la reserva para que quede confirmado.</p>`;
-
-    await this.emailService.sendEmail(
-      userFinded.email,
-      emailSubject,
-      emailText,
-      emailHtml,
-    );
-
     await this.turnoRepository.update(turnodb.id, turnodb);
 
-    return 'El turno fue reservado con exito';
+    return 'El turno esta en proceso de pago';
   }
 
   async cancelTurno(id: string) {
@@ -86,7 +72,7 @@ export class TurnoRepository {
 
     if (!turnoFinded)
       return new NotFoundException(`El turno no existe para el ID: ${id}`);
-
+    console.log(turnoFinded);
     return turnoFinded;
   }
   async paymentFinish(id, res) {

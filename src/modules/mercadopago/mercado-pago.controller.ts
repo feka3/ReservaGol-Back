@@ -1,5 +1,14 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  ParseIntPipe,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { MercadoPagoService } from './mercado-pago.service';
+import { UUID } from 'crypto';
 
 @Controller('mercado-pago')
 export class MercadoPagoController {
@@ -11,5 +20,9 @@ export class MercadoPagoController {
       preference,
       turno,
     });
+  }
+  @Get('turno/:id')
+  async changeStatusTurn(@Param('id', ParseUUIDPipe) id: UUID) {
+    return this.mercadoPagoService.changeStatusTurn(id);
   }
 }
