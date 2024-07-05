@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { TurnoDto } from './turno.dto';
 import { TurnoRepository } from './turno.repository';
 
 @Injectable()

@@ -1,11 +1,10 @@
 
-import { Body, Controller, Get, Param, ParseUUIDPipe, Put, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-
-
 import { UserService } from './user.service';
 import { User } from 'mercadopago';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Usuario')
 @Controller('user')
@@ -14,18 +13,35 @@ export class UserController {
     constructor(
         private readonly userService: UserService,
         private readonly cloudinaryService: CloudinaryService) {}
-
+    
+    /**
+     * Petición para consultar el listado de todos los usuarios que se encuentran en la base de datos.
+     * - Incluye la información de los turnos y sedes asociadas según corresponda.
+     */
     @Get()
     async getUsers() {
         return this.userService.getUsers()
     }
-        
+
+    /**
+     * Petición para consultar los datos de un usuario que se encuentra en la base de datos.
+     * - Se requiere enviar por parámetro el ID del usuario.
+     * - Incluye la información de los turnos y sedes asociadas según corresponda.
+     * 
+     */        
     @Get(":id")
     async getUserById(@Param("id") id: string) {
         return await this.userService.getUserById(id);
     }
 
+    /**
+     * Petición para madificar los datos de un usuario que se encuentra en la base de datos.
+     * - Se requiere enviar por parámetro el ID del usuario.
+     * - No es necesario enviar todos los datos, solo los que desea modificar.
+     * - Se puede cargar una imagen de perfil.
+     */ 
     @Put(":id")
+    @UseInterceptors(FileInterceptor('file'))
     async updateUserById(@Param("id", ParseUUIDPipe) id: string, @Body() user: Partial<User>, @UploadedFile() file: Express.Multer.File) {
         const uploadResult = await this.cloudinaryService.uploadImage(file);
         const imgFile = uploadResult.secure_url;
