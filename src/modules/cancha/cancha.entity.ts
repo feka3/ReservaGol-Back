@@ -13,11 +13,10 @@ import { Turno } from '../turno/turno.entity';
   name: 'canchas',
 })
 export class Cancha {
-
-  /** 
-  * El ID de la cancha se genera de forma automática.
-  * - Es del tipo UUID.
-  */   
+  /**
+   * El ID de la cancha se genera de forma automática.
+   * - Es del tipo UUID.
+   */
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -83,12 +82,13 @@ export class Cancha {
   @Column()
   techado: boolean;
 
-  /** 
-  *  Por defecto se asigna imagen de perfil genérica.  
-  * @example "https://test.com/test.png"
-  */ 
+  /**
+   *  Por defecto se asigna imagen de perfil genérica.
+   * @example "https://test.com/test.png"
+   */
   @Column({
-    default: 'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg',
+    default:
+      'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg',
     type: 'varchar',
   })
   imgUrl: string;

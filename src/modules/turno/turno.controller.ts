@@ -16,6 +16,7 @@ import { Roles } from 'src/decorator/roles.decorator';
 import { Role } from '../user/roles.enum';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Turno } from './turno.entity';
 
 @ApiTags('Turnos')
 @Controller('turno')
@@ -31,7 +32,7 @@ export class TurnoController {
    * - Incluye información sobre el usuario y cancha asociada.
    */
   @Get(':id')
-  async getTurnoById(@Body('id') id: string) {
+  async getTurnoById(@Param('id', ParseUUIDPipe) id: string): Promise<Turno> {
     return await this.turnoService.getTurnoById(id);
   }
 

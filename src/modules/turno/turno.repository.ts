@@ -65,15 +65,11 @@ export class TurnoRepository {
   }
 
   async getTurnoById(id: string) {
-    const turnoFinded = await this.turnoRepository.findOne({
+    const turno = await this.turnoRepository.findOne({
       where: { id: id },
-      relations: ['cancha', 'user'],
+      relations: ['cancha'],
     });
-
-    if (!turnoFinded)
-      return new NotFoundException(`El turno no existe para el ID: ${id}`);
-    console.log(turnoFinded);
-    return turnoFinded;
+    return turno;
   }
   async paymentFinish(id, res) {
     let turnoPayment = await this.turnoRepository.findOne({
