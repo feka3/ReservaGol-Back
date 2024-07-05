@@ -28,12 +28,13 @@ export class SedeController {
   constructor(
     private readonly sedeService: SedeService,
     private readonly cloudinaryService: CloudinaryService,
-  ) {}
+  ) { }
 
   /**
    * Petición para consultar todas las sedes que se encuentra en la base de datos.
    * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
    */
+  @ApiOperation({ summary: 'Consultar todas las sedes' })
   @Get()
   async getSedes() {
     return await this.sedeService.getSedes();
@@ -44,6 +45,7 @@ export class SedeController {
    * - Se requiere enviar por parámetro el ID de la sede.
    * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
    */
+  @ApiOperation({ summary: 'Consultar una sede' })
   @Get(':id')
   async getSede(@Param('id', ParseUUIDPipe) id: string) {
     return await this.sedeService.getSedeById(id);
@@ -55,6 +57,7 @@ export class SedeController {
    * - Se requiere rol de Administrador o Super Administrador.
    * - Se requiere Token para acceder.
    */
+  @ApiOperation({ summary: 'Crear una sede' })
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @ApiBearerAuth()
@@ -85,6 +88,7 @@ export class SedeController {
    * - Solo puede ejecutarla con permiso de Admistrador o Super Administrador.
    * - Se requiere Token para acceder.
    */
+  @ApiOperation({ summary: 'Actualizar una sede' })
   @ApiBearerAuth()
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
@@ -106,6 +110,7 @@ export class SedeController {
    * - Solo puede ejecutarla con permiso de Admistrador o Super Administrador.
    * - Se requiere Token para acceder.
    */
+  @ApiOperation({ summary: 'Eliminar una sede' })
   @ApiBearerAuth()
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
