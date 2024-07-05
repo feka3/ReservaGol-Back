@@ -14,8 +14,8 @@ export class UserController {
         private readonly cloudinaryService: CloudinaryService) {}
     
     /**
-     * Petición para obtener el listado de todos los usuarios que se encuentran en la base de datos.
-     * 
+     * Petición para consultar el listado de todos los usuarios que se encuentran en la base de datos.
+     * - Incluye la información de los turnos y sedes asociadas según corresponda.
      */
     @Get()
     async getUsers() {
@@ -23,8 +23,9 @@ export class UserController {
     }
 
     /**
-     * Petición para obtener los datos de un usuario que se encuentra en la base de datos.
+     * Petición para consultar los datos de un usuario que se encuentra en la base de datos.
      * - Se requiere enviar por parámetro el ID del usuario.
+     * - Incluye la información de los turnos y sedes asociadas según corresponda.
      * 
      */        
     @Get(":id")
