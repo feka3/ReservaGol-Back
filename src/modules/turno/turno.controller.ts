@@ -25,11 +25,11 @@ export class TurnoController {
     private readonly turnoGeneratorService: TurnoGeneratorService,
   ) {}
 
-    /**
+  /**
    * Petición para consultar los datos de un turno que se encuentra en la base de datos.
    * - Se requiere enviar por parámetro el ID del turno.
    * - Incluye información sobre el usuario y cancha asociada.
-   */ 
+   */
   @Get(':id')
   async getTurnoById(@Body('id') id: string) {
     return await this.turnoService.getTurnoById(id);
@@ -41,9 +41,9 @@ export class TurnoController {
    * - Se rige según el horario de apertura y clausura de la cancha en cuestión.
    * - Se generan cada 2 dias con un margen de 10 dias de turnos.
    * - Solo puede ejecutarla con permiso de Administrador o Super Administrador.
-   */ 
-  @Roles(Role.Superadmin, Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+   */
+  // @Roles(Role.Superadmin, Role.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get('/turnos/create')
   async turnGenerete() {
     console.log('entando al /create');
@@ -56,7 +56,7 @@ export class TurnoController {
    * - Solo puede ejecutarla con permiso de Usuario.
    * - Se requiere Token para acceder.
    * - Se notifica via mail la reserva.
-   */ 
+   */
   @Roles(Role.User)
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
@@ -66,7 +66,7 @@ export class TurnoController {
     return await this.turnoService.takeTurno(data.turno, data.user);
   }
 
-    /**
+  /**
    * Petición para cancelar un turno.
    * - El turno pasa al estado de LIBRE cuando es cancelado.
    * - Se requiere el ID del turno.
@@ -80,7 +80,7 @@ export class TurnoController {
     return await this.turnoService.cancelTurno(id);
   }
 
-    /**
+  /**
    * Petición para confirmar el pago de la reserva del turno.
    * - Se requiere el ID del turno.
    * - El turno pasa al estado de OCUPADO.

@@ -28,32 +28,33 @@ export class SedeController {
   constructor(
     private readonly sedeService: SedeService,
     private readonly cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   /**
- * Petición para consultar todas las sedes que se encuentra en la base de datos.
- * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
- */ 
+   * Petición para consultar todas las sedes que se encuentra en la base de datos.
+   * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
+   */
   @Get()
   async getSedes() {
     return await this.sedeService.getSedes();
   }
 
   /**
- * Petición para consultar los datos de una sede que se encuentra en la base de datos.
- * - Se requiere enviar por parámetro el ID de la sede.
- * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
- */ 
+   * Petición para consultar los datos de una sede que se encuentra en la base de datos.
+   * - Se requiere enviar por parámetro el ID de la sede.
+   * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
+   */
+  @Get(':id')
   async getSede(@Param('id', ParseUUIDPipe) id: string) {
     return await this.sedeService.getSedeById(id);
   }
 
   /**
- * Petición para crear una sede.
- * - Se puede cargar imagen.
- * - Se requiere rol de Administrador o Super Administrador.
- * - Se requiere Token para acceder.
- */ 
+   * Petición para crear una sede.
+   * - Se puede cargar imagen.
+   * - Se requiere rol de Administrador o Super Administrador.
+   * - Se requiere Token para acceder.
+   */
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @ApiBearerAuth()
@@ -64,7 +65,6 @@ export class SedeController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     try {
-
       if (!file) {
         throw new NotFoundException('File not found');
       }
@@ -84,7 +84,7 @@ export class SedeController {
    * - Se puede cargar una imagen.
    * - Solo puede ejecutarla con permiso de Admistrador o Super Administrador.
    * - Se requiere Token para acceder.
-   */ 
+   */
   @ApiBearerAuth()
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
