@@ -69,6 +69,7 @@ export class TurnoController {
     /**
    * Petición para cancelar un turno.
    * - El turno pasa al estado de LIBRE cuando es cancelado.
+   * - Se requiere el ID del turno.
    * - Solo puede ejecutarla con permiso de Usuario.
    * - Se requiere Token para acceder.
    */
@@ -81,6 +82,7 @@ export class TurnoController {
 
     /**
    * Petición para confirmar el pago de la reserva del turno.
+   * - Se requiere el ID del turno.
    * - El turno pasa al estado de OCUPADO.
    */
   @Get('/payments/turno/:id')

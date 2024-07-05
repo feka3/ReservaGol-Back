@@ -30,19 +30,30 @@ export class SedeController {
     private readonly cloudinaryService: CloudinaryService,
   ) { }
 
-  @ApiOperation({ summary: 'Get all sedes', description: 'Get all sedes' })
+  /**
+ * Petición para consultar todas las sedes que se encuentra en la base de datos.
+ * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
+ */ 
   @Get()
   async getSedes() {
     return await this.sedeService.getSedes();
   }
 
-  @ApiOperation({ summary: 'Get sede by id', description: 'Get sede by id' })
-  @Get(':id')
+  /**
+ * Petición para consultar los datos de una sede que se encuentra en la base de datos.
+ * - Se requiere enviar por parámetro el ID de la sede.
+ * - Incluye información sobre el usuario, cancha y los turnos asociados a esa sede.
+ */ 
   async getSede(@Param('id', ParseUUIDPipe) id: string) {
     return await this.sedeService.getSedeById(id);
   }
 
-  @ApiOperation({ summary: 'Create sede', description: 'Create sede' })
+  /**
+ * Petición para crear una sede.
+ * - Se puede cargar imagen.
+ * - Se requiere rol de Administrador o Super Administrador.
+ * - Se requiere Token para acceder.
+ */ 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @ApiBearerAuth()
@@ -66,7 +77,14 @@ export class SedeController {
     }
   }
 
-  @ApiOperation({ summary: 'Update sede', description: 'Update sede' })
+  /**
+   * Petición para madificar los datos de una sede que se encuentra en la base de datos.
+   * - Se requiere enviar por parámetro el ID de la sede.
+   * - No es necesario enviar todos los datos, solo los que desea modificar.
+   * - Se puede cargar una imagen.
+   * - Solo puede ejecutarla con permiso de Admistrador o Super Administrador.
+   * - Se requiere Token para acceder.
+   */ 
   @ApiBearerAuth()
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
@@ -82,10 +100,12 @@ export class SedeController {
     return await this.sedeService.updateSede({ ...sede, imgUrl }, id);
   }
 
-  @ApiOperation({
-    summary: 'Delete sede by id',
-    description: 'Delete sede by id',
-  })
+  /**
+   * Petición para eliminar una sede.
+   * - Se requiere el ID de la sede.
+   * - Solo puede ejecutarla con permiso de Admistrador o Super Administrador.
+   * - Se requiere Token para acceder.
+   */
   @ApiBearerAuth()
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)

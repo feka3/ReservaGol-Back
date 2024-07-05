@@ -1,9 +1,10 @@
 
-import { Body, Controller, Get, Param, ParseUUIDPipe, Put, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from 'mercadopago';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Usuario')
 @Controller('user')
@@ -40,6 +41,7 @@ export class UserController {
      * - Se puede cargar una imagen de perfil.
      */ 
     @Put(":id")
+    @UseInterceptors(FileInterceptor('file'))
     async updateUserById(@Param("id", ParseUUIDPipe) id: string, @Body() user: Partial<User>, @UploadedFile() file: Express.Multer.File) {
         const uploadResult = await this.cloudinaryService.uploadImage(file);
         const imgFile = uploadResult.secure_url;
