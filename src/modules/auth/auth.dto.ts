@@ -22,7 +22,7 @@ export class CancheroDto {
   /** 
    * Nombre del usuario.
   * @example ExampleUser
-  */  
+  */
   @IsNotEmpty()
   @IsString()
   @Length(3, 80)
@@ -113,7 +113,7 @@ export class CancheroDto {
   @IsOptional()
   @IsUrl()
   imgUrl: string;
-  
+
   /** 
   * - superadmin: Este rol permite asignar administradores.
   * - admin: Este rol tiene permisos para crear sedes y canchas.
@@ -122,14 +122,14 @@ export class CancheroDto {
   */
   @IsOptional()
   @IsEnum(Role)
-  rol: Role = Role.User;
+  rol: Role = Role.Pendiente;
 }
 
-export class UserDto extends PickType(CancheroDto, ["name", "email", "password", "confirmPassword", "phone"]) {
+export class UserDto extends PickType(CancheroDto, ["name", "email", "password", "confirmPassword", "phone"]) {
 }
 
-export class LoginAut0 extends PickType(CancheroDto, ["email", "name", "password"]) {
+export class LoginAut0 extends PickType(CancheroDto, ["email", "name", "password"]) {
 }
 
-export class LoginDto extends PickType(CancheroDto, ["email", "password"]) {
+export class LoginDto extends PickType(CancheroDto, ["email", "password"]) {
 }
