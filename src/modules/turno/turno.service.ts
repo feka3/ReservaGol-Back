@@ -5,8 +5,8 @@ import { TurnoRepository } from './turno.repository';
 export class TurnoService {
   constructor(private readonly turnoRepository: TurnoRepository) {}
 
-  async takeTurno(turno, user) {
-    return await this.turnoRepository.takeTurno(turno, user);
+  async takeTurno(turnoId, userId) {
+    return await this.turnoRepository.takeTurno(turnoId, userId);
   }
   async paymentFinish(id, res) {
     return await this.turnoRepository.paymentFinish(id, res);
