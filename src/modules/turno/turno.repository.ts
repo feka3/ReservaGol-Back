@@ -17,14 +17,14 @@ export class TurnoRepository {
     private readonly emailService: EmailService,
   ) {}
 
-  async takeTurno(turno: Turno, user: User) {
+  async takeTurno(turnoId: string, userId: string) {
     const userFinded = await this.userRepository.findOne({
-      where: { id: user.id },
+      where: { id: userId },
     });
     if (!userFinded) throw new NotFoundException('no se encontro usuario');
 
     const turnodb = await this.turnoRepository.findOne({
-      where: { id: turno.id },
+      where: { id: turnoId },
     });
     if (!turnodb) throw new NotFoundException('no se encontro turno');
     if (turnodb.status != Status.Libre)
@@ -32,9 +32,11 @@ export class TurnoRepository {
 
     turnodb.user = userFinded;
     turnodb.status = Status.Pendiente;
-
     await this.turnoRepository.update(turnodb.id, turnodb);
-
+    const turnoShow = await this.turnoRepository.findOne({
+      where: { id: turnodb.id },
+    });
+    console.log(turnoShow);
     return 'El turno esta en proceso de pago';
   }
 

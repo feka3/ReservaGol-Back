@@ -62,11 +62,11 @@ export class TurnoController {
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async takeTurnos(@Body() data: any) {
-    const { turno, user } = data;
-    console.log(turno);
-    return await this.turnoService.takeTurno(data.turno, data.user);
+    console.log('en controller');
+    const { turnoId, userId } = data;
+    console.log(turnoId, userId);
+    return await this.turnoService.takeTurno(turnoId, userId);
   }
-
   /**
    * Petición para cancelar un turno.
    * - El turno pasa al estado de LIBRE cuando es cancelado.
