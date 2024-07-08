@@ -33,10 +33,21 @@ export class TurnoRepository {
     turnodb.user = userFinded;
     turnodb.status = Status.Pendiente;
     await this.turnoRepository.update(turnodb.id, turnodb);
-    const turnoShow = await this.turnoRepository.findOne({
-      where: { id: turnodb.id },
-    });
-    console.log(turnoShow);
+    setTimeout(
+      async () => {
+        const turnoRevisado = await this.turnoRepository.findOne({
+          where: { id: turnoId },
+        });
+
+        if (turnoRevisado && turnoRevisado.status === Status.Pendiente) {
+          turnoRevisado.status = Status.Libre;
+          turnoRevisado.user = null;
+          await this.turnoRepository.update(turnoId, turnoRevisado);
+        }
+      },
+      5 * 60 * 1000,
+    );
+
     return 'El turno esta en proceso de pago';
   }
 
