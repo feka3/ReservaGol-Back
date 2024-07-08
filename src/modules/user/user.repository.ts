@@ -12,7 +12,7 @@ export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async getUsers() {
     return this.userRepository.find({ relations: ['sedes', 'turnos'] });
@@ -50,12 +50,23 @@ export class UserRepository {
   }
 
   async signupCanchero(canchero) {
-    const { password } = canchero;
-    canchero.password = await bcrypt.hash(password, 10);
+    try {
+      const cancheroFinded = await this.userRepository.findOne({
+        where: { email: canchero.email },
+      });
 
-    const newCanchero = await this.userRepository.create(canchero);
-    await this.userRepository.save(newCanchero);
-    return newCanchero;
+      if (cancheroFinded) {
+        throw new NotFoundException("El canchero ya se encuentra registrado");
+      }
+      const { password } = canchero;
+      canchero.password = await bcrypt.hash(password, 10);
+
+      const newCanchero = await this.userRepository.create(canchero);
+      await this.userRepository.save(newCanchero);
+      return newCanchero;
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 
   async getUserEmail(email: string) {

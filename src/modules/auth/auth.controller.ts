@@ -38,7 +38,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Creacion de un nuevo canchero. (Con el rol pendiente)' })
   @Post('signup/admin')
-  async signupCanchero(@Body() canchero: CancheroDto) {
-    return this.serviceAuth.signupCanchero(canchero);
+  async signupCanchero(@Body() data: CancheroDto) {
+    return this.serviceAuth.signupCanchero(data);
   }
 }
