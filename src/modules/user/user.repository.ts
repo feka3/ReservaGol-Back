@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -63,7 +63,10 @@ export class UserRepository {
 
       const newCanchero = await this.userRepository.create(canchero);
       await this.userRepository.save(newCanchero);
-      return newCanchero;
+      return {
+        message: 'UserAdmin creado',
+        status: HttpStatus.CREATED,
+      };
     } catch (error) {
       throw new NotFoundException(error);
     }
