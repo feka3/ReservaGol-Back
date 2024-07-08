@@ -44,7 +44,7 @@ export class Sede {
   description: string;
 
   /** 
-  *  Por defecto se asigna imagen de perfil genérica.  
+  *  Por defecto se asigna imagen genérica.  
   * @example "https://test.com/test.png"
   */
   @Column({

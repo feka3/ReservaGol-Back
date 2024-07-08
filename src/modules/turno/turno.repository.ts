@@ -17,17 +17,14 @@ export class TurnoRepository {
     private readonly emailService: EmailService,
   ) {}
 
-  async takeTurno(turno: Turno, user: User) {
-    console.log(user.id);
-    console.log(turno.id);
-    console.log(user);
+  async takeTurno(turnoId: string, userId: string) {
     const userFinded = await this.userRepository.findOne({
-      where: { id: user.id },
+      where: { id: userId },
     });
     if (!userFinded) throw new NotFoundException('no se encontro usuario');
 
     const turnodb = await this.turnoRepository.findOne({
-      where: { id: turno.id },
+      where: { id: turnoId },
     });
     if (!turnodb) throw new NotFoundException('no se encontro turno');
     if (turnodb.status != Status.Libre)
@@ -35,21 +32,12 @@ export class TurnoRepository {
 
     turnodb.user = userFinded;
     turnodb.status = Status.Pendiente;
-
-    const emailSubject = 'Turno reservado con éxito';
-    const emailText = `Hola ${userFinded.name}, tu turno ha sido reservado para el día ${turno.date} a las ${turno.time}. Te recordamos que debe efectuarse el pago de la reserva para que quede confirmado.`;
-    const emailHtml = `<p>Hola ${userFinded.name},</p><p>Tu turno ha sido reservado para el día <strong>${turno.date}</strong> a las <strong>${turno.time}</strong>.</p><p>Te recordamos que debe efectuarse el pago de la reserva para que quede confirmado.</p>`;
-
-    await this.emailService.sendEmail(
-      userFinded.email,
-      emailSubject,
-      emailText,
-      emailHtml,
-    );
-
     await this.turnoRepository.update(turnodb.id, turnodb);
-
-    return 'El turno fue reservado con exito';
+    const turnoShow = await this.turnoRepository.findOne({
+      where: { id: turnodb.id },
+    });
+    console.log(turnoShow);
+    return 'El turno esta en proceso de pago';
   }
 
   async cancelTurno(id: string) {
@@ -79,21 +67,26 @@ export class TurnoRepository {
   }
 
   async getTurnoById(id: string) {
-    const turnoFinded = await this.turnoRepository.findOne({
+    const turno = await this.turnoRepository.findOne({
       where: { id: id },
-      relations: ['cancha', 'user'],
+      relations: ['cancha'],
     });
-
-    if (!turnoFinded)
-      return new NotFoundException(`El turno no existe para el ID: ${id}`);
-
-    return turnoFinded;
+    return turno;
   }
   async paymentFinish(id, res) {
     let turnoPayment = await this.turnoRepository.findOne({
       where: { id: id },
     });
     turnoPayment.status = Status.Ocupado;
+    await this.turnoRepository.save(turnoPayment);
+    return res.redirect(`${process.env.FRONTEND_URL}/PagoSuccess`);
+  }
+  async notPayment(id, res) {
+    let turnoPayment = await this.turnoRepository.findOne({
+      where: { id: id },
+    });
+    turnoPayment.status = Status.Libre;
+    turnoPayment.user = null;
     await this.turnoRepository.save(turnoPayment);
     return res.redirect(`${process.env.FRONTEND_URL}/PagoSuccess`);
   }

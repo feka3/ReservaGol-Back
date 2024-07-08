@@ -51,35 +51,35 @@ export class User {
    * Fecha de nacimiento.
   * @example 01/01/1999
   */
-  @Column({nullable:true})
+  @Column({ nullable: true })
   birthdate: string;
 
   /** 
    * Documento de Identificación.
   * @example 12345678
   */
-  @Column({nullable:true})
+  @Column({ nullable: true })
   dni: number;
 
   /** 
    * Numero de telefono.
   * @example +5491112345678
   */
-  @Column({ nullable:true })
+  @Column({ nullable: true })
   phone: string;
 
   /** 
    * Ciudad de residencia.
   * @example Ejemplo
   */
-  @Column({ length: 50, nullable:true })
+  @Column({ length: 50, nullable: true })
   city: string
 
   /** 
    * Dirección de residencia.
   * @example CalleEjemplo
   */
-  @Column({nullable:true})
+  @Column({ nullable: true })
   address: string;
 
   /** 
@@ -100,17 +100,23 @@ export class User {
   @Column({ type: 'enum', enum: Role, default: Role.User })
   rol: Role;
 
+  /** 
+   * Por defecto se indica que el futuro admin/canchero no ha sido aprobado.
+  */
+  // @Column({ default: false })
+  // isAproved: boolean;
+
   /**
    * Listado de Sedes asociadas al usuario.
    */
   @OneToMany(() => Sede, (sede) => sede.user)
-  @JoinColumn({name: "sede_id"})
+  @JoinColumn({ name: "sede_id" })
   sedes: Sede[];
 
   /**
    * Listado de Reservas asociadas al usuario.
    */
   @OneToMany(() => Turno, (turno) => turno.user)
-  @JoinColumn({name: "turno_id"})
+  @JoinColumn({ name: "turno_id" })
   turnos: Turno[];
 }
