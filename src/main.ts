@@ -4,13 +4,17 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MiddlewareGlobal } from './common/middlewares/global.middleware';
 import * as dotenv from 'dotenv';
+import { IoAdapter } from '@nestjs/platform-socket.io';
+
 
 dotenv.config();
 
   
   async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    
+
+   app.useWebSocketAdapter(new IoAdapter(app));
+
     app.use(MiddlewareGlobal)
 
   app.useGlobalPipes(
@@ -21,7 +25,7 @@ dotenv.config();
     }),
   );
   app.enableCors({
-    origin: '*',
+    origin: 'http://localhost:3001',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
