@@ -81,4 +81,13 @@ export class TurnoRepository {
     await this.turnoRepository.save(turnoPayment);
     return res.redirect(`${process.env.FRONTEND_URL}/PagoSuccess`);
   }
+  async notPayment(id, res) {
+    let turnoPayment = await this.turnoRepository.findOne({
+      where: { id: id },
+    });
+    turnoPayment.status = Status.Libre;
+    turnoPayment.user = null;
+    await this.turnoRepository.save(turnoPayment);
+    return res.redirect(`${process.env.FRONTEND_URL}/PagoSuccess`);
+  }
 }

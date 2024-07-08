@@ -34,9 +34,9 @@ export class MercadoPagoService {
         },
       ],
       back_urls: {
-        success: `${process.env.PUBLIC_API_URL}/payments/turno/${turno.id}`,
-        failure: `${process.env.PUBLIC_API_URL}/`,
-        pending: `${process.env.PUBLIC_API_URL}/`,
+        success: `${process.env.PUBLIC_API_URL}/turno/payments/turno/${turno.id}`,
+        failure: `${process.env.PUBLIC_API_URL}/turno/payments/turno/not/${turno.id}`,
+        pending: `${process.env.PUBLIC_API_URL}/turno/payments/turno/not/${turno.id}`,
       },
       auto_return: 'approved',
     };

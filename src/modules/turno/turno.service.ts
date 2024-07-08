@@ -18,4 +18,7 @@ export class TurnoService {
   async cancelTurno(id: string) {
     return await this.turnoRepository.cancelTurno(id);
   }
+  async notPayment(id, res) {
+    return await this.turnoRepository.notPayment(id, res);
+  }
 }
