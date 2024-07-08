@@ -12,7 +12,7 @@ export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   async getUsers() {
     return this.userRepository.find({ relations: ['sedes', 'turnos'] });
@@ -56,7 +56,7 @@ export class UserRepository {
       });
 
       if (cancheroFinded) {
-        throw new NotFoundException("El canchero ya se encuentra registrado");
+        throw new NotFoundException('El canchero ya se encuentra registrado');
       }
       const { password } = canchero;
       canchero.password = await bcrypt.hash(password, 10);
@@ -115,5 +115,10 @@ export class UserRepository {
     } catch (error) {
       throw new NotFoundException(error);
     }
+  }
+  async deleteUser(userId) {
+    const user = await this.getUserById(userId);
+    await this.userRepository.remove(user);
+    return 'Usuario eliminado correctamente';
   }
 }
