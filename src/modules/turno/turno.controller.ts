@@ -93,4 +93,12 @@ export class TurnoController {
   ) {
     return await this.turnoService.paymentFinish(id, res);
   }
+
+  @Get('/payments/turno/not/:id')
+  async notPayment(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Res() res: Response,
+  ) {
+    return await this.turnoService.notPayment(id, res);
+  }
 }
