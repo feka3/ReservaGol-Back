@@ -77,7 +77,7 @@ export class TurnoController {
   @Roles(Role.User)
   @UseGuards(AuthGuard, RolesGuard)
   @Delete(':id')
-  async cancelTurno(@Body('id') id: string) {
+  async cancelTurno(@Param('id', ParseUUIDPipe) id: string) {
     return await this.turnoService.cancelTurno(id);
   }
 
