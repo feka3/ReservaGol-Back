@@ -1,4 +1,4 @@
-import { Repository, In } from 'typeorm';
+import { Repository, In, LessThan } from 'typeorm';
 import { Turno } from './turno.entity';
 import { Cancha } from '../cancha/cancha.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -58,6 +58,15 @@ export class TurnoGeneratorService {
     }
 
     return 'Turnos generados exitosamente';
+  }
+  async deleteOldTurnos(): Promise<void> {
+    const now = new Date();
+    const cutoffDate = new Date(now.getTime() - 60 * 60 * 1000);
+    const cutoffDateString = cutoffDate.toISOString().split('T')[0];
+
+    await this.turnoRepository.delete({
+      date: LessThan(cutoffDateString),
+    });
   }
 
   private getNext10Days() {
