@@ -10,22 +10,38 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SeederModule } from './common/precarga/seerder.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
-
+import { MercadopagoModule } from './modules/mercadopago/mercado-pago.module';
+import { EmailModule } from './modules/email/email.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TurnoGeneratorService } from './modules/turno/turnoGenerator.service';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, load: [typeOrmConfig] }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (ConfigService: ConfigService) => ConfigService.get("typeorm")
+      useFactory: (ConfigService: ConfigService) =>
+        ConfigService.get('typeorm'),
     }),
-    UserModule, SedeModule, CanchaModule, TurnoModule, AuthModule, SeederModule, CloudinaryModule,
+
+    UserModule,
+    SedeModule,
+    MercadopagoModule,
+    CanchaModule,
+    TurnoModule,
+    AuthModule,
+    SeederModule,
+    CloudinaryModule,
+    EmailModule,
+
     JwtModule.register({
       global: true,
       signOptions: { expiresIn: '1h' },
-      secret: process.env.JWT_SECRET
-    })],
+      secret: process.env.JWT_SECRET,
+    }),
+  ],
   controllers: [],
-  providers: [],
+  providers: [TurnoGeneratorService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,25 +1,26 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from '../user/user.repository';
 import { JwtService } from '@nestjs/jwt';
-import { CancheroDto, UserDto } from './auth.dto';
-import { UserController } from '../user/user.controller';
+import { CancheroDto} from './auth.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersRepo: UserRepository,
+    private readonly usersRepoitory: UserRepository,
     private readonly jwtservice: JwtService,
-  ) { }
+    private readonly emailService: EmailService) { }
 
   async singIn(email, password) {
     if (!email || !password) return 'Datos incompletos';
 
-    const userDb = await this.usersRepo.getUserEmail(email);
-    console.log(userDb);
+    const userDb = await this.usersRepoitory.getUserEmail(email);
+    //console.log(userDb,' prueba');
     if (!userDb) {
       throw new BadRequestException('Credenciales incorrectas');
     }
@@ -41,7 +42,7 @@ export class AuthService {
   }
 
   async signup(user) {
-    const userEmail = await this.usersRepo.getUserEmail(user.email);
+    const userEmail = await this.usersRepoitory.getUserEmail(user.email);
 
     if (userEmail) {
       throw new BadRequestException(`El usuario ya existe ${user.email}`);
@@ -52,10 +53,25 @@ export class AuthService {
       throw new BadRequestException('Error al hashear la contraseña');
     }
 
-    return await this.usersRepo.postUser({ ...user, password: passwordHash });
+    const emailSubject = 'Registro Exitoso';
+    const emailText = `Hola ${user.name}, has sido registrado con éxito! Ya podes empezar a disfrutar de nuestros servicios de reservas`;
+    const emailHtml = `<p>Hola ${user.name}</p><p>Has sido registrado con éxito! Ya podes empezar a disfrutar de nuestros servicios de reservas.</p>`;
+
+    await this.emailService.sendEmail(user.email, emailSubject, emailText, emailHtml);
+
+
+    return await this.usersRepoitory.postUser({ ...user, password: passwordHash });
+  }
+
+  async authRegister( userData : any) {
+    
+    const validar= await this.usersRepoitory.getUserEmail(userData.email)
+    if(validar){ await this.singIn(userData.email, userData.password)}
+
+    return this.usersRepoitory.postUser(userData)
   }
 
   async signupCanchero(canchero:CancheroDto) {
-    return await this.usersRepo.signupCanchero(canchero);
+    return await this.usersRepoitory.signupCanchero(canchero);
   }
 }

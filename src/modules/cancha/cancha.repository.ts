@@ -9,16 +9,20 @@ import { Repository } from 'typeorm';
 import { Cancha } from './cancha.entity';
 import { Sede } from '../sede/sede.entity';
 import { UUID } from 'crypto';
-import { updateCanchaDto } from './cancha.dto';
+import { canchaDto, updateCanchaDto } from './cancha.dto';
+import { Turno } from '../turno/turno.entity';
+import { Status } from '../turno/status.enum';
+import { TurnoRepository } from '../turno/turno.repository';
 
 @Injectable()
 export class CanchaRepository {
   constructor(
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
+    @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
   ) {}
 
-  async createCancha(cancha, imgUrl) {
+  async createCancha(cancha: canchaDto, imgUrl) {
     const sede = await this.sedeRepository.findOne({
       where: { name: cancha.sedeName },
       relations: ['canchas'],
@@ -27,33 +31,103 @@ export class CanchaRepository {
       throw new NotFoundException('Sede no encontrada');
     }
     const canchas = sede.canchas;
-    canchas.map((c) => {
-      if (c.name === cancha.name && sede.name === cancha.sedeName) {
+    canchas.forEach((c) => {
+      if (c.name === cancha.name) {
         throw new HttpException(
           'Cancha ya existente en esta sede',
           HttpStatus.CONFLICT,
         );
       }
     });
-    if (imgUrl != null) {
+
+    if (imgUrl) {
       cancha.imgUrl = imgUrl;
     }
-    const canchadb = this.canchaRepository.create({
+    const turnos = await this.createTurnos(
+      cancha.timeopen,
+      cancha.timeclose,
+      10,
+    );
+    await this.turnoRepository.save(turnos);
+
+    const newCancha = this.canchaRepository.create({
       ...cancha,
       sede: sede,
+      turnos: turnos,
     });
-    await this.canchaRepository.save(canchadb);
-    return 'Cancha creada';
+    newCancha.id;
+    const savedCancha = await this.canchaRepository.save(newCancha);
+    console.log(turnos);
+    return {
+      message: 'creada',
+      savedCancha,
+    };
+  }
+
+  async createTurnos(
+    timeopen: string,
+    timeclose: string,
+    days,
+  ): Promise<Turno[]> {
+    const turnos = [];
+    let [openHour, openMinute] = timeopen.split(':').map(Number);
+    let [closeHour, closeMinute] = timeclose.split(':').map(Number);
+    let today = new Date();
+    let horaInicio = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      openHour,
+      openMinute,
+    );
+    let horaFin = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      closeHour,
+      closeMinute,
+    );
+    const duracionTurno = 60 * 60 * 1000;
+
+    for (let dayOffset = 0; dayOffset < days; dayOffset++) {
+      let today = new Date();
+      today.setDate(today.getDate() + dayOffset); // Incrementa el día actual por el offset
+      let horaInicio = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        openHour,
+        openMinute,
+      );
+      let horaFin = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        closeHour,
+        closeMinute,
+      );
+
+      while (horaInicio.getTime() < horaFin.getTime()) {
+        const turno = this.turnoRepository.create({
+          date: horaInicio.toISOString().split('T')[0], // YYYY-MM-DD
+          time: horaInicio.toISOString().split('T')[1].slice(0, 5), // HH:MM
+          status: Status.Libre,
+        });
+        turnos.push(turno);
+        horaInicio = new Date(horaInicio.getTime() + duracionTurno);
+      }
+    }
+    return turnos;
   }
 
   async getCanchas() {
-    return await this.canchaRepository.find();
+    return await this.canchaRepository.find({ relations: ['sede', 'turnos'] });
   }
 
   async getCanchaById(id: string) {
     const cancha = await this.canchaRepository.findOne({
       where: { id: id },
-      relations: ['sede', "turnos"],
+      relations: ['sede', 'turnos'],
     });
     return cancha;
   }

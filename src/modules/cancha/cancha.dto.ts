@@ -9,117 +9,141 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class canchaDto {
+
+  /** 
+  * El ID de la cancha se genera de forma automática.
+  * - Es del tipo UUID.
+  */   
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  /**
+   * Nombre de la cancha.
+   * @example CanchaTest
+   */
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({
-    description: 'Nombre de la cancha',
-    example: 'Cancha 1',
-  })
   name: string;
 
+    /**
+   * Precio de alquiler de la cancha por hora.
+   * @example 20000
+   */
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
-  @ApiProperty({
-    description: 'Precio por turno de la cancha',
-    example: '20000',
-  })
   price: number;
 
+  /**
+   * Deporte al cual pertenece la cancha.
+   * -  1: Fútbol
+   * -  2: Tenis
+   * -  3: Padel
+   * @example 4
+   */
   @IsNotEmpty()
   @IsNumber()
   @Type(() => Number)
   @IsIn([1, 2, 3], {
     message:
-      'El deporte debe ser una de estas opciones: 1 (Futbol), 2 (Tennis), 3 (Paddel)',
-  })
-  @ApiProperty({
-    description: 'Tipo de deporte Futbol(1)-Tennis(2)-Paddel(3)',
-    example: '1',
+      'El deporte debe ser una de estas opciones: 1 (Futbol), 2 (Tenis), 3 (Padel)',
   })
   sport: number;
 
+    /**
+   * Composición de la cancha (arcilla, cemento, cesped etc.).
+   * @example test
+   */
   @IsNotEmpty()
-  @ApiProperty({
-    description: 'Que tipo de cancha es',
-    example: 'sintetico, pasto, etc ...',
-  })
   type: string;
 
+    /**
+   * Horario de apertura de la chancha.
+   * - A partir de este horario es que se generaran los turnos para reservas.
+   * @example 00:00
+   */
   @IsNotEmpty()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: 'El formato deberia de ser: "HH:MM"',
-  })
-  @ApiProperty({
-    description: 'Horario de apertura',
-    example: '09:00',
   })
   timeopen: string;
 
+    /**
+   * Horario de cierre de la chancha.
+   * - Hasta este horario es que se generaran los turnos para reservas.
+   * @example 00:00
+   */
   @IsNotEmpty()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: 'El formato deberia de ser: "HH:MM"',
   })
-  @ApiProperty({
-    description: 'Horario de cierre',
-    example: '23:00',
-  })
   timeclose: string;
 
+    /**
+   * Cantidad de jugadores.
+   * @example 00
+   */
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  @ApiProperty({
-    description: 'Cantidad de jugadores',
-    example: '10',
-  })
   player: number;
 
+    /**
+   * Indica si la cancha es techada o descubierta
+   * - Se hace por medio de un booleano: true o false (si o no)
+   * @example false
+   */
   @IsNotEmpty()
   @IsBoolean()
   @Type(() => Boolean)
-  @ApiProperty({
-    description: 'Si la cancha esta techada o no',
-    example: 'true',
-  })
   techado: boolean;
 
+  /** 
+  *  Por defecto se asigna imagen de perfil genérica.  
+  * @example "https://test.com/test.png"
+  */ 
   @IsOptional()
-  @ApiProperty({
-    description: 'Imagen de la cancha',
-    type: 'string',
-    format: 'binary',
-  })
   imgUrl: any;
 
+  /**
+   * Sede asociada a la cancha.
+   * @example SedeTest
+   */
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({
-    description: 'Nombre de la sede',
-    example: 'Sede norte',
-  })
   sedeName: string;
+
 }
 
 export class updateCanchaDto {
+
+  /**
+ * Nombre de la cancha.
+ * @example CanchaTest
+ */
   @IsOptional()
   @IsString()
-  @ApiProperty({
-    description: 'Nombre de la cancha',
-    example: 'cancha 1',
-  })
   name: string;
+
+  /**
+   * Precio de alquiler de la cancha por hora.
+   * @example 20000
+   */
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  @ApiProperty({
-    description: 'Precio por turno de la cancha',
-    example: '20000',
-  })
   price: number;
 
+    /**
+   * Deporte al cual pertenece la cancha.
+   * -  1: Fútbol
+   * -  2: Tenis
+   * -  3: Padel
+   * @example 4
+   */
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
@@ -127,12 +151,12 @@ export class updateCanchaDto {
     message:
       'El deporte debe ser una de estas opciones: 1 (Futbol), 2 (Tennis), 3 (Paddel)',
   })
-  @ApiProperty({
-    description: 'Tipo de deporte Futbol(1)-Tennis(2)-Paddel(3)',
-    example: '1',
-  })
   sport: number;
 
+  /**
+   * Composición de la cancha (arcilla, cemento, cesped etc.).
+   * @example test
+   */
   @IsOptional()
   @ApiProperty({
     description: 'Que tipo de cancha es',
@@ -140,56 +164,60 @@ export class updateCanchaDto {
   })
   type: string;
 
+    /**
+   * Horario de apertura de la chancha.
+   * - A partir de este horario es que se generaran los turnos para reservas.
+   * @example 00:00
+   */
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  @ApiProperty({
-    description: 'Cantidad de jugadores',
-    example: '10',
-  })
   player: number;
 
+  /**
+   * Horario de apertura de la chancha.
+   * - A partir de este horario es que se generaran los turnos para reservas.
+   * @example 00:00
+   */
   @IsOptional()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: 'El formato deberia de ser: "HH:MM"',
-  })
-  @ApiProperty({
-    description: 'Horario de apertura',
-    example: '09:00',
   })
   timeopen: string;
+
+  /**
+   * Horario de cierre de la chancha.
+   * - Hasta este horario es que se generaran los turnos para reservas.
+   * @example 00:00
+   */
   @IsOptional()
   @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: 'El formato deberia de ser: "HH:MM"',
-  })
-  @ApiProperty({
-    description: 'Horario de cierre',
-    example: '23:00',
   })
   timeclose: string;
 
+  /**
+   * Indica si la cancha es techada o descubierta
+   * - Se hace por medio de un booleano: true o false (si o no)
+   * @example false
+   */
   @IsOptional()
   @IsBoolean()
   @Type(() => Boolean)
-  @ApiProperty({
-    description: 'Si la cancha esta techada o no',
-    example: 'true',
-  })
   techado: boolean;
 
+  /** 
+  *  Por defecto se asigna imagen de perfil genérica.  
+  * @example "https://test.com/test.png"
+  */ 
   @IsOptional()
-  @ApiProperty({
-    description: 'Imagen de la cancha',
-    type: 'string',
-    format: 'binary',
-  })
   imgUrl: any;
 
+  /**
+   * Sede asociada a la cancha.
+   * @example SedeTest
+   */
   @IsOptional()
   @IsString()
-  @ApiProperty({
-    description: 'Nombre de la sede',
-    example: 'Sede norte',
-  })
   sedeName: string;
 }
