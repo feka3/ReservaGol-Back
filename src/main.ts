@@ -60,13 +60,13 @@ async function bootstrap() {
         '\t\t- ocupado: El turno ya fue reservado y abonado.\n' +
         '\n' +
         '**Contactos del Equipo**:\n' +
-        '- **Arriola, Facundo** - [GitHub](https://github.com/feka3) | [LinkedIn](https://www.linkedin.com/in//)\n' +
-        '- **Chang, Javier** - [GitHub](https://github.com/javi5456) | [LinkedIn](https://www.linkedin.com/in//)\n' +
-        '- **De la Cruz, Andrés** - [GitHub](https://github.com/AndresDelac) | [LinkedIn](https://www.linkedin.com/in//)\n' +
-        '- **De Miguel, Tomás** - [GitHub](https://github.com/Tomasdmiguel) | [LinkedIn](https://www.linkedin.com/in//)\n' +
+        '- **Arriola, Facundo** - [GitHub](https://github.com/feka3) | [LinkedIn](https://www.linkedin.com/in/facundo-arriola/)\n' +
+        '- **Chang, Javier** - [GitHub](https://github.com/javi5456) | [LinkedIn](https://www.linkedin.com/in/javier-chang-09b187227/)\n' +
+        '- **De la Cruz, Andrés** - [GitHub](https://github.com/AndresDelac) | [LinkedIn](https://www.linkedin.com/in/marcos-gómez-sebastian/)\n' +
+        '- **De Miguel, Tomás** - [GitHub](https://github.com/Tomasdmiguel) | [LinkedIn](https://www.linkedin.com/in/tomas-de-miguel-2912342b5/)\n' +
         '- **Gentile, Romina** - [GitHub](https://github.com/romigentile) | [LinkedIn](https://www.linkedin.com/in/romigentile/)\n' +
-        '- **Gomez, Marcos** - [GitHub](https://github.com/Marcos48149) | [LinkedIn](https://www.linkedin.com/in//)\n' +
-        '- **Meier, Pablo** - [GitHub](https://github.com/PabloSMeier) | [LinkedIn](https://www.linkedin.com/in//)\n',
+        '- **Gomez, Marcos** - [GitHub](https://github.com/Marcos48149) | [LinkedIn](https://www.linkedin.com/in/marcos-gómez-sebastian/)\n' +
+        '- **Meier, Pablo** - [GitHub](https://github.com/PabloSMeier) | [LinkedIn](https://www.linkedin.com/in/tomas-de-miguel-2912342b5/)\n',
     )
     .setVersion('1.0')
     .addBearerAuth()
