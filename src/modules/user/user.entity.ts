@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
@@ -94,6 +95,7 @@ export class User {
   /** 
   * - superadmin: Este rol permite asignar administradores.
   * - admin: Este rol tiene permisos para crear sedes y canchas.
+  * - pendiente: Este rol es el previo a ser canchero. Solo se cambia con aprobación del superadmin.
   * - user: Este rol tiene permisos para reservar canchas.
   * - Por defecto cuando se crea un usuario se le asigna el rol de user.
   */
@@ -119,4 +121,10 @@ export class User {
   @OneToMany(() => Turno, (turno) => turno.user)
   @JoinColumn({ name: "turno_id" })
   turnos: Turno[];
+
+  /**
+   * Se guarda la fecha de registro del usuario para estadísticas.
+   */
+  @CreateDateColumn()
+  createdAt: Date;
 }
