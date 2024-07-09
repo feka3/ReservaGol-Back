@@ -14,6 +14,8 @@ import { MercadopagoModule } from './modules/mercadopago/mercado-pago.module';
 import { EmailModule } from './modules/email/email.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TurnoGeneratorService } from './modules/turno/turnoGenerator.service';
+import { ChatModule } from './modules/chat/chat.module';
+
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { TurnoGeneratorService } from './modules/turno/turnoGenerator.service';
       signOptions: { expiresIn: '1h' },
       secret: process.env.JWT_SECRET,
     }),
+
+    ChatModule,
   ],
   controllers: [],
   providers: [TurnoGeneratorService],
