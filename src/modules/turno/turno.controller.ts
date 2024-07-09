@@ -58,8 +58,8 @@ export class TurnoController {
    * - Se requiere Token para acceder.
    * - Se notifica via mail la reserva.
    */
-  @Roles(Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+ // @Roles(Role.User)
+//  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async takeTurnos(@Body() data: any) {
     console.log('en controller');
