@@ -30,7 +30,7 @@ export class UserController {
    * Petición para consultar el listado de todos los usuarios que se encuentran en la base de datos.
    * - Incluye la información de los turnos y sedes asociadas según corresponda.
    */
-  @ApiOperation({ summary: 'Listado de usuarios' })
+  @ApiOperation({ summary: 'Listado de usuarios.' })
   @Get()
   async getUsers() {
     return this.userService.getUsers();
@@ -39,7 +39,7 @@ export class UserController {
   /**
    * Petición para consultar el listado de todos los cancheros que estan pendientes de aprobacion.
    */
-  @ApiOperation({ summary: 'Cancheros pendientes de aprobacion' })
+  @ApiOperation({ summary: 'Cancheros pendientes de aprobación.' })
   @Get('cancheros')
   async getCancheros() {
     try {
@@ -55,7 +55,7 @@ export class UserController {
    * - Incluye la información de los turnos y sedes asociadas según corresponda.
    *
    */
-  @ApiOperation({ summary: 'Información de usuario' })
+  @ApiOperation({ summary: 'Información de usuario.' })
   @Get(':id')
   async getUserById(@Param('id') id: string) {
     return await this.userService.getUserById(id);
@@ -67,7 +67,7 @@ export class UserController {
    * - No es necesario enviar todos los datos, solo los que desea modificar.
    * - Se puede cargar una imagen de perfil.
    */
-  @ApiOperation({ summary: 'Modificación de usuario' })
+  @ApiOperation({ summary: 'Modificación de usuario.' })
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   async updateUserById(
@@ -82,20 +82,22 @@ export class UserController {
   }
 
   /**
-   * Petición para aprobar un canchero (cambiar rol de pendiente a admin)
+   * Petición para aprobar un canchero.
+   * - Cambiar rol de pendiente a admin.
    * - Se requiere enviar por parámetro el ID del canchero.
    */
-  @ApiOperation({
-    summary: 'Aprobar canchero (cambiar rol de pendiente a admin)',
-  })
+  @ApiOperation({ summary: 'Aprobación de canchero.' })
   @Post('canchero/:id')
   async approveCanchero(@Param('id', ParseUUIDPipe) id: string) {
     return await this.userService.approveCanchero(id);
   }
-  @ApiOperation({
-    summary: 'Eliminar usuario',
-  })
-  @Delete('canchero/:id')
+
+  /**
+   * Petición para eliminar un canchero.
+   * - Se requiere enviar por parámetro el ID del canchero.
+   */
+  @ApiOperation({ summary: 'Eliminación de usuario.' })
+  @Delete(':id')
   async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return await this.userService.deleteUser(id);
   }
