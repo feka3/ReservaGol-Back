@@ -8,6 +8,10 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly serviceAuth: AuthService) { }
 
+  /**
+   * Petición para el logueo de usuario.
+   * - Se requieren como credenciales email y contraseña.
+   */
   @ApiOperation({ summary: 'Login de un usuario.' })
   @Post('signin')
   async singIn(@Body() credential: LoginDto) {
@@ -15,15 +19,21 @@ export class AuthController {
     return this.serviceAuth.singIn(email, password);
   }
 
-  @ApiOperation({ summary: 'Creacion de un nuevo usuario.' })
+    /**
+   * Petición para el registro de usuario.
+   */
+  @ApiOperation({ summary: 'Creación de un nuevo usuario.' })
   @HttpCode(201)
   @Post('signup')
   async signup(@Body() user: UserDto) {
     return this.serviceAuth.signup(user);
   }
 
+  /**
+   * Petición para el registro de usuario por medio de Google.
+   */
   @HttpCode(201)
-  @ApiOperation({ summary: 'Creacion de un usuario por Google' })
+  @ApiOperation({ summary: 'Creación de un usuario por Google' })
   @Post('authRegister')
   async authRegister(@Body() dataGoogle: any) {
     console.log(dataGoogle, 'aca')
@@ -36,7 +46,11 @@ export class AuthController {
     return this.serviceAuth.authRegister(userData);
   }
 
-  @ApiOperation({ summary: 'Creacion de un nuevo canchero. (Con el rol pendiente)' })
+  /**
+   * Petición para la creación de un canchero.
+   * - Se crea con rol pendiente
+   */
+  @ApiOperation({ summary: 'Creación de un nuevo canchero.' })
   @Post('signup/admin')
   async signupCanchero(@Body() data: CancheroDto) {
     return this.serviceAuth.signupCanchero(data);

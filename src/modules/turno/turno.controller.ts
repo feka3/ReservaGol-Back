@@ -31,6 +31,7 @@ export class TurnoController {
    * - Se requiere enviar por parámetro el ID del turno.
    * - Incluye información sobre el usuario y cancha asociada.
    */
+  @ApiOperation({ summary: 'Obtiene un turno por su ID.' })
   @Get(':id')
   async getTurnoById(@Param('id', ParseUUIDPipe) id: string): Promise<Turno> {
     return await this.turnoService.getTurnoById(id);
@@ -45,6 +46,7 @@ export class TurnoController {
    */
   // @Roles(Role.Superadmin, Role.Admin)
   // @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Generacion de turnos.' })
   @Get('/turnos/create')
   async turnGenerete() {
     console.log('entando al /create');
@@ -58,8 +60,9 @@ export class TurnoController {
    * - Se requiere Token para acceder.
    * - Se notifica via mail la reserva.
    */
- // @Roles(Role.User)
-//  @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Reserva de turnos.' })
+  @Roles(Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async takeTurnos(@Body() data: any) {
     console.log('en controller');
@@ -74,6 +77,7 @@ export class TurnoController {
    * - Solo puede ejecutarla con permiso de Usuario.
    * - Se requiere Token para acceder.
    */
+  @ApiOperation({ summary: 'Cancelación de turnos.' })
   @Roles(Role.User)
   @UseGuards(AuthGuard, RolesGuard)
   @Delete(':id')
@@ -86,6 +90,7 @@ export class TurnoController {
    * - Se requiere el ID del turno.
    * - El turno pasa al estado de OCUPADO.
    */
+  @ApiOperation({ summary: 'Confirmación de pago.' })
   @Get('/payments/turno/:id')
   async getPaymentTurno(
     @Param('id', ParseUUIDPipe) id: string,
@@ -94,6 +99,12 @@ export class TurnoController {
     return await this.turnoService.paymentFinish(id, res);
   }
 
+    /**
+   * Petición para cambiar el estado de un turno que no fue pago.
+   * - Se requiere el ID del turno.
+   * - El turno pasa al estado de LIBRE.
+   */
+  @ApiOperation({ summary: 'Cancelación de turno por falta de pago.' })
   @Get('/payments/turno/not/:id')
   async notPayment(
     @Param('id', ParseUUIDPipe) id: string,

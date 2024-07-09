@@ -26,36 +26,42 @@ export class CanchaController {
     private readonly canchaService: CanchaService,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
-  @ApiOperation({
-    summary: 'Get cancha by id',
-    description: 'Trae una cancha por su id a traves de param',
-  })
+
+  /**
+   * Petición para obtener los datos de un cancha.
+   * - Se requier el ID de la cancha.
+   */
+  @ApiOperation({ summary: 'Consulta datos de una cancha.'})
   @Get(':id')
   async getCanchaByid(@Param('id', ParseUUIDPipe) id: UUID) {
     return this.canchaService.getCanchaByid(id);
   }
-  @ApiOperation({
-    summary: 'Get all canchas',
-    description: 'Trae todas las canchas',
-  })
+
+  /**
+   * Petición para obtener los datos de todas las canchas.
+   */
+  @ApiOperation({ summary: 'Obtiene todas las canchas.'})
   @Get()
   async getCanchas() {
     return this.canchaService.getCanchas();
   }
 
+  /**
+   * Petición para obtener los datos de todas las canchas según el deporte.
+   * - Se requiere el numero identificador del deporte a consultar.
+   */
+  @ApiOperation({ summary: 'Obtiene todas las canchas según deporte.'})
   @Get('deporte/:deporte')
   async getCanchaDeporte(@Param('deporte', ParseIntPipe) deporte: number) {
     return this.canchaService.getCanchaDeporte(deporte);
   }
 
-  @ApiOperation({
-    summary: 'Create a cancha',
-    description: 'Crea una cancha con una imagen opcional',
-  })
+  /**
+   * Petición para crear una cancha..
+   * - Se requiere el numero identificador del deporte a consultar.
+   */  
+  @ApiOperation({summary: 'Creación de una cancha.'})
   @Post()
-  @ApiBody({
-    description: 'Create a cancha',
-  })
   @UseInterceptors(FileInterceptor('file'))
   async createCancha(
     @Body() cancha: canchaDto,
@@ -70,10 +76,13 @@ export class CanchaController {
     const imgUrl = uploadResult.secure_url;
     return this.canchaService.createCancha(cancha, imgUrl);
   }
-  @ApiOperation({
-    summary: 'Update a cancha',
-    description: 'Actualiza una cancha por su id',
-  })
+
+  /**
+   * Petición para actualizar los datos de una cancha.
+   * - Solo se requieren los datos a cambiar.
+   * - Se puede agregar una imagen.
+   */
+  @ApiOperation({summary: 'Actualización de datos de una cancha.'})
   @Put(':id')
   async updateCancha(
     @Body() cancha: updateCanchaDto,
@@ -81,10 +90,12 @@ export class CanchaController {
   ) {
     return this.canchaService.updateCancha(id, cancha);
   }
-  @ApiOperation({
-    summary: 'Delete a cancha',
-    description: 'Elimina una cancha por su id',
-  })
+
+  /**
+   * Petición para eliminar una cancha.
+   * - Se requiere el ID de la cancha.
+   */
+  @ApiOperation({summary: 'Eliminación de una cancha.' })
   @Delete(':id')
   async deleteCancha(@Param('id', ParseUUIDPipe) id: UUID) {
     return this.canchaService.deleteCancha(id);
