@@ -122,7 +122,7 @@ a[x-apple-data-detectors] {
                   <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="border-collapse:collapse;border-spacing:0px">
                      <tr>
-                      <td align="center" class="es-infoblock" style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC;font-size:12px"><a target="_blank" href="" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;text-decoration:underline;color:#CCCCCC;font-size:12px">View online version</a></p></td>
+                      <td align="center" class="es-infoblock" style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC;font-size:12px"><a target="_blank" href="https://proyecto-final-front-azure.vercel.app/" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;text-decoration:underline;color:#CCCCCC;font-size:12px">View online version</a></p></td>
                      </tr>
                    </table></td>
                  </tr>
@@ -165,7 +165,7 @@ a[x-apple-data-detectors] {
                       <td align="center" class="es-m-p0r es-m-p0l" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:24px;color:#333333;font-size:16px">Hola, ${user.name}! Gracias por elegirnos! Tu cuenta ya se encuentra registrada! Podés comenzar a disfrutar de nuestros servicios!</p></td>
                      </tr>
                      <tr>
-                      <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#369676;border-width:0px;display:inline-block;border-radius:5px;width:auto"><a href="" class="es-button" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#369676;border-radius:5px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center">Ir a la Web</a></span></td>
+                      <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#369676;border-width:0px;display:inline-block;border-radius:5px;width:auto"><a href="https://proyecto-final-front-azure.vercel.app/" class="es-button" target="_blank" style="text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#369676;border-radius:5px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center">VISITANOS</a></span></td>
                      </tr>
                    </table></td>
                  </tr>
@@ -287,7 +287,7 @@ a[x-apple-data-detectors] {
                        </table></td>
                      </tr>
                      <tr>
-                      <td align="center" style="padding:0;Margin:0;padding-bottom:35px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px">Reserva Gol © 202 Alquiler de canchas deportivas. Todos los derechos reservados.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px">Buenos Aries, Argentina.</p></td>
+                      <td align="center" style="padding:0;Margin:0;padding-bottom:35px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px">Reserva Gol © 2024 Alquiler de canchas deportivas. Todos los derechos reservados.</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;color:#333333;font-size:12px">Buenos Aries, Argentina.</p></td>
                      </tr>
                    </table></td>
                  </tr>
