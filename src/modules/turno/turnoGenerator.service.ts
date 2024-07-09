@@ -13,6 +13,7 @@ export class TurnoGeneratorService {
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
   ) {}
   @Cron('0 0 */2 * *')
+  
   async generateTurnos() {
     const canchas = await this.canchaRepository.find();
     const dates = this.getNext10Days();
@@ -59,6 +60,7 @@ export class TurnoGeneratorService {
 
     return 'Turnos generados exitosamente';
   }
+
   async deleteOldTurnos(): Promise<void> {
     const now = new Date();
     const cutoffDate = new Date(now.getTime() - 60 * 60 * 1000);
