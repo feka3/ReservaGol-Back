@@ -18,33 +18,23 @@ import { Role } from '../user/roles.enum';
 import { PickType } from '@nestjs/swagger';
 
 export class CancheroDto {
-
-  /** 
-   * Nombre del usuario.
-  * @example ExampleUser
-  */
-  @IsNotEmpty()
-  @IsString()
-  @Length(3, 80)
-  @Matches(/^[a-zA-Z ]+$/)
+  @IsNotEmpty({ message: 'El nombre es obligatorio' })
+  @IsString({ message: 'El nombre debe ser una cadena de texto' })
+  @Length(3, 80, { message: 'El nombre debe tener entre 3 y 80 caracteres' })
+  @Matches(/^[a-zA-Z ]+$/, {
+    message: 'El nombre solo puede contener letras y espacios',
+  })
   name: string;
 
-  /** 
-   * Email del usuario.
-   * - Si al momento de probar el registro da error por duplicación de mail, agregue algo aleatorio al comienzo manteniendo la estructura despues del @
-  * @example exampleuser@example.com
-  */
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: 'El email es obligatorio' })
+  @IsEmail({}, { message: 'El email no tiene un formato válido' })
   email: string;
 
-  /** 
-   * Contraseña.
-  * @example aaBBcc123!
-  */
-  @IsNotEmpty()
-  @IsString()
-  @Length(8, 15)
+  @IsNotEmpty({ message: 'La contraseña es obligatoria' })
+  @IsString({ message: 'La contraseña debe ser una cadena de texto' })
+  @Length(8, 15, {
+    message: 'La contraseña debe tener entre 8 y 15 caracteres',
+  })
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
     {
@@ -54,82 +44,61 @@ export class CancheroDto {
   )
   password: string;
 
-  /** 
-   * Confirmacion de Contraseña. Debe coincidir con la anterior.
-  * @example aaBBcc123!
-  */
-  @IsNotEmpty()
-  @Validate(PasswordConfirmation, ['password'])
+  @IsNotEmpty({ message: 'La confirmación de contraseña es obligatoria' })
+  @Validate(PasswordConfirmation, ['password'], {
+    message: 'Las contraseñas no coinciden',
+  })
   confirmPassword: string;
 
-  /** 
-   * Fecha de nacimiento.
-  * @example 01/01/1999
-  */
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'La fecha de nacimiento debe ser una cadena de texto' })
   birthdate: string;
 
-  /** 
-   * Documento de Identificación.
-  * @example 12345678
-  */
-  @IsNotEmpty()
-  @IsNumberString()
-  @MinLength(7)
-  @MaxLength(8)
+  @IsNotEmpty({ message: 'El DNI es obligatorio' })
+  @IsNumberString(
+    {},
+    { message: 'El DNI debe ser una cadena de texto numérica' },
+  )
+  @MinLength(7, { message: 'El DNI debe tener al menos 7 caracteres' })
+  @MaxLength(8, { message: 'El DNI no puede tener más de 8 caracteres' })
   dni: string;
 
-  /** 
-   * Numero de telefono.
-  * @example +5491112345678
-  */
-  @IsNotEmpty()
-  @Validate(IsArgentinePhoneNumber)
+  @IsNotEmpty({ message: 'El número de teléfono es obligatorio' })
+  @Validate(IsArgentinePhoneNumber, {
+    message: 'El número de teléfono no es válido',
+  })
   phone: string;
 
-  /** 
-   * Ciudad de residencia.
-  * @example Ejemplo
-  */
-  @IsNotEmpty()
-  @IsString()
-  @Length(5, 20)
+  @IsNotEmpty({ message: 'La ciudad es obligatoria' })
+  @IsString({ message: 'La ciudad debe ser una cadena de texto' })
+  @Length(5, 20, { message: 'La ciudad debe tener entre 5 y 20 caracteres' })
   city: string;
 
-  /** 
-   * Dirección de residencia.
-  * @example CalleEjemplo
-  */
-  @IsNotEmpty()
-  @IsString()
-  @Length(3, 50)
+  @IsNotEmpty({ message: 'La dirección es obligatoria' })
+  @IsString({ message: 'La dirección debe ser una cadena de texto' })
+  @Length(3, 50, { message: 'La dirección debe tener entre 3 y 50 caracteres' })
   address: string;
 
-  /** 
-  *  Por defecto se asigna imagen de perfil genérica.  
-  * @example "https://test.com/test.png"
-  */
   @IsOptional()
-  @IsUrl()
+  @IsUrl({}, { message: 'La URL de la imagen no es válida' })
   imgUrl: string;
 
-  /** 
-  * - superadmin: Este rol permite asignar administradores.
-  * - admin: Este rol tiene permisos para crear sedes y canchas.
-  * - user: Este rol tiene permisos para reservar canchas.
-  * - Por defecto cuando se crea un usuario se le asigna el rol de user.
-  */
   @IsOptional()
-  @IsEnum(Role)
+  @IsEnum(Role, { message: 'El rol no es válido' })
   rol: Role = Role.Pendiente;
 }
+export class UserDto extends PickType(CancheroDto, [
+  'name',
+  'email',
+  'password',
+  'confirmPassword',
+  'phone',
+]) {}
 
-export class UserDto extends PickType(CancheroDto, ["name", "email", "password", "confirmPassword", "phone"]) {
-}
+export class LoginAut0 extends PickType(CancheroDto, [
+  'email',
+  'name',
+  'password',
+]) {}
 
-export class LoginAut0 extends PickType(CancheroDto, ["email", "name", "password"]) {
-}
-
-export class LoginDto extends PickType(CancheroDto, ["email", "password"]) {
-}
+export class LoginDto extends PickType(CancheroDto, ['email', 'password']) {}

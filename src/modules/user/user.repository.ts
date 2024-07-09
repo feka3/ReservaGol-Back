@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -50,12 +50,26 @@ export class UserRepository {
   }
 
   async signupCanchero(canchero) {
-    const { password } = canchero;
-    canchero.password = await bcrypt.hash(password, 10);
+    try {
+      const cancheroFinded = await this.userRepository.findOne({
+        where: { email: canchero.email },
+      });
 
-    const newCanchero = await this.userRepository.create(canchero);
-    await this.userRepository.save(newCanchero);
-    return newCanchero;
+      if (cancheroFinded) {
+        throw new NotFoundException('El canchero ya se encuentra registrado');
+      }
+      const { password } = canchero;
+      canchero.password = await bcrypt.hash(password, 10);
+
+      const newCanchero = await this.userRepository.create(canchero);
+      await this.userRepository.save(newCanchero);
+      return {
+        message: 'UserAdmin creado',
+        status: HttpStatus.CREATED,
+      };
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 
   async getUserEmail(email: string) {
@@ -101,5 +115,10 @@ export class UserRepository {
     } catch (error) {
       throw new NotFoundException(error);
     }
+  }
+  async deleteUser(userId) {
+    const user = await this.getUserById(userId);
+    await this.userRepository.remove(user);
+    return 'Usuario eliminado correctamente';
   }
 }
