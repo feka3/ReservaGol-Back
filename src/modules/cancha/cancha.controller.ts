@@ -82,7 +82,7 @@ export class CanchaController {
    * - Solo se requieren los datos a cambiar.
    * - Se puede agregar una imagen.
    */
-  @ApiOperation({summary: 'Actualización de datos de una cancha'})
+  @ApiOperation({summary: 'Actualización de datos de una cancha.'})
   @Put(':id')
   async updateCancha(
     @Body() cancha: updateCanchaDto,
@@ -95,7 +95,7 @@ export class CanchaController {
    * Petición para eliminar una cancha.
    * - Se requiere el ID de la cancha.
    */
-  @ApiOperation({summary: 'Eliminación de una cancha' })
+  @ApiOperation({summary: 'Eliminación de una cancha.' })
   @Delete(':id')
   async deleteCancha(@Param('id', ParseUUIDPipe) id: UUID) {
     return this.canchaService.deleteCancha(id);
