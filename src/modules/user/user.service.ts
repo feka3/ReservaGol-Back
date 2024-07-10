@@ -13,6 +13,9 @@ export class UserService {
   async getUserById(id: string) {
     return await this.userRepository.getUserById(id);
   }
+  async getUserByEmail(email: string) {
+    return await this.userRepository.getUserEmail(email);
+  }
 
   async updateUserById(user: Partial<User> & { imgFile: string }, id: string) {
     return await this.userRepository.updateUserById(user, id);
@@ -30,7 +33,7 @@ export class UserService {
     return await this.userRepository.deleteUser(userId);
   }
 
-  async getRegistroUsuariosEstadistica(){
-    return await this.userRepository.getRegistroUsuariosEstadistica()
+  async getRegistroUsuariosEstadistica() {
+    return await this.userRepository.getRegistroUsuariosEstadistica();
   }
 }

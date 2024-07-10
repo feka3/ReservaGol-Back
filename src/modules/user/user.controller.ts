@@ -48,14 +48,18 @@ export class UserController {
       throw new NotFoundException(error);
     }
   }
-
+  @ApiOperation({ summary: 'Obtiene usuario por email' })
+  @Get('/email/obtiene/usuario/:email')
+  async getByEmail(@Param('email', ParseUUIDPipe) email: string) {
+    return await this.userService.getUserByEmail(email);
+  }
   /**
    * Petición para consultar los datos estadisticos de usuarios registrados.
    * - Devuelve datos por año, mes y tipos de usuarios.
    */
-  @Get("stats/users")
-  async getRegistroUsuariosEstadistica(){
-    return await this.userService.getRegistroUsuariosEstadistica()
+  @Get('stats/users')
+  async getRegistroUsuariosEstadistica() {
+    return await this.userService.getRegistroUsuariosEstadistica();
   }
 
   /**
