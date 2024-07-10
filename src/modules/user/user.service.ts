@@ -25,7 +25,12 @@ export class UserService {
   async getCancheros() {
     return await this.userRepository.getCancheros();
   }
+
   async deleteUser(userId) {
     return await this.userRepository.deleteUser(userId);
+  }
+
+  async getRegistroUsuariosEstadistica(){
+    return await this.userRepository.getRegistroUsuariosEstadistica()
   }
 }

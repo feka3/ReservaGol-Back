@@ -6,29 +6,29 @@ dotenv.config();
 
 @Injectable()
 export class EmailService {
-    private transporter;
+  private transporter;
 
-    constructor() {
-        this.transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-                user: 'reservagol.deportes@gmail.com',
-                pass: process.env.PASS_APP_GMAIL
-            }
-        });
-    }
+  constructor() {
+    this.transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'reservagol.deportes@gmail.com',
+        pass: 'jnww anle rcch kbmu',
+      },
+    });
+  }
 
-    async sendEmail(to: string, subject: string, text: string, html: string) {
-        const info = await this.transporter.sendMail({
-            from: '"Reserva Gol" <reservagol.deportes@gmail.com>',
-            to,
-            subject,
-            text,
-            html,
-        });
+  async sendEmail(to: string, subject: string, text: string, html: string) {
+    const info = await this.transporter.sendMail({
+      from: '"Reserva Gol" <reservagol.deportes@gmail.com>',
+      to,
+      subject,
+      text,
+      html,
+    });
 
-        console.log("Message sent: %s", info.messageId);
-    }
+    console.log('Message sent: %s', info.messageId);
+  }
 }
