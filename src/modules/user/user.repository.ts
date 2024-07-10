@@ -75,7 +75,7 @@ export class UserRepository {
   async getUserEmail(email: string) {
     return await this.userRepository.findOne({
       where: { email: email },
-      relations: ['sedes'],
+      relations: ['sedes', 'turnos'],
     });
   }
 
@@ -136,37 +136,35 @@ export class UserRepository {
       .orderBy('year', 'ASC')
       .addOrderBy('month', 'ASC')
       .getRawMany();
-  
+
     const formateoData = groupData.reduce((acc, data) => {
       const { year, month, role, count } = data;
       const key = `${year}-${month.toString().padStart(2, '0')}`;
-  
+
       if (!acc[key]) {
         acc[key] = {
           year,
           month,
           usuarios: 0,
           cancheros: 0,
-          superAdministrador:0,
-          totalUsuarios: 0,  
+          superAdministrador: 0,
+          totalUsuarios: 0,
         };
       }
-  
+
       if (role === 'user') {
         acc[key].usuarios = parseInt(count, 10);
-      } else if (role === 'admin') {  
+      } else if (role === 'admin') {
         acc[key].cancheros = parseInt(count, 10);
-      }else if (role === 'superadmin') {
-        acc[key].superAdministrador = parseInt(count, 10)
+      } else if (role === 'superadmin') {
+        acc[key].superAdministrador = parseInt(count, 10);
       }
-  
-      acc[key].totalUsuarios += parseInt(count, 10);  
+
+      acc[key].totalUsuarios += parseInt(count, 10);
 
       return acc;
     }, {});
-  
+
     return Object.values(formateoData);
   }
-  
-
 }
