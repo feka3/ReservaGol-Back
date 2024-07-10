@@ -116,9 +116,57 @@ export class UserRepository {
       throw new NotFoundException(error);
     }
   }
+
   async deleteUser(userId) {
     const user = await this.getUserById(userId);
     await this.userRepository.remove(user);
     return 'Usuario eliminado correctamente';
   }
+
+  async getRegistroUsuariosEstadistica() {
+    const groupData = await this.userRepository
+      .createQueryBuilder('user')
+      .select('EXTRACT(YEAR FROM user.createdAt)', 'year')
+      .addSelect('EXTRACT(MONTH FROM user.createdAt)', 'month')
+      .addSelect('user.rol', 'role')
+      .addSelect('COUNT(user.id)', 'count')
+      .groupBy('year')
+      .addGroupBy('month')
+      .addGroupBy('role')
+      .orderBy('year', 'ASC')
+      .addOrderBy('month', 'ASC')
+      .getRawMany();
+  
+    const formateoData = groupData.reduce((acc, data) => {
+      const { year, month, role, count } = data;
+      const key = `${year}-${month.toString().padStart(2, '0')}`;
+  
+      if (!acc[key]) {
+        acc[key] = {
+          year,
+          month,
+          usuarios: 0,
+          cancheros: 0,
+          superAdministrador:0,
+          totalUsuarios: 0,  
+        };
+      }
+  
+      if (role === 'user') {
+        acc[key].usuarios = parseInt(count, 10);
+      } else if (role === 'admin') {  
+        acc[key].cancheros = parseInt(count, 10);
+      }else if (role === 'superadmin') {
+        acc[key].superAdministrador = parseInt(count, 10)
+      }
+  
+      acc[key].totalUsuarios += parseInt(count, 10);  
+
+      return acc;
+    }, {});
+  
+    return Object.values(formateoData);
+  }
+  
+
 }
