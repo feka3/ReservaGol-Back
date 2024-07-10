@@ -49,8 +49,8 @@ export class UserController {
     }
   }
   @ApiOperation({ summary: 'Obtiene usuario por email' })
-  @Get('/email/obtiene/usuario/:email')
-  async getByEmail(@Param('email', ParseUUIDPipe) email: string) {
+  @Get('email/obtiene/usuario/:email')
+  async getByEmail(@Param('email') email: string) {
     return await this.userService.getUserByEmail(email);
   }
   /**
