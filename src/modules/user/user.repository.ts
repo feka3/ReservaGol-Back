@@ -12,41 +12,58 @@ export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async getUsers() {
-    return this.userRepository.find({ relations: ['sedes', 'turnos'] });
+    try {
+      return this.userRepository.find({ relations: ['sedes', 'turnos'] });
+
+    } catch (error) {
+      throw new NotFoundException('No hay usuarios registrados');
+    }
   }
 
   async getUserById(userId: string): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
-      relations: ['sedes', 'turnos', 'turnos.cancha', 'turnos.cancha.sede'],
-    });
+    try {
+      const user = await this.userRepository.findOne({
+        where: { id: userId },
+        relations: ['sedes', 'turnos', 'turnos.cancha', 'turnos.cancha.sede', 'sedes.canchas'],
+      });
 
-    if (!user) {
+      if (!user) {
+        throw new NotFoundException('Usuario no encontrado');
+      }
+      return user;
+    } catch (error) {
       throw new NotFoundException('Usuario no encontrado');
     }
-    return user;
   }
 
   async postUser(user: Partial<User>) {
-    const newUser = await this.userRepository.save(user);
-    const dbUser = await this.userRepository.findOneBy({ id: user.id });
+    try {
+      const newUser = await this.userRepository.save(user);
+      const dbUser = await this.userRepository.findOneBy({ id: user.id });
 
-    const { password, ...noPassword } = dbUser;
+      const { password, ...noPassword } = dbUser;
 
-    return noPassword;
+      return noPassword;
+    } catch (error) {
+      throw new NotFoundException('No se ha podido registrar el usuario');
+    }
   }
 
   async updateUserById(user: Partial<User> & { imgFile: string }, id: string) {
-    const userFinded = await this.getUserById(id);
+    try {
+      const userFinded = await this.getUserById(id);
 
-    if (!userFinded) return new NotFoundException('Usuario no encontrado');
+      if (!userFinded) return new NotFoundException('Usuario no encontrado');
 
-    await this.userRepository.update(userFinded.id, user);
+      await this.userRepository.update(userFinded.id, user);
 
-    return 'El usuario ha sido actualizado con exito';
+      return 'El usuario ha sido actualizado con exito';
+    } catch (error) {
+      throw new NotFoundException('No se ha podido actualizar el usuario');
+    }
   }
 
   async signupCanchero(canchero) {
@@ -68,15 +85,19 @@ export class UserRepository {
         status: HttpStatus.CREATED,
       };
     } catch (error) {
-      throw new NotFoundException(error);
+      throw new NotFoundException('No se ha podido registrar el canchero');
     }
   }
 
   async getUserEmail(email: string) {
-    return await this.userRepository.findOne({
-      where: { email: email },
-      relations: ['sedes', 'turnos'],
-    });
+    try {
+      return await this.userRepository.findOne({
+        where: { email: email },
+        relations: ['sedes', 'turnos'],
+      });
+    } catch (error) {
+      throw new NotFoundException('No existe el usuario registrado');
+    }
   }
 
   async approveCanchero(cancheroId: string) {
@@ -97,7 +118,7 @@ export class UserRepository {
 
       return 'Canchero aprobado';
     } catch (error) {
-      throw new NotFoundException(error);
+      throw new NotFoundException('No se ha podido aprobar el canchero');
     }
   }
 
@@ -113,58 +134,66 @@ export class UserRepository {
       }
       return cancheros;
     } catch (error) {
-      throw new NotFoundException(error);
+      throw new NotFoundException('No se han podido obtener los cancheros');
     }
   }
 
   async deleteUser(userId) {
-    const user = await this.getUserById(userId);
-    await this.userRepository.remove(user);
-    return 'Usuario eliminado correctamente';
+    try {
+      const user = await this.getUserById(userId);
+      await this.userRepository.remove(user);
+      return 'Usuario eliminado correctamente';
+    } catch (error) {
+      throw new NotFoundException('No se ha podido eliminar el usuario');
+    }
   }
 
   async getRegistroUsuariosEstadistica() {
-    const groupData = await this.userRepository
-      .createQueryBuilder('user')
-      .select('EXTRACT(YEAR FROM user.createdAt)', 'year')
-      .addSelect('EXTRACT(MONTH FROM user.createdAt)', 'month')
-      .addSelect('user.rol', 'role')
-      .addSelect('COUNT(user.id)', 'count')
-      .groupBy('year')
-      .addGroupBy('month')
-      .addGroupBy('role')
-      .orderBy('year', 'ASC')
-      .addOrderBy('month', 'ASC')
-      .getRawMany();
+    try {
+      const groupData = await this.userRepository
+        .createQueryBuilder('user')
+        .select('EXTRACT(YEAR FROM user.createdAt)', 'year')
+        .addSelect('EXTRACT(MONTH FROM user.createdAt)', 'month')
+        .addSelect('user.rol', 'role')
+        .addSelect('COUNT(user.id)', 'count')
+        .groupBy('year')
+        .addGroupBy('month')
+        .addGroupBy('role')
+        .orderBy('year', 'ASC')
+        .addOrderBy('month', 'ASC')
+        .getRawMany();
 
-    const formateoData = groupData.reduce((acc, data) => {
-      const { year, month, role, count } = data;
-      const key = `${year}-${month.toString().padStart(2, '0')}`;
+      const formateoData = groupData.reduce((acc, data) => {
+        const { year, month, role, count } = data;
+        const key = `${year}-${month.toString().padStart(2, '0')}`;
 
-      if (!acc[key]) {
-        acc[key] = {
-          year,
-          month,
-          usuarios: 0,
-          cancheros: 0,
-          superAdministrador: 0,
-          totalUsuarios: 0,
-        };
-      }
+        if (!acc[key]) {
+          acc[key] = {
+            year,
+            month,
+            usuarios: 0,
+            cancheros: 0,
+            superAdministrador: 0,
+            totalUsuarios: 0,
+          };
+        }
 
-      if (role === 'user') {
-        acc[key].usuarios = parseInt(count, 10);
-      } else if (role === 'admin') {
-        acc[key].cancheros = parseInt(count, 10);
-      } else if (role === 'superadmin') {
-        acc[key].superAdministrador = parseInt(count, 10);
-      }
+        if (role === 'user') {
+          acc[key].usuarios = parseInt(count, 10);
+        } else if (role === 'admin') {
+          acc[key].cancheros = parseInt(count, 10);
+        } else if (role === 'superadmin') {
+          acc[key].superAdministrador = parseInt(count, 10);
+        }
 
-      acc[key].totalUsuarios += parseInt(count, 10);
+        acc[key].totalUsuarios += parseInt(count, 10);
 
-      return acc;
-    }, {});
+        return acc;
+      }, {});
 
-    return Object.values(formateoData);
+      return Object.values(formateoData);
+    } catch (error) {
+      throw new NotFoundException('No se han podido obtener las estadísticas');
+    }
   }
 }
