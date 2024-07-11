@@ -106,10 +106,11 @@ export class UserController {
   }
 
   /**
-   * Petición para eliminar un canchero.
-   * - Se requiere enviar por parámetro el ID del canchero.
+   * Petición para borrar de forma lógica a un usuario.
+   * - Se requiere enviar por parámetro el ID del usuario.
+   * - Cuando se ejecuta cambia el estado de la clumna isActive a true o false.
    */
-  @ApiOperation({ summary: 'Eliminación de usuario.' })
+  @ApiOperation({ summary: 'Borrado lógico de usuario.' })
   @Delete(':id')
   async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return await this.userService.deleteUser(id);

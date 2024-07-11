@@ -141,10 +141,19 @@ export class UserRepository {
   async deleteUser(userId) {
     try {
       const user = await this.getUserById(userId);
-      await this.userRepository.remove(user);
-      return 'Usuario eliminado correctamente';
+
+      if(user.isActive){
+        user.isActive = false;
+        await this.userRepository.save(user);
+        return 'Usuario deshabilitado correctamente';
+      }else{
+        user.isActive = true
+        await this.userRepository.save(user)
+        return 'Usuario habilitado correctamente';
+      }
+
     } catch (error) {
-      throw new NotFoundException('No se ha podido eliminar el usuario');
+      throw new NotFoundException('No se ha podido realizar la operación');
     }
   }
 
