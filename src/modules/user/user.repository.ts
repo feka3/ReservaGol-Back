@@ -4,12 +4,14 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Role } from './roles.enum';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly jwtservice: JwtService,
   ) {}
 
   async getUsers() {
@@ -44,12 +46,19 @@ export class UserRepository {
 
   async postUser(user: Partial<User>) {
     try {
+      const { password } = user;
+      user.password = await bcrypt.hash(password, 10);
+
       const newUser = await this.userRepository.save(user);
       const dbUser = await this.userRepository.findOneBy({ id: user.id });
-
-      const { password, ...noPassword } = dbUser;
-
-      return noPassword;
+      delete dbUser.password;
+      const userPayload = {
+        id: dbUser.id,
+        email: dbUser.email,
+        rol: dbUser.rol,
+      };
+      const token = this.jwtservice.sign(userPayload);
+      return { token, dbUser };
     } catch (error) {
       throw new NotFoundException('No se ha podido registrar el usuario');
     }
@@ -145,16 +154,15 @@ export class UserRepository {
     try {
       const user = await this.getUserById(userId);
 
-      if(user.isActive){
+      if (user.isActive) {
         user.isActive = false;
         await this.userRepository.save(user);
         return 'Usuario deshabilitado correctamente';
-      }else{
-        user.isActive = true
-        await this.userRepository.save(user)
+      } else {
+        user.isActive = true;
+        await this.userRepository.save(user);
         return 'Usuario habilitado correctamente';
       }
-
     } catch (error) {
       throw new NotFoundException('No se ha podido realizar la operación');
     }
