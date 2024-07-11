@@ -2,10 +2,8 @@ import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { CancheroDto } from '../auth/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from './roles.enum';
-import { log } from 'console';
 
 @Injectable()
 export class UserRepository {
@@ -146,10 +144,19 @@ export class UserRepository {
   async deleteUser(userId) {
     try {
       const user = await this.getUserById(userId);
-      await this.userRepository.remove(user);
-      return 'Usuario eliminado correctamente';
+
+      if(user.isActive){
+        user.isActive = false;
+        await this.userRepository.save(user);
+        return 'Usuario deshabilitado correctamente';
+      }else{
+        user.isActive = true
+        await this.userRepository.save(user)
+        return 'Usuario habilitado correctamente';
+      }
+
     } catch (error) {
-      throw new NotFoundException('No se ha podido eliminar el usuario');
+      throw new NotFoundException('No se ha podido realizar la operación');
     }
   }
 

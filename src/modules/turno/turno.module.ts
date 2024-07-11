@@ -9,6 +9,7 @@ import { Cancha } from '../cancha/cancha.entity';
 import { EmailService } from '../email/email.service';
 import { TurnoGeneratorService } from './turnoGenerator.service';
 import { TurnoCleanupService } from './turnClear.service';
+import { Sede } from '../sede/sede.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Turno, User, Cancha])],
