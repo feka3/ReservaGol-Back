@@ -53,7 +53,6 @@ export class TurnoController {
     return this.turnoGeneratorService.generateTurnos();
   }
 
-  
   /**
    * Petición para consultar los datos estadisticos de turnos.
    * - Devuelve datos por año, mes y estado de reserva.
@@ -74,8 +73,8 @@ export class TurnoController {
    * - Se notifica via mail la reserva.
    */
   @ApiOperation({ summary: 'Reserva de turnos.' })
-  @Roles(Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.User)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async takeTurnos(@Body() data: any) {
     const { turnoId, userId } = data;
