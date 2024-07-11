@@ -2,10 +2,8 @@ import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { CancheroDto } from '../auth/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from './roles.enum';
-import { log } from 'console';
 
 @Injectable()
 export class UserRepository {
