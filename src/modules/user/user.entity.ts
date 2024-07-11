@@ -103,10 +103,12 @@ export class User {
   rol: Role;
 
   /** 
-   * Por defecto se indica que el futuro admin/canchero no ha sido aprobado.
+   * Indica si el usuario esta banneado o activo.
+   * - True: Usuario habilitado.
+   * - False: Usuario baneado.
   */
-  // @Column({ default: false })
-  // isAproved: boolean;
+  @Column({ default: true })
+  isActive: boolean;
 
   /**
    * Listado de Sedes asociadas al usuario.
