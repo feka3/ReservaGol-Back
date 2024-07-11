@@ -21,4 +21,8 @@ export class TurnoService {
   async notPayment(id, res) {
     return await this.turnoRepository.notPayment(id, res);
   }
+
+  async getTurnoEstadistica(){
+    return await this.turnoRepository.getTurnoEstadistica()
+  }
 }

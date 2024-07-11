@@ -54,6 +54,18 @@ export class TurnoController {
   }
 
   /**
+   * Petición para consultar los datos estadisticos de turnos.
+   * - Devuelve datos por año, mes y estado de reserva.
+   */
+  // @Roles(Role.Superadmin, Role.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Estadisticas para turnos' })
+  @Get('/stats/turno')
+  async getTurnoEstadistica() {
+    return this.turnoService.getTurnoEstadistica();
+  }
+
+  /**
    * Petición para reservar un turno.
    * - El turno queda reservado en estado PENDIENTE hasta que se registre el pago de la reserva.
    * - Solo puede ejecutarla con permiso de Usuario.
@@ -61,13 +73,12 @@ export class TurnoController {
    * - Se notifica via mail la reserva.
    */
   @ApiOperation({ summary: 'Reserva de turnos.' })
-  @Roles(Role.User)
-  @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.User)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async takeTurnos(@Body() data: any) {
-    console.log('en controller');
     const { turnoId, userId } = data;
-    console.log(turnoId, userId);
+    console.log(userId);
     return await this.turnoService.takeTurno(turnoId, userId);
   }
   /**
@@ -99,7 +110,7 @@ export class TurnoController {
     return await this.turnoService.paymentFinish(id, res);
   }
 
-    /**
+  /**
    * Petición para cambiar el estado de un turno que no fue pago.
    * - Se requiere el ID del turno.
    * - El turno pasa al estado de LIBRE.

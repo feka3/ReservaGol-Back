@@ -48,14 +48,18 @@ export class UserController {
       throw new NotFoundException(error);
     }
   }
-
+  @ApiOperation({ summary: 'Obtiene usuario por email' })
+  @Get('email/obtiene/usuario/:email')
+  async getByEmail(@Param('email') email: string) {
+    return await this.userService.getUserByEmail(email);
+  }
   /**
    * Petición para consultar los datos estadisticos de usuarios registrados.
    * - Devuelve datos por año, mes y tipos de usuarios.
    */
-  @Get("stats/users")
-  async getRegistroUsuariosEstadistica(){
-    return await this.userService.getRegistroUsuariosEstadistica()
+  @Get('stats/users')
+  async getRegistroUsuariosEstadistica() {
+    return await this.userService.getRegistroUsuariosEstadistica();
   }
 
   /**
@@ -66,7 +70,7 @@ export class UserController {
    */
   @ApiOperation({ summary: 'Información de usuario.' })
   @Get(':id')
-  async getUserById(@Param('id') id: string) {
+  async getUserById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.userService.getUserById(id);
   }
 
@@ -102,10 +106,11 @@ export class UserController {
   }
 
   /**
-   * Petición para eliminar un canchero.
-   * - Se requiere enviar por parámetro el ID del canchero.
+   * Petición para borrar de forma lógica a un usuario.
+   * - Se requiere enviar por parámetro el ID del usuario.
+   * - Cuando se ejecuta cambia el estado de la clumna isActive a true o false.
    */
-  @ApiOperation({ summary: 'Eliminación de usuario.' })
+  @ApiOperation({ summary: 'Borrado lógico de usuario.' })
   @Delete(':id')
   async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return await this.userService.deleteUser(id);
