@@ -73,8 +73,8 @@ export class TurnoController {
    * - Se notifica via mail la reserva.
    */
   @ApiOperation({ summary: 'Reserva de turnos.' })
-  // @Roles(Role.User)
-  // @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.User)
+  @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async takeTurnos(@Body() data: any) {
     const { turnoId, userId } = data;
