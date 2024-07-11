@@ -301,7 +301,7 @@ export class TurnoRepository {
        </table>
       </div>
      </body>
-    </html>`
+    </html>`;
 
     await this.emailService.sendEmail(
       turnodb.user.email,
@@ -310,9 +310,13 @@ export class TurnoRepository {
       emailHtml,
     );
 
-    
-
     await this.turnoRepository.update(turnodb.id, turnodb);
+    const showTurn = await this.turnoRepository.findOne({
+      where: { id: turnodb.id },
+      relations: ['user'],
+    });
+
+    console.log(showTurn, '<----TURNO TOMADO!!!!');
     setTimeout(
       async () => {
         const turnoRevisado = await this.turnoRepository.findOne({
@@ -611,7 +615,7 @@ a[x-apple-data-detectors] {
    </table>
   </div>
  </body>
-</html>`
+</html>`;
 
     await this.emailService.sendEmail(
       turnoFinded.user.email,

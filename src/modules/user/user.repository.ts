@@ -12,12 +12,11 @@ export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   async getUsers() {
     try {
       return this.userRepository.find({ relations: ['sedes', 'turnos'] });
-
     } catch (error) {
       throw new NotFoundException('No hay usuarios registrados');
     }
@@ -27,7 +26,13 @@ export class UserRepository {
     try {
       const user = await this.userRepository.findOne({
         where: { id: userId },
-        relations: ['sedes', 'turnos', 'turnos.cancha', 'turnos.cancha.sede', 'sedes.canchas'],
+        relations: [
+          'sedes',
+          'turnos',
+          'turnos.cancha',
+          'turnos.cancha.sede',
+          'sedes.canchas',
+        ],
       });
 
       if (!user) {

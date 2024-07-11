@@ -70,7 +70,7 @@ export class UserController {
    */
   @ApiOperation({ summary: 'Información de usuario.' })
   @Get(':id')
-  async getUserById(@Param('id') id: string) {
+  async getUserById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.userService.getUserById(id);
   }
 
