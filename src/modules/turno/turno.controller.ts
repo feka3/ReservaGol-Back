@@ -53,6 +53,19 @@ export class TurnoController {
     return this.turnoGeneratorService.generateTurnos();
   }
 
+  
+  /**
+   * Petición para consultar los datos estadisticos de turnos.
+   * - Devuelve datos por año, mes y estado de reserva.
+   */
+  // @Roles(Role.Superadmin, Role.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Estadisticas para turnos' })
+  @Get('/stats/turno')
+  async getTurnoEstadistica() {
+    return this.turnoService.getTurnoEstadistica();
+  }
+
   /**
    * Petición para reservar un turno.
    * - El turno queda reservado en estado PENDIENTE hasta que se registre el pago de la reserva.
