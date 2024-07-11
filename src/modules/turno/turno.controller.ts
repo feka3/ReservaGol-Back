@@ -78,9 +78,8 @@ export class TurnoController {
   @UseGuards(AuthGuard, RolesGuard)
   @Post()
   async takeTurnos(@Body() data: any) {
-    console.log('en controller');
     const { turnoId, userId } = data;
-    console.log(turnoId, userId);
+    console.log(userId);
     return await this.turnoService.takeTurno(turnoId, userId);
   }
   /**
@@ -112,7 +111,7 @@ export class TurnoController {
     return await this.turnoService.paymentFinish(id, res);
   }
 
-    /**
+  /**
    * Petición para cambiar el estado de un turno que no fue pago.
    * - Se requiere el ID del turno.
    * - El turno pasa al estado de LIBRE.
