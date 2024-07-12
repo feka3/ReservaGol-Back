@@ -12,6 +12,8 @@ import { Turno } from '../turno/turno.entity';
 import { UserRepository } from '../user/user.repository';
 import { User } from '../user/user.entity';
 import { EmailService } from '../email/email.service';
+import { TurnoCleanupService } from '../turno/turnClear.service';
+import { TurnoGeneratorService } from '../turno/turnoGenerator.service';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { EmailService } from '../email/email.service';
     TurnoRepository,
     UserRepository,
     EmailService,
+    TurnoCleanupService,
+    TurnoGeneratorService,
   ],
   exports: [TypeOrmModule],
 })

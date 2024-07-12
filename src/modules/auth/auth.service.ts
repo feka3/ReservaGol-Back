@@ -17,17 +17,29 @@ export class AuthService {
     private readonly jwtservice: JwtService,
     private readonly emailService: EmailService,
   ) {}
+
   async signIn(email, password) {
     try {
-      if (!email || !password) return 'Datos incompletos';
+      if (!email || !password) {
+        console.log('no coincidence');
+        return 'Datos incompletos';
+      }
 
       const userDb = await this.usersRepository.getUserEmail(email);
+
+      if (!userDb.isActive)
+        return new NotFoundException(
+          'El usuario no se encuentra habilitado para ingresar.',
+        );
+
       if (!userDb) {
+        console.log('no hay usuario');
         throw new BadRequestException('Credenciales incorrectas');
       }
 
       const user = await bcrypt.compare(password, userDb.password);
       if (!user) {
+        console.log('no match de bcrypt');
         throw new BadRequestException('Credenciales incorrectas');
       }
 
@@ -38,6 +50,7 @@ export class AuthService {
       };
       delete userDb.password;
       const token = this.jwtservice.sign(userPayload);
+      console.log(token, userDb);
       return { success: 'Usuario logueado', token, userDb };
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -52,11 +65,6 @@ export class AuthService {
 
     if (userEmail) {
       throw new BadRequestException(`El usuario ya existe ${user.email}`);
-    }
-
-    const passwordHash = await bcrypt.hash(user.password, 10);
-    if (!passwordHash) {
-      throw new BadRequestException('Error al hashear la contraseña');
     }
 
     const emailSubject = 'Registro Exitoso';
@@ -335,14 +343,12 @@ a[x-apple-data-detectors] {
       emailHtml,
     );
 
-    return await this.usersRepository.postUser({
-      ...user,
-      password: passwordHash,
-    });
+    return await this.usersRepository.postUser(user);
   }
 
   async authRegister(userData: any) {
     const validar = await this.usersRepository.getUserEmail(userData.email);
+
     if (validar) {
       return await this.signIn(userData.email, userData.password);
     }
