@@ -13,11 +13,11 @@ const config = {
   database: process.env.DB_NAME,
   autoLoadEntities: true,
   synchronize: true,
-  logging: true,
+  // logging: true,
   dropSchema: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   // migrations: ['dist/migrations/*.js'],
-   /* ssl: {
+  /* ssl: {
      rejectUnauthorized: false, // Esta opción es necesaria si estás utilizando un certificado auto-firmado o no verificado
    }, */
 };

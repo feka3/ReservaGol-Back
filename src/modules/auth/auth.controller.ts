@@ -23,7 +23,7 @@ export class AuthController {
   @Post('signin')
   async singIn(@Body() credential: LoginDto) {
     const { email, password } = credential;
-    return this.serviceAuth.singIn(email, password);
+    return this.serviceAuth.signIn(email, password);
   }
 
   /**
