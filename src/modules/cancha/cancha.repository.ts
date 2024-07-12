@@ -15,6 +15,7 @@ import { Turno } from '../turno/turno.entity';
 import { Status } from '../turno/status.enum';
 import { TurnoRepository } from '../turno/turno.repository';
 import { TurnoCleanupService } from '../turno/turnClear.service';
+import { TurnoGeneratorService } from '../turno/turnoGenerator.service';
 
 @Injectable()
 export class CanchaRepository {
@@ -23,6 +24,7 @@ export class CanchaRepository {
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
     @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
     private turnoService: TurnoCleanupService,
+    private turnoCreateService: TurnoGeneratorService,
   ) {}
 
   async createCancha(cancha: canchaDto, imgUrl) {
@@ -181,17 +183,28 @@ export class CanchaRepository {
       where: { id: canchaId },
       relations: ['turnos'],
     });
+
     if (!cancha) {
       throw new NotFoundException('Cancha no encontrada');
     }
-    cancha.paused = true;
-    const arrayTurnoId: string[] = [];
-    cancha.turnos.map((turno) => {
-      if (turno.status === Status.Libre) {
-        arrayTurnoId.push(turno.id);
+
+    if (cancha.paused) {
+      cancha.paused = false;
+      await this.canchaRepository.save(cancha);
+      await this.turnoCreateService.genereteTurnosid(cancha.id);
+      return {
+        message:
+          'La cancha ha sido reactivada exitosamente. Se han generado automáticamente nuevos turnos disponibles.',
+      };
+    } else {
+      cancha.paused = true;
+      await this.canchaRepository.save(cancha);
+      const arrayTurnoId = cancha.turnos
+        .filter((turno) => turno.status === Status.Libre)
+        .map((turno) => turno.id);
+      if (arrayTurnoId.length > 0) {
+        return await this.turnoService.deleteTurno(arrayTurnoId);
       }
-    });
-    await this.turnoRepository.update(cancha.id, cancha);
-    await this.turnoService.deleteTurno(arrayTurnoId);
+    }
   }
 }
