@@ -18,8 +18,8 @@ export class SedeService {
     return await this.sedeRepository.createSede(sede);
   }
 
-  async updateSede(sede: UpdateSedeDto & { imgUrl: string }, id: string) {
-    return await this.sedeRepository.updateSede(sede, id);
+  async updateSede(id: string, sede: Partial<UpdateSedeDto> & { imgUrl?: string }) {
+    return await this.sedeRepository.updateSede(id, sede as UpdateSedeDto);
   }
 
   async deleteSedeByid(id: string) {
