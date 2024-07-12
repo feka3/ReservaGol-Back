@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getConnection, Repository, UpdateResult } from 'typeorm';
 import { Sede } from './sede.entity';
 import { CreateSedeDto, UpdateSedeDto } from './dto/createSede.dto';
 
@@ -12,7 +12,7 @@ import { CreateSedeDto, UpdateSedeDto } from './dto/createSede.dto';
 export class SedeRepository {
   constructor(
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
-  ) {}
+  ) { }
 
   async getSedes(): Promise<Sede[]> {
     try {
@@ -58,9 +58,11 @@ export class SedeRepository {
     }
   }
 
-  async updateSede(sede: UpdateSedeDto, id: string) {
+  async updateSede(id: string, sede: Partial<UpdateSedeDto> & { imgUrl: string }) {
     try {
-      const sedeToUpdate = this.sedeRepository.findOne({ where: { id } });
+      const sedeToUpdate = await this.sedeRepository.findOne({ where: { id } });
+      console.log(sedeToUpdate);
+
       if (!sedeToUpdate) {
         throw new NotFoundException(
           `La sede con id: ${id} no ha sido encontrada`,
@@ -68,7 +70,8 @@ export class SedeRepository {
       }
 
       await this.sedeRepository.update(id, sede);
-      return 'La sede ha sido actualizada correctamente';
+      return "La sede ha sido actualizada correctamente";
+
     } catch (error) {
       throw new NotFoundException(error);
     }
