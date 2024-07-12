@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getConnection, Repository, UpdateResult } from 'typeorm';
 import { Sede } from './sede.entity';
 import { CreateSedeDto, UpdateSedeDto } from './dto/createSede.dto';
 
@@ -55,15 +55,22 @@ export class SedeRepository {
     }
   }
 
-  async updateSede(sede: UpdateSedeDto, id: string) {
+  async updateSede(id: string, sede: Partial<UpdateSedeDto> & { imgUrl: string }) {
     try {
-      const sedeToUpdate = this.sedeRepository.findOne({ where: { id } });
+      const sedeToUpdate = await this.sedeRepository.findOne({ where: { id } });
+      console.log(sedeToUpdate);
+
       if (!sedeToUpdate) {
         throw new NotFoundException(`La sede con id: ${id} no ha sido encontrada`);
       }
 
-      await this.sedeRepository.update(id, sede);
-      return "La sede ha sido actualizada correctamente";
+      const updatedSede: Partial<UpdateSedeDto> = {
+        ...sedeToUpdate,
+        ...sede,
+      };
+
+      await this.sedeRepository.update(id, updatedSede);
+      return updatedSede;
 
     } catch (error) {
       throw new NotFoundException(error);
