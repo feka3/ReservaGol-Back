@@ -6,7 +6,7 @@ import { updateCanchaDto } from './cancha.dto';
 export class CanchaService {
   constructor(private readonly canchaRepository: CanchaRepository) {}
 
-  async getCanchaByid(id:string) {
+  async getCanchaByid(id: string) {
     return await this.canchaRepository.getCanchaById(id);
   }
 
@@ -14,19 +14,22 @@ export class CanchaService {
     return await this.canchaRepository.getCanchas();
   }
 
-  async getCanchaDeporte(deporte:number) {
+  async getCanchaDeporte(deporte: number) {
     return await this.canchaRepository.getCanchaDeporte(deporte);
   }
 
   async createCancha(cancha, imgUrl) {
     return await this.canchaRepository.createCancha(cancha, imgUrl);
   }
-  
-  async updateCancha(id:string, cancha: updateCanchaDto) {
+
+  async updateCancha(id: string, cancha: updateCanchaDto) {
     return await this.canchaRepository.updateCancha(id, cancha);
   }
 
-  async deleteCancha(id:string) {
+  async deleteCancha(id: string) {
     return await this.canchaRepository.deleteCancha(id);
+  }
+  async pausarCancha(canchaId: string) {
+    return await this.canchaRepository.pausarCancha(canchaId);
   }
 }

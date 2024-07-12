@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Sede } from './sede.entity';
@@ -72,7 +76,10 @@ export class SedeRepository {
 
   async deleteSedeByid(id: string) {
     try {
-      const sede = await this.sedeRepository.findOneBy({ id });
+      const sede = await this.sedeRepository.findOne({
+        where: { id: id },
+        relations: ['canchas'],
+      });
       if (!sede) {
         throw new NotFoundException(
           `La sede con id: ${id} no ha sido encontrada`,
@@ -80,13 +87,15 @@ export class SedeRepository {
       }
       if (sede.canchas.length === 0) {
         await this.sedeRepository.delete(id);
-        return `La sede con id: ${sede.name} ha sido eliminada correctamente`;
+
+        return `La sede: ${sede.name} ha sido eliminada correctamente`;
       } else {
-        throw new NotFoundException(
-          `La sede ${sede.name} aun tiene canchas disponibles`,
+        throw new ConflictException(
+          `La sede :${sede.name} aun tiene canchas disponibles`,
         );
       }
     } catch (error) {
+      console.log('error', error);
       throw new NotFoundException(error);
     }
   }
