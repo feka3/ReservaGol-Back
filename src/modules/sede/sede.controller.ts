@@ -28,7 +28,7 @@ export class SedeController {
   constructor(
     private readonly sedeService: SedeService,
     private readonly cloudinaryService: CloudinaryService,
-  ) {}
+  ) { }
 
   /**
    * Petición para consultar todas las sedes que se encuentra en la base de datos.
@@ -68,8 +68,6 @@ export class SedeController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     try {
-      console.log('File received:', file);
-
       if (!file) {
         throw new NotFoundException('File not found');
       }
@@ -94,6 +92,7 @@ export class SedeController {
   @ApiBearerAuth()
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Put(':id')
   async updateSede(
     @Param('id', ParseUUIDPipe) id: string,
@@ -102,19 +101,16 @@ export class SedeController {
   ) {
     try {
       if (!file) {
-        console.log('No file received');
-
         return await this.sedeService.updateSede(id, formData);
-      } else {
-        console.log('File received:', file);
-
-        const uploadResult = await this.cloudinaryService.uploadImage(file);
-        const imgUrl = uploadResult.secure_url;
-        return await this.sedeService.updateSede(id, { ...formData, imgUrl });
       }
-    } catch (error) {
-      throw new NotFoundException(error);
 
+      const uploadResult = await this.cloudinaryService.uploadImage(file);
+      const imgUrl = uploadResult.secure_url;
+
+
+      return await this.sedeService.updateSede(id, { ...formData, imgUrl });
+    } catch (error) {
+      throw new NotFoundException(error.message);
     }
   }
 
