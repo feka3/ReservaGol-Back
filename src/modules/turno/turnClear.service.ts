@@ -16,7 +16,8 @@ export class TurnoCleanupService {
     await this.turnoService.deleteOldTurnos();
   }
   async deleteTurno(arrayTurnoId: string[]) {
+    console.log('deleteTurno');
     await this.turnoRepository.delete(arrayTurnoId);
-    return 'Turnos eliminados correctamente';
+    return { message: 'Turnos eliminados correctamente' };
   }
 }
