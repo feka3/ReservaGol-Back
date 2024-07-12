@@ -11,9 +11,21 @@ import { AuthService } from 'src/modules/auth/auth.service';
 import { EmailService } from 'src/modules/email/email.service';
 import { TurnoRepository } from 'src/modules/turno/turno.repository';
 import { Turno } from 'src/modules/turno/turno.entity';
+import { TurnoCleanupService } from 'src/modules/turno/turnClear.service';
+import { TurnoGeneratorService } from 'src/modules/turno/turnoGenerator.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Sede, Cancha, User,Turno])],
-  providers: [SedeRepository, CanchaRepository, UserRepository, SeederService, AuthService, EmailService,TurnoRepository],
+  imports: [TypeOrmModule.forFeature([Sede, Cancha, User, Turno])],
+  providers: [
+    SedeRepository,
+    CanchaRepository,
+    UserRepository,
+    SeederService,
+    AuthService,
+    EmailService,
+    TurnoRepository,
+    TurnoCleanupService,
+    TurnoGeneratorService,
+  ],
 })
-export class SeederModule { }
+export class SeederModule {}

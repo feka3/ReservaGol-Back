@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -13,6 +14,7 @@ import { canchaDto, updateCanchaDto } from './cancha.dto';
 import { Turno } from '../turno/turno.entity';
 import { Status } from '../turno/status.enum';
 import { TurnoRepository } from '../turno/turno.repository';
+import { TurnoCleanupService } from '../turno/turnClear.service';
 
 @Injectable()
 export class CanchaRepository {
@@ -20,6 +22,7 @@ export class CanchaRepository {
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
     @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
+    private turnoService: TurnoCleanupService,
   ) {}
 
   async createCancha(cancha: canchaDto, imgUrl) {
@@ -151,7 +154,42 @@ export class CanchaRepository {
   }
 
   async deleteCancha(id: string) {
-    await this.canchaRepository.delete(id);
-    return 'Cancha eliminada';
+    try {
+      const cancha = await this.canchaRepository.findOne({
+        where: { id: id },
+        relations: ['turnos'],
+      });
+      if (!cancha) {
+        throw new NotFoundException(
+          `La cancha con id: ${id} no ha sido encontrada`,
+        );
+      }
+      if (cancha.turnos.length === 0) {
+        await this.sedeRepository.delete(id);
+        return `La cancha : ${cancha.name} ha sido eliminada correctamente`;
+      } else {
+        throw new ConflictException(
+          `La cancha : ${cancha.name} aun tiene turnos disponibles`,
+        );
+      }
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
+  }
+  async pausarCancha(canchaId: string) {
+    const cancha = await this.canchaRepository.findOne({
+      where: { id: canchaId },
+      relations: ['turnos'],
+    });
+    if (!cancha) {
+      throw new NotFoundException('Cancha no encontrada');
+    }
+    const arrayTurnoId: string[] = [];
+    cancha.turnos.map((turno) => {
+      if (turno.status === Status.Libre) {
+        arrayTurnoId.push(turno.id);
+      }
+    });
+    await this.turnoService.deleteTurno(arrayTurnoId);
   }
 }
