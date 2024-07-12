@@ -100,6 +100,12 @@ export class CanchaController {
   async deleteCancha(@Param('id', ParseUUIDPipe) id: UUID) {
     return this.canchaService.deleteCancha(id);
   }
+
+  /**
+   * Petición para pausar una cancha.
+   * - Se requiere el ID de la cancha.
+   */
+  @ApiOperation({ summary: 'Actualización de datos de una cancha.' })
   @Get('eliminacion/pausa/cancha/:canchaId')
   async pausarCancha(@Param('canchaId', ParseUUIDPipe) canchaId: UUID) {
     return this.canchaService.pausarCancha(canchaId);
