@@ -151,7 +151,23 @@ export class CanchaRepository {
   }
 
   async deleteCancha(id: string) {
-    await this.canchaRepository.delete(id);
-    return 'Cancha eliminada';
+    try {
+      const cancha = await this.canchaRepository.findOneBy({ id });
+      if (!cancha) {
+        throw new NotFoundException(
+          `La cancha con id: ${id} no ha sido encontrada`,
+        );
+      }
+      if (cancha.turnos.length === 0) {
+        await this.sedeRepository.delete(id);
+        return `La cancha : ${cancha.name} ha sido eliminada correctamente`;
+      } else {
+        throw new NotFoundException(
+          `La cancha : ${cancha.name} aun tiene turnos disponibles`,
+        );
+      }
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 }

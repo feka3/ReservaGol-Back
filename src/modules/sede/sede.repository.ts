@@ -8,7 +8,7 @@ import { CreateSedeDto, UpdateSedeDto } from './dto/createSede.dto';
 export class SedeRepository {
   constructor(
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
-  ) { }
+  ) {}
 
   async getSedes(): Promise<Sede[]> {
     try {
@@ -19,7 +19,6 @@ export class SedeRepository {
         .leftJoinAndSelect('sede.user', 'user')
         .select(['sede', 'cancha', 'turnos', 'user.id']) // Seleccionar solo la ID del usuario
         .getMany();
-
     } catch (error) {
       throw new NotFoundException(error);
     }
@@ -35,7 +34,6 @@ export class SedeRepository {
         throw new NotFoundException('Sede no encontrada');
       }
       return sede;
-
     } catch (error) {
       throw new NotFoundException(error);
     }
@@ -43,13 +41,14 @@ export class SedeRepository {
 
   async createSede(sede: any & { imgUrl: string }) {
     try {
-      const sedeExist = await this.sedeRepository.findOneBy({ name: sede.name });
+      const sedeExist = await this.sedeRepository.findOneBy({
+        name: sede.name,
+      });
       if (sedeExist) {
         throw new NotFoundException(`La sede ${sede.name} ya existe`);
       }
       const newSede = this.sedeRepository.create(sede);
       return await this.sedeRepository.save(newSede);
-
     } catch (error) {
       throw new NotFoundException(error);
     }
@@ -59,12 +58,13 @@ export class SedeRepository {
     try {
       const sedeToUpdate = this.sedeRepository.findOne({ where: { id } });
       if (!sedeToUpdate) {
-        throw new NotFoundException(`La sede con id: ${id} no ha sido encontrada`);
+        throw new NotFoundException(
+          `La sede con id: ${id} no ha sido encontrada`,
+        );
       }
 
       await this.sedeRepository.update(id, sede);
-      return "La sede ha sido actualizada correctamente";
-
+      return 'La sede ha sido actualizada correctamente';
     } catch (error) {
       throw new NotFoundException(error);
     }
@@ -72,13 +72,20 @@ export class SedeRepository {
 
   async deleteSedeByid(id: string) {
     try {
-      if (await this.sedeRepository.findOneBy({ id })) {
-        await this.sedeRepository.delete(id);
-        return `La sede con id: ${id} ha sido eliminada correctamente`;
-      } else {
-        throw new NotFoundException(`La sede con id: ${id} ha sido encontrada`);
+      const sede = await this.sedeRepository.findOneBy({ id });
+      if (!sede) {
+        throw new NotFoundException(
+          `La sede con id: ${id} no ha sido encontrada`,
+        );
       }
-
+      if (sede.canchas.length === 0) {
+        await this.sedeRepository.delete(id);
+        return `La sede con id: ${sede.name} ha sido eliminada correctamente`;
+      } else {
+        throw new NotFoundException(
+          `La sede ${sede.name} aun tiene canchas disponibles`,
+        );
+      }
     } catch (error) {
       throw new NotFoundException(error);
     }
