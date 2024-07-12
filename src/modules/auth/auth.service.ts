@@ -1,56 +1,70 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from '../user/user.repository';
 import { JwtService } from '@nestjs/jwt';
-import { CancheroDto} from './auth.dto';
+import { CancheroDto } from './auth.dto';
 import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersRepoitory: UserRepository,
+    private readonly usersRepository: UserRepository,
     private readonly jwtservice: JwtService,
-    private readonly emailService: EmailService) { }
+    private readonly emailService: EmailService,
+  ) {}
 
-  async singIn(email, password) {
-    if (!email || !password) return 'Datos incompletos';
+  async signIn(email, password) {
+    try {
+      if (!email || !password) {
+        console.log('no coincidence');
+        return 'Datos incompletos';
+      }
 
-    const userDb = await this.usersRepoitory.getUserEmail(email);
-    //console.log(userDb,' prueba');
-    if (!userDb) {
-      throw new BadRequestException('Credenciales incorrectas');
+      const userDb = await this.usersRepository.getUserEmail(email);
+
+      if (!userDb.isActive)
+        return new NotFoundException(
+          'El usuario no se encuentra habilitado para ingresar.',
+        );
+
+      if (!userDb) {
+        console.log('no hay usuario');
+        throw new BadRequestException('Credenciales incorrectas');
+      }
+
+      const user = await bcrypt.compare(password, userDb.password);
+      if (!user) {
+        console.log('no match de bcrypt');
+        throw new BadRequestException('Credenciales incorrectas');
+      }
+
+      const userPayload = {
+        id: userDb.id,
+        email: userDb.email,
+        rol: userDb.rol,
+      };
+      delete userDb.password;
+      const token = this.jwtservice.sign(userPayload);
+      console.log(token, userDb);
+      return { success: 'Usuario logueado', token, userDb };
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error en el servidor');
     }
-
-    const user = await bcrypt.compare(password, userDb.password);
-    if (!user) {
-      throw new BadRequestException('Credenciales incorrectas');
-    }
-
-    const userPayload = {
-      id: userDb.id,
-      email: userDb.email,
-      rol: userDb.rol,
-    };
-    delete userDb.password;
-
-    const token = this.jwtservice.sign(userPayload);
-    return { success: 'Usuario logueado', token, userDb  };
   }
 
   async signup(user) {
-    const userEmail = await this.usersRepoitory.getUserEmail(user.email);
+    const userEmail = await this.usersRepository.getUserEmail(user.email);
 
     if (userEmail) {
       throw new BadRequestException(`El usuario ya existe ${user.email}`);
-    }
-
-    const passwordHash = await bcrypt.hash(user.password, 10);
-    if (!passwordHash) {
-      throw new BadRequestException('Error al hashear la contraseña');
     }
 
     const emailSubject = 'Registro Exitoso';
@@ -322,21 +336,27 @@ a[x-apple-data-detectors] {
  </body>
 </html>`;
 
-    await this.emailService.sendEmail(user.email, emailSubject, emailText, emailHtml);
+    await this.emailService.sendEmail(
+      user.email,
+      emailSubject,
+      emailText,
+      emailHtml,
+    );
 
-
-    return await this.usersRepoitory.postUser({ ...user, password: passwordHash });
+    return await this.usersRepository.postUser(user);
   }
 
-  async authRegister( userData : any) {
-    
-    const validar= await this.usersRepoitory.getUserEmail(userData.email)
-    if(validar){ await this.singIn(userData.email, userData.password)}
+  async authRegister(userData: any) {
+    const validar = await this.usersRepository.getUserEmail(userData.email);
 
-    return this.usersRepoitory.postUser(userData)
+    if (validar) {
+      return await this.signIn(userData.email, userData.password);
+    }
+
+    return this.usersRepository.postUser(userData);
   }
 
-  async signupCanchero(canchero:CancheroDto) {
-    return await this.usersRepoitory.signupCanchero(canchero);
+  async signupCanchero(canchero: CancheroDto) {
+    return await this.usersRepository.signupCanchero(canchero);
   }
 }

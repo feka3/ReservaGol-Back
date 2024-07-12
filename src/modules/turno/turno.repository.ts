@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { TurnoDto } from './turno.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -10,6 +10,7 @@ import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class TurnoRepository {
+
   constructor(
     @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
     @InjectRepository(User) private userRepository: Repository<User>,
@@ -301,7 +302,7 @@ export class TurnoRepository {
        </table>
       </div>
      </body>
-    </html>`
+    </html>`;
 
     await this.emailService.sendEmail(
       turnodb.user.email,
@@ -310,9 +311,13 @@ export class TurnoRepository {
       emailHtml,
     );
 
-    
-
     await this.turnoRepository.update(turnodb.id, turnodb);
+    const showTurn = await this.turnoRepository.findOne({
+      where: { id: turnodb.id },
+      relations: ['user'],
+    });
+
+    console.log(showTurn, '<----TURNO TOMADO!!!!');
     setTimeout(
       async () => {
         const turnoRevisado = await this.turnoRepository.findOne({
@@ -611,7 +616,7 @@ a[x-apple-data-detectors] {
    </table>
   </div>
  </body>
-</html>`
+</html>`;
 
     await this.emailService.sendEmail(
       turnoFinded.user.email,
@@ -648,4 +653,56 @@ a[x-apple-data-detectors] {
     await this.turnoRepository.save(turnoPayment);
     return res.redirect(`${process.env.FRONTEND_URL}/PagoSuccess`);
   }
+
+  async getTurnoEstadistica(){
+    try{
+      const groupData = await this.turnoRepository
+        .createQueryBuilder('turno')
+        .select('EXTRACT(YEAR FROM to_timestamp(turno.date, \'YYYY-MM-DD HH24:MI:SS\'))', 'year')
+        .addSelect('EXTRACT(MONTH FROM to_timestamp(turno.date, \'YYYY-MM-DD HH24:MI:SS\'))', 'month')
+        .addSelect('turno.status', 'status')
+        .addSelect('COUNT(turno.id)', 'count')
+        .groupBy('year')
+        .addGroupBy('month')
+        .addGroupBy('status')
+        .orderBy('year', 'ASC')
+        .addOrderBy('month', 'ASC')
+        .getRawMany()
+
+        const formateoData = groupData.reduce((acc, data) => {
+          const { year, month, status, count} = data;
+          const key = `${year}-${month.toString().padStart(2, '0')}`;
+
+          if (!acc[key]) {
+            acc[key] = {
+              year,
+              month,
+              libres: 0,
+              ocupados: 0,
+              pendientes: 0,
+              totalTurnos: 0,
+            };
+          }
+
+          if (status === 'libre') {
+            acc[key].libres = parseInt(count, 10);
+          } else if (status === 'ocupado') {
+            acc[key].ocupados = parseInt(count, 10);
+          } else if (status === 'pendientes') {
+            acc[key].pendientes = parseInt(count, 10);
+          } 
+        
+
+          acc[key].totalTurnos += parseInt(count, 10);
+
+          return acc;
+        }, {});
+
+        return Object.values(formateoData);
+    } catch (error) {
+      throw new NotFoundException('No se han podido obtener las estadísticas');
+    }
+  }
+
 }
+

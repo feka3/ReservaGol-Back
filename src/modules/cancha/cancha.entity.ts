@@ -82,6 +82,8 @@ export class Cancha {
   @Column()
   techado: boolean;
 
+  @Column({ default: false })
+  paused: boolean;
   /**
    *  Por defecto se asigna imagen de perfil genérica.
    * @example "https://test.com/test.png"

@@ -1,4 +1,5 @@
 import {
+  ConnectedSocket,
   MessageBody,
   OnGatewayInit,
   SubscribeMessage,
@@ -26,7 +27,38 @@ export class ChatGateway {
     console.log('Cliente desconectado: ' + client.id);
   }
 
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(
+    @MessageBody() room: string,
+    @ConnectedSocket() client: Socket
+  ) {
+    client.join(room);
+    console.log(`Cliente ${client.id} se unió a la sala ${room}`);
+  }
+
+  @SubscribeMessage('leaveRoom')
+  handleLeaveRoom(
+    @MessageBody() room: string,
+    @ConnectedSocket() client: Socket
+  ) {
+    client.leave(room);
+    console.log(`Cliente ${client.id} dejó la sala ${room}`);
+  }
+
   @SubscribeMessage('chat-mensaje')
+  handleMessage(
+    @MessageBody() data: { room: string; usuario: string; messages: string },
+    @ConnectedSocket() client: Socket
+  ) {
+    const { room, usuario, messages } = data;
+    console.log(data);
+    console.log('el usuario que envio es =>', usuario);
+    console.log('mostrando solo el mensaje =>', messages);
+    this.server.to(room).emit('chat-mensaje', { usuario, messages });
+  }
+
+
+  /* @SubscribeMessage('chat-mensaje')
   handleEvent(@MessageBody() data) {
     console.log(data);
     console.log('el usuario que envio es =>', data.usuario);
@@ -36,5 +68,5 @@ export class ChatGateway {
     this.server.on('chat-mensaje', (data) => {
       console.log(data);
     });
-  }
+  } */
 }

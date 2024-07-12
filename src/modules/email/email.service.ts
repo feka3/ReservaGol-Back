@@ -15,7 +15,7 @@ export class EmailService {
       secure: true,
       auth: {
         user: 'reservagol.deportes@gmail.com',
-        pass: 'jnww anle rcch kbmu',
+        pass: process.env.PASS_APP_GMAIL,
       },
     });
   }

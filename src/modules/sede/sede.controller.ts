@@ -28,7 +28,7 @@ export class SedeController {
   constructor(
     private readonly sedeService: SedeService,
     private readonly cloudinaryService: CloudinaryService,
-  ) { }
+  ) {}
 
   /**
    * Petición para consultar todas las sedes que se encuentra en la base de datos.
@@ -68,6 +68,8 @@ export class SedeController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     try {
+      console.log('File received:', file);
+
       if (!file) {
         throw new NotFoundException('File not found');
       }
@@ -95,13 +97,25 @@ export class SedeController {
   @Put(':id')
   async updateSede(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() sede: UpdateSedeDto,
+    @Body() formData: UpdateSedeDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const uploadResult = await this.cloudinaryService.uploadImage(file);
-    const imgUrl = uploadResult.secure_url;
+    try {
+      if (!file) {
+        console.log('No file received');
 
-    return await this.sedeService.updateSede({ ...sede, imgUrl }, id);
+        return await this.sedeService.updateSede(id, formData);
+      } else {
+        console.log('File received:', file);
+
+        const uploadResult = await this.cloudinaryService.uploadImage(file);
+        const imgUrl = uploadResult.secure_url;
+        return await this.sedeService.updateSede(id, { ...formData, imgUrl });
+      }
+    } catch (error) {
+      throw new NotFoundException(error);
+
+    }
   }
 
   /**
@@ -114,9 +128,9 @@ export class SedeController {
   @ApiBearerAuth()
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
-  @Delete(':id')
+  @Delete('delete/sede/:id')
   async deleteSede(@Param('id', ParseUUIDPipe) id: string) {
-    await this.sedeService.deleteSedeByid(id);
-    return `La sede con id: ${id} ha sido eliminada correctamente`;
+    return await this.sedeService.deleteSedeByid(id);
   }
+
 }

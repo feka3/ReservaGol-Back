@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -13,6 +14,8 @@ import { canchaDto, updateCanchaDto } from './cancha.dto';
 import { Turno } from '../turno/turno.entity';
 import { Status } from '../turno/status.enum';
 import { TurnoRepository } from '../turno/turno.repository';
+import { TurnoCleanupService } from '../turno/turnClear.service';
+import { TurnoGeneratorService } from '../turno/turnoGenerator.service';
 
 @Injectable()
 export class CanchaRepository {
@@ -20,6 +23,8 @@ export class CanchaRepository {
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
     @InjectRepository(Sede) private sedeRepository: Repository<Sede>,
     @InjectRepository(Turno) private turnoRepository: Repository<Turno>,
+    private turnoService: TurnoCleanupService,
+    private turnoCreateService: TurnoGeneratorService,
   ) {}
 
   async createCancha(cancha: canchaDto, imgUrl) {
@@ -151,7 +156,55 @@ export class CanchaRepository {
   }
 
   async deleteCancha(id: string) {
-    await this.canchaRepository.delete(id);
-    return 'Cancha eliminada';
+    try {
+      const cancha = await this.canchaRepository.findOne({
+        where: { id: id },
+        relations: ['turnos'],
+      });
+      if (!cancha) {
+        throw new NotFoundException(
+          `La cancha con id: ${id} no ha sido encontrada`,
+        );
+      }
+      if (cancha.turnos.length === 0) {
+        await this.sedeRepository.delete(id);
+        return `La cancha : ${cancha.name} ha sido eliminada correctamente`;
+      } else {
+        throw new ConflictException(
+          `La cancha : ${cancha.name} aun tiene turnos disponibles`,
+        );
+      }
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
+  }
+  async pausarCancha(canchaId: string) {
+    const cancha = await this.canchaRepository.findOne({
+      where: { id: canchaId },
+      relations: ['turnos'],
+    });
+
+    if (!cancha) {
+      throw new NotFoundException('Cancha no encontrada');
+    }
+
+    if (cancha.paused) {
+      cancha.paused = false;
+      await this.canchaRepository.save(cancha);
+      await this.turnoCreateService.genereteTurnosid(cancha.id);
+      return {
+        message:
+          'La cancha ha sido reactivada exitosamente. Se han generado automáticamente nuevos turnos disponibles.',
+      };
+    } else {
+      cancha.paused = true;
+      await this.canchaRepository.save(cancha);
+      const arrayTurnoId = cancha.turnos
+        .filter((turno) => turno.status === Status.Libre)
+        .map((turno) => turno.id);
+      if (arrayTurnoId.length > 0) {
+        return await this.turnoService.deleteTurno(arrayTurnoId);
+      }
+    }
   }
 }

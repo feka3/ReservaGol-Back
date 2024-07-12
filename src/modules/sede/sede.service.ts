@@ -4,7 +4,7 @@ import { CreateSedeDto, UpdateSedeDto } from './dto/createSede.dto';
 
 @Injectable()
 export class SedeService {
-  constructor(private sedeRepository: SedeRepository) { }
+  constructor(private sedeRepository: SedeRepository) {}
 
   async getSedes() {
     return await this.sedeRepository.getSedes();
@@ -18,8 +18,8 @@ export class SedeService {
     return await this.sedeRepository.createSede(sede);
   }
 
-  async updateSede(sede: UpdateSedeDto & { imgUrl: string }, id: string) {
-    return await this.sedeRepository.updateSede(sede, id);
+  async updateSede(id: string, sede: Partial<UpdateSedeDto> & { imgUrl?: string }) {
+    return await this.sedeRepository.updateSede(id, sede as UpdateSedeDto);
   }
 
   async deleteSedeByid(id: string) {
