@@ -184,12 +184,14 @@ export class CanchaRepository {
     if (!cancha) {
       throw new NotFoundException('Cancha no encontrada');
     }
+    cancha.paused = true;
     const arrayTurnoId: string[] = [];
     cancha.turnos.map((turno) => {
       if (turno.status === Status.Libre) {
         arrayTurnoId.push(turno.id);
       }
     });
+    await this.turnoRepository.update(cancha.id, cancha);
     await this.turnoService.deleteTurno(arrayTurnoId);
   }
 }
