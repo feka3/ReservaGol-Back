@@ -20,7 +20,6 @@ export class AuthService {
 
   async signIn(email, password) {
     try {
-
       if (!email || !password) {
         console.log('no coincidence');
         return 'Datos incompletos';
@@ -28,7 +27,10 @@ export class AuthService {
 
       const userDb = await this.usersRepository.getUserEmail(email);
 
-      if(!userDb.isActive) return new NotFoundException('El usuario no se encuentra habilitado para ingresar.');
+      if (!userDb.isActive)
+        return new NotFoundException(
+          'El usuario no se encuentra habilitado para ingresar.',
+        );
 
       if (!userDb) {
         console.log('no hay usuario');
@@ -346,8 +348,6 @@ a[x-apple-data-detectors] {
 
   async authRegister(userData: any) {
     const validar = await this.usersRepository.getUserEmail(userData.email);
-
-    if(!userData.isActive) return new NotFoundException('El usuario no se encuentra habilitado para ingresar.');
 
     if (validar) {
       return await this.signIn(userData.email, userData.password);
