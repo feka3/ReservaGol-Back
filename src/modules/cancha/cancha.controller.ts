@@ -3,21 +3,27 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseIntPipe,
   ParseUUIDPipe,
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 
 import { CanchaService } from './cancha.service';
 import { UUID } from 'crypto';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { canchaDto, updateCanchaDto } from './cancha.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles } from 'src/decorator/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { AuthGuard } from 'src/common/guards/auth.guard';
+import { Role } from '../user/roles.enum';
 
 @ApiTags('Cancha')
 @Controller('cancha')
@@ -82,13 +88,28 @@ export class CanchaController {
    * - Solo se requieren los datos a cambiar.
    * - Se puede agregar una imagen.
    */
-  @ApiOperation({ summary: 'Actualización de datos de una cancha.' })
+  @ApiBearerAuth()
+  @Roles(Role.Superadmin, Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @Put(':id')
   async updateCancha(
-    @Body() cancha: updateCanchaDto,
-    @Param('id', ParseUUIDPipe) id: UUID,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() formData: updateCanchaDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.canchaService.updateCancha(id, cancha);
+    try {
+      if (!file) {
+        return await this.canchaService.updateCancha(id, formData);
+      }
+
+      const uploadResult = await this.cloudinaryService.uploadImage(file);
+      const imgUrl = uploadResult.secure_url;
+
+      return await this.canchaService.updateCancha(id, { ...formData, imgUrl });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   /**
