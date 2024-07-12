@@ -13,9 +13,10 @@ export class TurnoGeneratorService {
     @InjectRepository(Cancha) private canchaRepository: Repository<Cancha>,
   ) {}
   @Cron('0 0 */2 * *')
-  
   async generateTurnos() {
-    const canchas = await this.canchaRepository.find();
+    const canchas = await this.canchaRepository.find({
+      where: { paused: false },
+    });
     const dates = this.getNext10Days();
 
     const turnosExistentes = await this.turnoRepository.find({
