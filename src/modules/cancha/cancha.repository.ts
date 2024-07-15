@@ -62,7 +62,6 @@ export class CanchaRepository {
     });
     newCancha.id;
     const savedCancha = await this.canchaRepository.save(newCancha);
-    console.log(turnos);
     return {
       message: 'creada',
       savedCancha,
@@ -176,7 +175,7 @@ export class CanchaRepository {
         );
       }
       if (cancha.turnos.length === 0) {
-        await this.sedeRepository.delete(id);
+        await this.canchaRepository.delete(id);
         return `La cancha : ${cancha.name} ha sido eliminada correctamente`;
       } else {
         throw new ConflictException(
