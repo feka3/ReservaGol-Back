@@ -58,19 +58,23 @@ export class SedeRepository {
     }
   }
 
-  async updateSede(id: string, sede: Partial<UpdateSedeDto> & { imgUrl: string }) {
+  async updateSede(id: string, sede: Partial<UpdateSedeDto> & { imgUrl?: string }) {
     try {
       const sedeToUpdate = await this.sedeRepository.findOne({ where: { id } });
-      console.log(sedeToUpdate);
 
       if (!sedeToUpdate) {
-        throw new NotFoundException(
-          `La sede con id: ${id} no ha sido encontrada`,
-        );
+        throw new NotFoundException(`La sede con id: ${id} no ha sido encontrada`);
       }
 
-      await this.sedeRepository.update(id, sede);
-      return "La sede ha sido actualizada correctamente";
+      const updateData = { ...sede };
+      if (Object.keys(updateData).length === 0) {
+        throw new NotFoundException('No hay datos para actualizar');
+      }
+
+      await this.sedeRepository.update(id, updateData);
+      return {
+        message: 'La sede ha sido actualizada correctamente',
+      }
 
     } catch (error) {
       throw new NotFoundException(error);

@@ -78,7 +78,6 @@ export class TurnoController {
   @Post()
   async takeTurnos(@Body() data: any) {
     const { turnoId, userId } = data;
-    console.log(userId);
     return await this.turnoService.takeTurno(turnoId, userId);
   }
   /**
