@@ -159,10 +159,10 @@ export class CanchaRepository {
       .map((turno) => turno.id);
     if (arrayTurnoId.length > 0) {
       await this.turnoService.deleteTurno(arrayTurnoId);
-      await this.canchaRepository.update(id, cancha);
-      await this.turnoCreateService.genereteTurnosid(id);
-      return { message: 'Cancha actualizada' };
     }
+    await this.canchaRepository.update(id, cancha);
+    await this.turnoCreateService.genereteTurnosid(id);
+    return { message: 'Cancha actualizada' };
   }
   async deleteCancha(id: string) {
     try {

@@ -103,10 +103,8 @@ export class CanchaController {
       if (!file) {
         return await this.canchaService.updateCancha(id, formData);
       }
-
       const uploadResult = await this.cloudinaryService.uploadImage(file);
       const imgUrl = uploadResult.secure_url;
-
       return await this.canchaService.updateCancha(id, { ...formData, imgUrl });
     } catch (error) {
       throw new NotFoundException(error.message);
