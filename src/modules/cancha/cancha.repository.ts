@@ -62,7 +62,6 @@ export class CanchaRepository {
     });
     newCancha.id;
     const savedCancha = await this.canchaRepository.save(newCancha);
-    console.log(turnos);
     return {
       message: 'creada',
       savedCancha,
@@ -159,10 +158,10 @@ export class CanchaRepository {
       .map((turno) => turno.id);
     if (arrayTurnoId.length > 0) {
       await this.turnoService.deleteTurno(arrayTurnoId);
-      await this.canchaRepository.update(id, cancha);
-      await this.turnoCreateService.genereteTurnosid(id);
-      return { message: 'Cancha actualizada' };
     }
+    await this.canchaRepository.update(id, cancha);
+    await this.turnoCreateService.genereteTurnosid(id);
+    return { message: 'Cancha actualizada' };
   }
   async deleteCancha(id: string) {
     try {
@@ -176,7 +175,7 @@ export class CanchaRepository {
         );
       }
       if (cancha.turnos.length === 0) {
-        await this.sedeRepository.delete(id);
+        await this.canchaRepository.delete(id);
         return `La cancha : ${cancha.name} ha sido eliminada correctamente`;
       } else {
         throw new ConflictException(
