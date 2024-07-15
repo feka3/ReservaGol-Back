@@ -95,10 +95,11 @@ export class CanchaController {
   @Put(':id')
   async updateCancha(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() formData: updateCanchaDto,
+    @Body() formData,
     @UploadedFile() file: Express.Multer.File,
   ) {
     try {
+      delete formData.id;
       if (!file) {
         return await this.canchaService.updateCancha(id, formData);
       }
