@@ -147,14 +147,23 @@ export class CanchaRepository {
   }
 
   async updateCancha(id: string, cancha: updateCanchaDto) {
-    const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
+    const canchaDb = await this.canchaRepository.findOne({
+      where: { id: id },
+      relations: ['turnos'],
+    });
     if (!canchaDb) {
       throw new HttpException('Cancha no encontrada', HttpStatus.NOT_FOUND);
     }
-    await this.canchaRepository.update(id, cancha);
-    return 'Cancha actualizada';
+    const arrayTurnoId = canchaDb.turnos
+      .filter((turno) => turno.status === Status.Libre)
+      .map((turno) => turno.id);
+    if (arrayTurnoId.length > 0) {
+      await this.turnoService.deleteTurno(arrayTurnoId);
+      await this.canchaRepository.update(id, cancha);
+      await this.turnoCreateService.genereteTurnosid(id);
+      return { message: 'Cancha actualizada' };
+    }
   }
-
   async deleteCancha(id: string) {
     try {
       const cancha = await this.canchaRepository.findOne({
