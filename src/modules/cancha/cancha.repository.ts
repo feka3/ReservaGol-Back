@@ -62,7 +62,6 @@ export class CanchaRepository {
     });
     newCancha.id;
     const savedCancha = await this.canchaRepository.save(newCancha);
-    console.log(turnos);
     return {
       message: 'creada',
       savedCancha,
@@ -147,14 +146,23 @@ export class CanchaRepository {
   }
 
   async updateCancha(id: string, cancha: updateCanchaDto) {
-    const canchaDb = await this.canchaRepository.findOne({ where: { id: id } });
+    const canchaDb = await this.canchaRepository.findOne({
+      where: { id: id },
+      relations: ['turnos'],
+    });
     if (!canchaDb) {
       throw new HttpException('Cancha no encontrada', HttpStatus.NOT_FOUND);
     }
+    const arrayTurnoId = canchaDb.turnos
+      .filter((turno) => turno.status === Status.Libre)
+      .map((turno) => turno.id);
+    if (arrayTurnoId.length > 0) {
+      await this.turnoService.deleteTurno(arrayTurnoId);
+    }
     await this.canchaRepository.update(id, cancha);
-    return 'Cancha actualizada';
+    await this.turnoCreateService.genereteTurnosid(id);
+    return { message: 'Cancha actualizada' };
   }
-
   async deleteCancha(id: string) {
     try {
       const cancha = await this.canchaRepository.findOne({
@@ -167,7 +175,7 @@ export class CanchaRepository {
         );
       }
       if (cancha.turnos.length === 0) {
-        await this.sedeRepository.delete(id);
+        await this.canchaRepository.delete(id);
         return `La cancha : ${cancha.name} ha sido eliminada correctamente`;
       } else {
         throw new ConflictException(
