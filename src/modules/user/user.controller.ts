@@ -53,10 +53,12 @@ export class UserController {
   async getByEmail(@Param('email') email: string) {
     return await this.userService.getUserByEmail(email);
   }
+
   /**
    * Petición para consultar los datos estadisticos de usuarios registrados.
    * - Devuelve datos por año, mes y tipos de usuarios.
    */
+  @ApiOperation({ summary: 'Estadisticas de usuarios.' })
   @Get('stats/users')
   async getRegistroUsuariosEstadistica() {
     return await this.userService.getRegistroUsuariosEstadistica();
@@ -75,7 +77,7 @@ export class UserController {
   }
 
   /**
-   * Petición para madificar los datos de un usuario que se encuentra en la base de datos.
+   * Petición para modificar los datos de un usuario que se encuentra en la base de datos.
    * - Se requiere enviar por parámetro el ID del usuario.
    * - No es necesario enviar todos los datos, solo los que desea modificar.
    * - Se puede cargar una imagen de perfil.
