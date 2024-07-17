@@ -64,9 +64,6 @@ export class CancheroDto {
   dni: string;
 
   @IsNotEmpty({ message: 'El número de teléfono es obligatorio' })
-  @Validate(IsArgentinePhoneNumber, {
-    message: 'El número de teléfono no es válido',
-  })
   phone: string;
 
   @IsNotEmpty({ message: 'La ciudad es obligatoria' })
