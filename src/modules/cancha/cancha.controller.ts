@@ -16,8 +16,8 @@ import {
 
 import { CanchaService } from './cancha.service';
 import { UUID } from 'crypto';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { canchaDto, updateCanchaDto } from './cancha.dto';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { canchaDto } from './cancha.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles } from 'src/decorator/roles.decorator';
@@ -94,6 +94,7 @@ export class CanchaController {
   @Roles(Role.Superadmin, Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({ summary: 'Actualización de datos de cancha.' })
   @Put(':id')
   async updateCancha(
     @Param('id', ParseUUIDPipe) id: string,
